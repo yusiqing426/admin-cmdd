@@ -1,0 +1,18 @@
+<div class="row">
+  <ng-include src="'templates/menu.html'" onload="initRouterActive()"></ng-include>
+  <div class="phone-header">
+	  <div class="phone-header-title">呼叫服务</div>
+	  <div class="phone-header-return"><a href="#tableOperate/list"><img src="img/return-back.png"></a></div>
+  </div>
+  <div class="col-md-10 col-xs-12 flow">
+	<div class="call-service-list">
+		<div ng-repeat="item in callServiceList">
+			<div class="table-serial">桌号：&nbsp;&nbsp;&nbsp;{{item.serial_id}}</div>
+			<div class="service-description">服务内容：&nbsp;&nbsp;&nbsp;{{item.description}}</div>
+			<a ng-if="item.service_type==0||item.service_type==1"><button ng-click="orderService(item)" class="btn btn-primary">接单</button></a>
+			<a ng-if="item.service_type==2||item.service_type==3"><button ng-click="otherService(item)" class="btn btn-primary">应答</button></a>
+			<a ng-if="item.service_type==4"><button ng-click="orderDetailService(item)" class="btn btn-primary">查看</button></a>
+		</div>
+	</div>
+  </div>
+</div>

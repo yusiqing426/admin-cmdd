@@ -1,0 +1,38 @@
+<div class="row">
+  <ng-include src="'templates/menu.html'"></ng-include>
+  <div class="col-md-10 flow">
+    <ul class="breadcrumb">
+      <li>
+        <a href="#/staffDataentry/staffInformation">员工信息管理</a>
+      </li>
+	  <button onclick="window.location.href='#/staffDataentry/staffInformation/create'">新建</button>
+    </ul>
+
+    <table ng-table="tableParams" class="table table-striped">
+      <thead>
+        <tr>
+
+          <th><a ng-click="tableParams.sorting('account',(reverseSort = !reverseSort)?'asc':'desc')">员工编号</a></th>
+          <th><a ng-click="tableParams.sorting('name',(reverseSort = !reverseSort)?'asc':'desc')">员工姓名</a></th>
+          <th><a ng-click="tableParams.sorting('sex',(reverseSort = !reverseSort)?'asc':'desc')">性别</a></th>
+          <th><a ng-click="tableParams.sorting('userKeyName',(reverseSort = !reverseSort)?'asc':'desc')">身份</a></th>
+          <th><a ng-click="tableParams.sorting('phone',(reverseSort = !reverseSort)?'asc':'desc')">手机号</a></th>
+          <th><a ng-click="tableParams.sorting('is_in_use',(reverseSort = !reverseSort)?'asc':'desc')">状态</a></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="item in dataList">
+          <td class="text-center"><a href="#/staffDataentry/staffInformation/view/{{item.id}}">{{item.account}}</a></td>
+          <td class="text-center">{{item.name}}</td>
+          <td class="text-center">{{item.sex==1 ? '男' : '女'}}</td>
+		  <td class="text-center">{{item.userKeyName}}</td>
+          <td class="text-center">{{item.phone}}</td>
+          <td class="text-center">{{item.is_in_use==1 ? '激活' : '锁定'}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+
+</div>

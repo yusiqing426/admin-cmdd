@@ -1,0 +1,113 @@
+<div class="row">
+  <ng-include src="'templates/menu.html'"></ng-include>
+  <div class="phone-header">
+	  <div class="phone-header-title">馋猫点点</div>
+	  <div class="phone-header-return"><a href="#addOrder/{{tableInf.id}}"><img src="img/return-back.png"></a></div>
+	  <div class="phone-table-serial">{{tableInf.name}}</div>
+  </div>
+  <div class="col-md-10 col-xs-12 flow">
+	<div class="order">
+		<div class="product-list cart-list">
+			<div ng-show="ifCLodp==0&&nowKey==4" class="alert alert-warning">检测到您未安装打印所需插件，请 <span ng-click="downloadLodop32()">点击此处</span> 下载并安装</div>
+			<div class="table-serial-line row-title">确认订单：	{{tableInf.name}}</div>
+			<ul class="taking-order-list">
+				<li ng-repeat="product in productList" ng-if="product">
+					<div class="detail">
+						<div class="name">{{product.p.name}}</div>
+						<div class="price">
+							<span class="promotion">￥{{product.p.is_promotion==1? (product.p.promotion_price*product.quantity).toFixed(2) : (product.p.unit_price*product.quantity).toFixed(2)}}</span>
+						</div>
+						<div class="description-group">
+							<div class="standard" ng-if="product.p.is_auto" ng-click="selectStandard(product)">规格</div>
+							<div class="taste" ng-click="selectTaste(product)">口味</div>
+						</div>
+						<div class="description-detail">
+							{{product.description}}
+						</div>
+					</div>
+					<div class="select-group">
+						<div class="reduce" ng-click="decreaseCount(product.id)"><img src="img/reduce.png" /></div>
+						<div class="quantity">{{product.quantity}}</div>
+						<div class="add" ng-click="increaseCount(product.id)"><img src="img/add.png" /></div>
+					</div>
+				</li>
+				<li>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">订单备注:</label>
+						<div class="col-sm-10">
+							<textarea class="form-control" ng-model="orderDescription" ng-required="true" />
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="order-bottom">
+			<div class="total-count-text">
+				共<span class="count">{{totalQuantity}}</span>份
+				共<span class="count">{{totalPrice.toFixed(2)}}</span>元
+			</div>
+			<div class="order-button">
+				<button class="btn btn-primary" ng-click="cartOrderSubmit(10)">等叫</button>
+				<!-- <button class="btn btn-primary" ng-click="cartOrderSubmit(11)">开做</button> -->
+				<button class="btn btn-primary" ng-click="cartOrderSubmit(12)">提交</button>
+			</div>
+		</div>
+
+	</div>
+  </div>
+</div>
+<div class="modal fade" id="standardModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+			</div>
+			<div class="modal-body">
+				<div>菜品：{{selectedProduct.p.name}}</div>
+				<div>单价：￥{{selectedProduct.p.is_promotion==1? selectedProduct.p.promotion_price : selectedProduct.p.unit_price}}</div>
+				<div>数量：<textarea class="form-control" ng-model="selectedProduct.quantity"></textarea></div>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-primary btn-lg btn-block member-phone-button" ng-click="submitSelectStandard()">确认</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>
+<div class="modal fade" id="tastedModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+			</div>
+			<div class="modal-body">
+				<div>菜品：{{selectedProduct.p.name}}</div>
+				<div>单价：￥{{selectedProduct.p.is_promotion==1? selectedProduct.p.promotion_price : selectedProduct.p.unit_price}}</div>
+				<div>菜品备注：</div>
+				<div>
+					<div class="standard-button" ng-click="addDescription('免辣')">免辣</div>
+					<div class="standard-button" ng-click="addDescription('微辣')">微辣</div>
+					<div class="standard-button" ng-click="addDescription('中辣')">中辣</div>
+					<div class="standard-button" ng-click="addDescription('特辣')">特辣</div>
+					<div class="standard-button" ng-click="addDescription('少盐')">少盐</div>
+					<div class="standard-button" ng-click="addDescription('免葱')">免葱</div>
+					<div class="standard-button" ng-click="addDescription('免蒜')">免蒜</div>
+					<div class="standard-button" ng-click="addDescription('免姜')">免姜</div>
+					<div class="standard-button" ng-click="addDescription('免糖')">免糖</div>
+					<div class="standard-button" ng-click="addDescription('免味精')">免味精</div>
+					<div class="standard-button" ng-click="addDescription('免花椒')">免花椒</div>
+					<div class="standard-button" ng-click="addDescription('免孜然')">免孜然</div>
+					<div class="standard-button" ng-click="addDescription('常温')">常温</div>
+					<div class="standard-button" ng-click="addDescription('冰镇')">冰镇</div>
+				</div>
+				<div><textarea class="form-control" ng-model="selectedProduct.description"></textarea></div>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-primary btn-lg btn-block member-phone-button" ng-click="submitSelectTaste()">确认</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>

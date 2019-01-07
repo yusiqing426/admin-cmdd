@@ -1,0 +1,52 @@
+<div class="row">
+    <ng-include src="'templates/menu.html'"></ng-include>
+    <div class="col-md-10 flow">
+
+        <ul class="breadcrumb">
+            <li class="active"><a>桌位管理</a></li>
+            <button onclick="window.location.href='#/dataentry/dining_table/create'">新建</button>
+
+            <!--<button onclick="">同步云端数据</button>-->
+
+        </ul>
+
+        <table ng-table="tableParams" class="table table-striped">
+            <thead>
+            <!--<div style="margin-left: 1.2%">
+                <button ng-click="sync()" style="overflow: visible;background-color: #5CB75C;border-radius: 4px">
+                    同步云端数据
+                </button>
+            </div>-->
+                <tr>
+                    <th><a ng-click="tableParams.sorting('id',(reverseSort = !reverseSort)?'asc':'desc')">序号</a></th>
+
+                    <th><a ng-click="tableParams.sorting('serial_id',(reverseSort = !reverseSort)?'asc':'desc')">桌位编号</a>
+                    </th>
+                    <th><a ng-click="tableParams.sorting('name',(reverseSort = !reverseSort)?'asc':'desc')">名称</a></th>
+                    <th><a ng-click="tableParams.sorting('address',(reverseSort = !reverseSort)?'asc':'desc')">桌位位置</a></th>
+                    <th>
+                        <a ng-click="tableParams.sorting('seating_number',(reverseSort = !reverseSort)?'asc':'desc')">桌位容纳人数</a>
+                    </th>
+                    <th><a ng-click="tableParams.sorting('is_out',(reverseSort = !reverseSort)?'asc':'desc')">桌位类别</a></th>
+                    <th><a ng-click="tableParams.sorting('is_enable',(reverseSort = !reverseSort)?'asc':'desc')">是否启用</a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="dt in dining_tableList">
+                    <td class="text-center"><a href="#/dataentry/dining_table/{{dt.id}}">{{dt.id}}</a></td>
+                    <td class="text-center">{{dt.serial_id }}</td>
+                    <td class="text-center">{{dt.name}}</td>
+                    <td class="text-center">{{dt.address}}</td>
+                    <td class="text-center">{{dt.seating_number}}</td>
+                    <td class="text-center">{{dt.is_out?"外卖桌":"普通桌"}}</td>
+                    <td class="text-center">{{dt.is_enable?"启用":"禁用"}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+
+    </div>
+
+
+</div>

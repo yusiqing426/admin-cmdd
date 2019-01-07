@@ -1,0 +1,71 @@
+<div class="row">
+	<ng-include src="'templates/menu.html'"></ng-include>
+	<div class="col-md-10">
+    <ul class="breadcrumb">
+      <li>
+        <a href="#/Bannerdataentry/banner">投放广告管理</a>
+      </li>
+      <li class="active">新建</li>
+    </ul>
+
+		<form ng-model="banner" name="form" class="form-horizontal" ng-submit="create()" role="form">
+		    <div class="form-group">
+		        <label class="col-sm-2 control-label">名称:</label>
+		         <div class="col-sm-3">
+			        <input class="form-control" ng-model="banner.name" ng-required="true" />
+	            </div>
+		    </div> 
+		    <div class="form-group">
+		        <label class="col-sm-2 control-label">序号:</label>
+		         <div class="col-sm-3">
+			        <input class="form-control" ng-model="banner.serial" ng-required="true" />
+	            </div>
+		    </div> 
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">选择图片:</label>
+                <div class="col-sm-3">
+                  <input type="file"
+                          ng-multiple=false
+                          ng-file-select
+                          ng-model="imageFile"
+                          name="file"
+                          accept="image/png"
+                          ng-file-change="addImage(imageFile)"
+                          />
+		            </div>（请上传1M以内的360*106px.png/jpg格式的图片）
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label"></label>
+              <div class="col-sm-3">
+                <img ng-show="imageFile.dataUrl != null" ng-src="{{imageFile.dataUrl}}" class="thumb"/>
+              </div>
+            </div>
+
+		<div class="form-group">
+		    <label class="col-sm-2 control-label">投放列表:</label>
+		    <div class="col-sm-3">
+				<div ng-repeat="(index,shop) in ShopList" class="checkbox">
+					<label><input type="checkbox" value="{{shop.id}}" name="shop-list">{{shop.shop_name}}</label>
+				</div>
+		    </div>
+		</div>
+
+		        <div class="form-group">
+					<div class="col-sm-offset-1 control-label   col-sm-2">
+						<button class="btn btn-primary btn-lg btn-block" 	
+						type="submit">保存</button>
+					</div>
+					<div class="col-sm-offset-0 control-label col-sm-2">
+						<button class="btn btn-primary btn-lg btn-block button-defult" 
+								onclick="window.location.href='#/Bannerdataentry/banner'">返回</button>
+					</div>
+		        </div>
+
+		    </form>
+
+  </div>
+
+
+</div>

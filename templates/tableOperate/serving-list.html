@@ -1,0 +1,52 @@
+<div class="row">
+  <ng-include src="'templates/menu.html'"></ng-include>
+  <div class="phone-header">
+	  <div class="phone-header-title">馋猫点点</div>
+	  <div class="phone-header-return"><a href="#tableOperate/list"><img src="img/return-back.png"></a></div>
+	  <div class="phone-table-serial">{{tableInf.name}}</div>
+  </div>
+  <div class="col-md-10 col-xs-12 flow">
+	<div class="order">
+		<div class="product-list cart-list">
+		<div class="table-serial-line row-title shangcai-detail-row-title">上菜：	{{tableInf.name}}</div>
+			<ul class="shangcai-detail">
+				<li ng-repeat="product in orderDetail.loi" ng-if="product.status_id!=6&&product.status_id!=7" >
+					<div class="detail">
+						<div class="name">{{product.p.name}}</div>
+						<div class="progress">
+							<div ng-if="product.status_id==0||product.status_id==8" class="no-addorder">等待接单</div>
+							<div ng-if="product.status_id==1" class="addorder">已接单</div>
+							<div ng-if="product.status_id==1" class="no-do">待开做</div>
+							<div ng-if="product.status_id==1" class="no-up">待上菜</div>
+							<div ng-if="product.status_id==2" class="addorder">已接单</div>
+							<div ng-if="product.status_id==2" class="do">已开做</div>
+							<div ng-if="product.status_id==2" class="no-up">待上菜</div>
+							<div ng-if="product.status_id==3" class="addorder">已接单</div>
+							<div ng-if="product.status_id==3" class="do">已开做</div>
+							<div ng-if="product.status_id==3" class="up">已上菜</div>
+							<div ng-if="product.status_id==7" class="no-product">已断货</div>
+						</div>
+						<div class="description-detail">{{product.description}}</div>
+						<div class="price-right">￥{{product.p.is_promotion==1? product.p.promotion_price : product.p.unit_price}}x{{product.quantity}}份</div>
+					</div>
+					<div class="select-group">
+						<button ng-if="product.status_id!=7&&product.status_id!=3" class="btn btn-primary" ng-click="upProduct(product)">上菜</button>
+						<div ng-if="product.status_id==3">已上菜</div>
+						<button ng-if="product.status_id==7" class="btn btn-primary" ng-click="deleteProduct(product)">删除</button>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="order-bottom">
+			<div class="total-count-text">
+				共<span class="count">{{totalQuantity}}</span>份
+				共<span class="count">{{totalPrice.toFixed(2)}}</span>元
+			</div>
+			<div class="order-button">
+				<button class="btn btn-primary" ng-click="addorder()">加餐</button>
+			</div>
+		</div>
+
+	</div>
+  </div>
+</div>

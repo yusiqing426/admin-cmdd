@@ -1,0 +1,174 @@
+<div class="row">
+	<ng-include src="'templates/menu.html'"></ng-include>
+		<div class="col-md-10 flow">
+	    <ul class="breadcrumb">
+			<li><a>菜品管理</a></li>
+			<li>
+	        	<a href="#dataentry/product">菜品信息管理</a>
+			</li>
+	      	<li class="active">编辑</li>
+	    </ul>
+	
+		<form ng-model="product[0]" class="form-horizontal" ng-submit="update()" role="form">	        							        				
+			<div class="form-group">
+				<label class="col-sm-2 control-label">菜品编号</label>
+			    <div class="col-sm-3">
+			        <input class="form-control" ng-model="product.id" readonly="true" ng-required="true" />
+			    </div>
+			</div>
+	
+		    <div class="form-group">
+		        <label class="col-sm-2 control-label">菜品名称:</label>
+		        <div class="col-sm-3">
+					<input class="form-control" ng-model="product.name" ng-required="true" />
+		        </div>
+		    </div>
+	
+		    <div class="form-group">
+		        <label class="col-sm-2 control-label">品类:</label>
+                <div class="col-sm-3">
+                    <select class="form-control" ng-model="product.category_id" ng-options=" m.id as m.name for m in CategoryModel" ng-required="true">
+                    </select>
+                </div>
+             </div>
+
+		     <div class="form-group">
+		        <label class="col-sm-2 control-label">原价:</label>
+		        <div class="col-sm-3">
+					<input class="form-control" ng-model="product.unit_price" ng-required="true" />
+		        </div>
+		    </div>
+
+		    <div class="form-group">
+				<label class="col-sm-2 control-label">是否使用促销价:</label>
+				<div class="col-sm-3">
+					<select class="form-control" ng-change="isPromotion()" ng-model="product.is_promotion" ng-options="m.id as m.value for m in YesNoModel" ng-required="true">
+					</select>
+				</div>
+			</div>
+		    	
+		     <div class="form-group">
+		        <label class="col-sm-2 control-label">促销价:</label>
+		        <div class="col-sm-3">
+					<input id="promotion_price" class="form-control" ng-model="product.promotion_price" ng-required="true" />
+		        </div>
+		    </div>
+			
+			<div class="form-group">
+				<label class="col-sm-2 control-label">是否使用会员价:</label>
+				<div class="col-sm-3">
+					<select class="form-control" ng-change="isUseMemberPrice()" ng-model="product.isUseMemberPrice" ng-options="m.id as m.value for m in YesNoModel" ng-required="true">					
+					</select>
+				</div>
+			</div>
+
+			<div class="form-group">
+		        <label class="col-sm-2 control-label">会员价:</label>
+		        <div class="col-sm-3">
+					<input id="memberPrice" class="form-control" ng-model="product.memberPrice" ng-required="true" />
+		        </div>
+		    </div>
+
+
+			
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">是否参与普通折扣:</label>
+				<div class="col-sm-3">
+					<select class="form-control" ng-model="product.is_discount" ng-options="m.id as m.value for m in YesNoModel" >
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">是否参与会员折扣:</label>
+				<div class="col-sm-3">
+					<select class="form-control" ng-model="product.isMemberDiscount" ng-options="m.id as m.value for m in YesNoModel" ng-required="true" >
+						<option value="">请选择</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">是否参与会员积分:</label>
+				<div class="col-sm-3">
+					<select class="form-control" ng-model="product.isMemberIntegral" ng-options="m.id as m.value for m in YesNoModel" ng-required="true" >
+						<option value="">请选择</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">是否自定义数量:</label>
+				<div class="col-sm-3">
+					<select class="form-control" ng-model="product.is_auto" ng-options="m.id as m.value for m in YesNoModel" >
+					</select>
+				</div>
+			</div>
+
+			<div class="form-group">
+		        <label class="col-sm-2 control-label">单位:</label>
+		        <div class="col-sm-3">
+					<input class="form-control" ng-model="product.unit" ng-required="true" />
+		        </div>
+		    </div>
+
+		    <div class="form-group">
+		        <label class="col-sm-2 control-label">介绍:</label>
+		        <div class="col-sm-3">
+					<input class="form-control" ng-model="product.description" ng-required="true" />
+		        </div>
+		    </div>
+
+		
+		    <div class="form-group">
+                <label class="col-sm-2 control-label">图片Logo:</label>
+                <div class="col-sm-3">
+                  <input type="file"
+                          ng-multiple=false
+                          ng-file-select
+                          ng-model="imageFile"
+                          name="file"
+                          accept="image/png"
+                          ng-file-change="addImage(imageFile)"
+                          />
+                </div>（请上传1M以内的png/jpg格式的图片）
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label"></label>
+              <div class="col-sm-10">
+                <img ng-show="imageFile.dataUrl != null" ng-src="{{imageFile.dataUrl}}" class="img-responsive"/>
+              </div>
+            </div>
+
+		    <div class="form-group">
+				<label class="col-sm-2 control-label">是否启用:</label>
+				<div class="col-sm-3">
+					<select class="form-control" ng-model="product.is_in_use" ng-options="m.id as m.value for m in YesNoModel" >
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-1 control-label   col-sm-2">
+					<button class="btn btn-primary btn-lg btn-block" type="submit">保存</button>
+				</div>
+				<div class="col-sm-offset-0 control-label col-sm-2">
+					<button class="btn btn-primary btn-lg btn-block button-defult" 
+							onclick="window.location.href='#/dataentry/product'">返回</button>
+				</div>
+	        </div>
+		</form>
+	
+			<!-- <div class="form-group">
+				<label class="col-sm-2 control-label">权限:</label>
+	              	<div class="col-sm-10">
+	                	<label class="checkbox-inline"  ng-repeat="key in keyListModel">
+	                  		<input type="checkbox" id="Access_Key"
+	                      		checklist-model="user.access_keys"
+	                      		checklist-value="key.key_name">
+	                      		{{key.show_name}}
+	                	</label>
+	              </div>
+			</div> -->
+	
+			
+	</div>
+</div>

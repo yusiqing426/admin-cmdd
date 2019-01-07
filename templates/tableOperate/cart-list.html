@@ -1,0 +1,43 @@
+<div class="row">
+  <ng-include src="'templates/menu.html'"></ng-include>
+  <div class="phone-header">
+	  <div class="phone-header-title">购物车</div>
+	  <div class="phone-header-return"><a href="#addOrder/{{tableInf.id}}"><img src="img/return-back.png"></a></div>
+	  <div class="phone-table-serial">{{tableInf.name}}</div>
+  </div>
+  <div class="col-md-10 col-xs-12 flow">
+	<div class="order">
+		<div class="product-list cart-list">
+			<div class="table-serial-line row-title">购物车：	{{tableInf.name}}</div>
+			<ul>
+				<li ng-repeat="product in productList" ng-if="product">
+					<div class="detail">
+						<div class="name">{{product.p.name}}</div>
+						<div class="price">
+							<span class="promotion">￥{{product.p.is_promotion==1? (product.p.promotion_price*product.quantity).toFixed(2) : (product.p.unit_price*product.quantity).toFixed(2)}}</span>
+						</div>
+						<div class="description-detail">
+							{{product.description}}
+						</div>
+					</div>
+					<div class="select-group">
+						<div class="reduce" ng-click="decreaseCount(product.id)"><img src="img/reduce.png" /></div>
+						<div class="quantity">{{product.quantity}}</div>
+						<div class="add" ng-click="increaseCount(product.id)"><img src="img/add.png" /></div>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="order-bottom">
+			<div class="total-count-text">
+				共<span class="count">{{totalQuantity}}</span>份
+				共<span class="count">{{totalPrice.toFixed(2)}}</span>元
+			</div>
+			<div class="order-button">
+				<button class="btn btn-primary" ng-click="addOrderSubmit()">选好了</button>
+			</div>
+		</div>
+
+	</div>
+  </div>
+</div>

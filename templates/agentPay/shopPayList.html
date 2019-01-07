@@ -1,0 +1,73 @@
+<div class="row">
+  <ng-include src="'templates/menu.html'"></ng-include>
+  <div class="col-md-10 flow">
+    <ul class="breadcrumb">
+      <li>
+        <a href="#/agentDataentry/agentPay">商铺缴费管理</a>
+      </li>
+    </ul>
+	<div>
+    <div class="row row-title">
+		<div class="col-sm-1 control-label lottery-lable">代理商名称:</div>
+        <div class="col-sm-2">
+          <select class="form-control" ng-model="filter.agent_id">
+                <option ng-selected="filter.agent_id == ''" value="">全部</option>
+				<option ng-repeat="c in agentList" ng-selected="filter.dining_id == c.id" value="{{c.id}}">{{c.name}}</option>
+          </select>
+        </div> 
+		<div class="col-sm-1 control-label lottery-lable">选择时间:</div>
+		<div class="col-sm-2 dropdown long-label" >
+			<div class="form-group">  
+				<!--指定 date标记-->  
+				<div class='input-group date' id='datetimepicker1'>  
+					<input type='text' class="form-control" ng-model="filter.start_time" />  
+					 <span class="add-on"><i class="icon-calendar"></i></span>
+					<span class="input-group-addon">  
+						<span class="glyphicon glyphicon-calendar"></span>  
+					</span>  
+				</div>  
+			</div>  
+		</div>
+		<div class="col-sm-1 control-label lottery-lable middle">至</div>
+        <div class="col-sm-2 dropdown long-label">
+			<div class="form-group">  
+				<!--指定 date标记-->  
+				<div class='input-group date' id='datetimepicker2'>  
+					<input type='text' class="form-control" ng-model="filter.end_time" />  
+					<span class="input-group-addon">  
+						<span class="glyphicon glyphicon-calendar"></span>  
+					</span>  
+				</div>  
+			</div>  
+        </div>
+        <a class="col-sm-offset-0 control-label  col-sm-1 middle-label" >
+          <button class="btn btn-primary btn-lg btn-block " ng-click="getShopPay()">查询</button>
+        </a>
+        <a class="col-sm-offset-0 control-label  col-sm-1" >
+          <button class="btn btn-primary btn-lg btn-block "
+            onclick="window.location.href='#/agentDataentry/agentShopPay/Parameters'">服务费设置</button>
+        </a>
+    </div>
+	</div>
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th class="text-center"><a>合计应收费用</a></th>
+          <th class="text-center"><a>实收费用</a></th>
+          <th class="text-center"><a>未收费用</a></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="text-center">￥{{payData.payable}}</a></td>
+          <td class="text-center">￥{{payData.paid}}</td>
+          <td class="text-center">￥{{payData.unpaid}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+
+</div>

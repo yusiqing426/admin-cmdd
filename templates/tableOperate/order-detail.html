@@ -1,0 +1,97 @@
+<div class="row">
+  <ng-include src="'templates/menu.html'"></ng-include>
+  <div class="phone-header">
+	  <div class="phone-header-title">馋猫点点</div>
+	  <div class="phone-header-return"><a href="#tableOperate/list"><img src="img/return-back.png"></a></div>
+	  <div class="phone-table-serial">{{tableInf.name}}</div>
+  </div>
+  <div class="col-md-10 col-xs-12 flow">
+	
+	<div class="order">
+		<div class="product-list cart-list">
+		<div class="table-serial-line row-title">订单详情：	{{tableInf.name}}</div>
+			<ul class="order-detail-row">
+				<li ng-repeat="product in orderDetail.loi" class="order-detail-item">
+					<div class="detail">
+						<div class="name">{{product.p.name}}</div>
+						<div class="progress">
+							<div ng-if="product.status_id==0||product.status_id==8" class="no-addorder">等待接单</div>
+							<div ng-if="product.status_id==1" class="addorder">已接单</div>
+							<div ng-if="product.status_id==1" class="no-do">待开做</div>
+							<div ng-if="product.status_id==1" class="no-up">待上菜</div>
+							<div ng-if="product.status_id==2" class="addorder">已接单</div>
+							<div ng-if="product.status_id==2" class="do">已开做</div>
+							<div ng-if="product.status_id==2" class="no-up">待上菜</div>
+							<div ng-if="product.status_id==3" class="addorder">已接单</div>
+							<div ng-if="product.status_id==3" class="do">已开做</div>
+							<div ng-if="product.status_id==3" class="up">已上菜</div>
+							<div ng-if="product.status_id==6" class="no-product">已退菜</div>
+							<div ng-if="product.status_id==7" class="no-product">已断货</div>
+						</div>
+						<div class="description-detail">{{product.description}}</div>
+						<div class="price-right" ng-if="product.is_lottery==0&&product.status_id!=6&&product.status_id!=7">
+							￥{{product.p.is_promotion==1? product.p.promotion_price : product.p.unit_price}}
+							<button class="btn btn-primary green" ng-show="isShowGive()" ng-click="addLottery(product)">赠送</button>
+							<button class="btn btn-primary" ng-click="backProduct(product)">退菜</button>
+						</div>
+						<div class="price-right"  ng-if="product.is_lottery==1&&product.status_id!=6&&product.status_id!=7">
+							￥{{product.p.is_promotion==1? product.p.promotion_price : product.p.unit_price}}
+							&nbsp;&nbsp;&nbsp;&nbsp;已赠送
+						</div>
+
+						<div class="price-right" ng-if="product.status_id==6||product.status_id==7">
+							￥{{product.p.is_promotion==1? product.p.promotion_price : product.p.unit_price}}
+							&nbsp;&nbsp;&nbsp;&nbsp;已退菜
+						</div>
+					</div>
+					<div class="select-group">
+						<div class="quantity">{{product.quantity}}</div>
+						<div class="reduce" ng-click="decreaseCount(product)"><img src="img/reduce.png" /></div>
+					</div>
+				</li>
+				<li class="order-detail-item">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">订单备注:</label>
+						<div class="col-sm-10">
+							<textarea class="form-control" ng-model="orderDetail.description" readonly ng-required="true" />
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="order-bottom">
+			<div class="total-count-text">
+				共<span class="count">{{totalQuantity}}</span>份
+				共<span class="count">{{totalPrice.toFixed(2)}}</span>元
+			</div>
+			<div class="order-button">
+				<button class="btn btn-primary" ng-click="addOrder()">加餐</button>
+				<!-- <button class="btn btn-primary phone-no-show" ng-show="nowKey==4" ng-click="pay()">结账</button>
+				<button class="btn btn-primary phone-no-show" ng-show="nowKey==4" ng-click="printer()">打印</button>
+				<button class="btn btn-primary" ng-show="nowKey==4" ng-click="cancelOrder()">取消订单</button> -->
+			</div>
+		</div>
+
+	</div>
+  </div>
+</div>
+<div class="modal fade" id="tastedModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+			</div>
+			<div class="modal-body">
+				<div>菜品：{{selectedProduct.p.name}}</div>
+				<div>单价：￥{{selectedProduct.p.is_promotion==1? selectedProduct.p.promotion_price : selectedProduct.p.unit_price}}</div>
+				<div>退菜备注：</div>
+				<div><textarea class="form-control" ng-model="selectedProduct.description"></textarea></div>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-primary btn-lg btn-block member-phone-button" ng-click="backProductSubmit()">确认</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>

@@ -1,0 +1,125 @@
+<div class="row">
+	<ng-include src="'templates/menu.html'"></ng-include>
+	<div class="col-md-10">
+    <ul class="breadcrumb">
+      <li>
+        <a href="#/shopDataentry/shopInformation">商户信息管理</a>
+      </li>
+      <li class="active">新建</li>
+    </ul>
+
+		<form  name="form" class="form-horizontal" ng-submit="create()" role="form">
+		        <div class="form-group">
+		            <label class="col-sm-2 control-label">商户名称:</label>
+		            <div class="col-sm-3">
+									<input class="form-control" ng-model="shop.shop_name" ng-required="true" />
+		            </div>
+		        </div>
+		        
+		         <div class="form-group">
+		            <label class="col-sm-2 control-label">负责人姓名:</label>
+		            <div class="col-sm-3">
+									<input class="form-control" ng-model="shop.name" ng-required="true" />
+		            </div>
+		        </div>
+
+		        <div class="form-group">
+		            <label class="col-sm-2 control-label">性别:</label>
+		             <div class="col-sm-3">
+				                    <select class="form-control" ng-model="shop.sex" ng-options="m.id as m.value for m in MaleOrFemale" ng-required="true">
+				                    <option value="">请选择</option>
+	                  				</select>
+	                </div>
+		        </div> 
+
+				<div class="form-group">
+		            <label class="col-sm-2 control-label">联系方式:</label>
+		            <div class="col-sm-3">
+									<input class="form-control" ng-model="shop.phone" ng-required="true" />
+		            </div>
+		        </div>
+
+		        <div class="form-group">
+		            <label class="col-sm-2 control-label">身份证号:</label>
+		            <div class="col-sm-3">
+									<input class="form-control" ng-model="shop.id_card" ng-required="true" />
+		            </div>
+		        </div>
+
+		        <div class="form-group">
+		            <label class="col-sm-2 control-label">公司地址:</label>
+		            <div class="col-sm-3">
+									<input class="form-control" ng-model="shop.shop_address" ng-required="true" />
+		            </div>
+		        </div>
+
+		        <div class="form-group">
+		            <label class="col-sm-2 control-label">业务员:</label>
+		            <div class="col-sm-3">
+									<input class="form-control" ng-model="shop.contactPerson" />
+		            </div>
+		        </div>
+
+		        <div class="form-group">
+		            <label class="col-sm-2 control-label">初始密码:</label>
+		            <div class="col-sm-3">
+									<input class="form-control" ng-model="shop.password" ng-required="true" />
+		            </div>
+		        </div>
+		        <!--
+		        <div class="form-group">
+		            <label class="col-sm-2 control-label">是否使用服务费:</label>
+		            <div class="col-sm-3">
+		            	<select class="form-control" ng-model="shop.is_use_service" ng-options="m.id as m.value for m in YesNoModel"  ng-required="true">
+		            		<option value="">请选择</option>
+	                  	</select>
+		            </div>
+		        </div>
+		    	-->
+
+			    <div class="form-group">
+	                <label class="col-sm-2 control-label">商铺二维码:</label>
+	                <div class="col-sm-3">
+	                  <input type="file"
+	                          ng-multiple=false
+	                          ng-file-select
+	                          ng-model="imageFile"
+	                          name="file"
+	                          accept="image/png"
+	                          ng-file-change="addImage(imageFile)"
+	                          />
+	                </div>（请上传1M以内的png/jpg格式的图片）
+	            </div>
+
+	            <div class="form-group">
+	              <label class="col-sm-2 control-label"></label>
+	              <div class="col-sm-10">
+	                <img ng-show="imageFile.dataUrl != null" ng-src="{{imageFile.dataUrl}}" class="img-responsive"/>
+	              </div>
+	            </div>
+
+		        <div class="form-group">
+		            <label class="col-sm-2 control-label">状态:</label>
+		            <div class="col-sm-3">
+		            				<select class="form-control" ng-model="shop.is_in_use" ng-options="m.id as m.value for m in OpenOrClose" ng-required="true">
+				                    <option value="">请选择</option>
+	                  				</select>
+		            </div>
+		        </div>
+
+		        <div class="form-group">
+					<div class="col-sm-offset-1 control-label   col-sm-2">
+						<button class="btn btn-primary btn-lg btn-block" type="submit">新建</button>
+					</div>
+					<div class="col-sm-offset-0 control-label col-sm-2">
+						<button class="btn btn-primary btn-lg btn-block button-defult" 
+								onclick="window.location.href='#/shopDataentry/shopInformation'">返回</button>
+					</div>
+		        </div>
+
+		    </form>
+
+  </div>
+
+
+</div>

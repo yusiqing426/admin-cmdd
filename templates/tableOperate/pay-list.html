@@ -1,0 +1,254 @@
+<div class="row">
+	<ng-include src="'templates/menu.html'"></ng-include>
+	<div class="phone-header">
+		<div class="phone-header-title">馋猫点点</div>
+		<div class="phone-header-return"><a href="#tableOperate/list"><img src="img/return-back.png"></a></div>
+		<div class="phone-table-serial">{{tableInf.name}}</div>
+	</div>
+	<div class="col-md-10 col-xs-12 flow">
+
+		<div ng-show="ifCLodp==0&&nowKey==4" class="alert alert-warning">检测到您未安装打印所需插件，请 <span ng-click="downloadLodop32()">点击此处</span>
+			下载并安装</div>
+		<div>
+			<div class="alert alert-warning">{{orderList.length>1? '合并结账' : '结账'}}
+				<button class="btn btn-primary btn-lg btn-block pay-print" ng-click="printPay()">打印预打单</button>
+			</div>
+		</div>
+		<div ng-repeat="(index,orderDetail) in orderList" style="height:43%;overflow-y:auto;">
+			<div class="alert alert-warning">桌位：{{orderDetail.serial_id}} {{index==0&&orderList.length>1? '[主订单]' : ''}}</div>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th class="text-center"><a>序号</a></th>
+						<th class="text-center"><a>菜品名称</a></th>
+						<th class="text-center"><a>数量</a></th>
+						<th class="text-center"><a>单位</a></th>
+						<th class="text-center"><a>单价</a></th>
+						<th class="text-center"><a>是否促销</a></th>
+						<th class="text-center"><a>会员价</a></th>
+						<th class="text-center"><a>金额</a></th>
+						<!-- <th class="text-center"><a>是否促销</a></th> -->
+						<th class="text-center"><a>普通折扣</a></th>
+						<th class="text-center"><a>会员折扣</a></th>
+						<th class="text-center"><a>会员积分</a></th>
+						<th class="text-center"><a>菜品状态</a></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="(index,product) in orderDetail.loi">
+						<td class="text-center">{{index+1}}</td>
+						<td class="text-center">{{product.p.name}}{{product.is_lottery==1? '(赠送)' : ''}}{{product.status_id==6? '(退菜)' :
+							''}}{{product.status_id==7? '(断货)' : ''}}</td>
+						<td class="text-center">{{product.quantity}}</td>
+						<td class="text-center">{{product.p.unit}}</td>
+						<td class="text-center">￥{{product.p.is_promotion==1? product.p.promotion_price.toFixed(2) :
+							product.p.unit_price.toFixed(2)}}</td>
+						<td class="text-center">{{product.p.is_promotion==1? '是' : '否'}}</td>
+						<td class="text-center">{{product.p.isUseMemberPrice==1?'￥'+product.p.memberPrice:'否'}}</td>
+						<td class="text-center">￥{{product.total_price}}</td>
+						<td class="text-center">{{product.p.is_discount==1? '是' : '否'}}</td>
+						<td class="text-center">{{product.p.isMemberDiscount==1? '是' : '否'}}</td>
+						<td class="text-center">{{product.p.isMemberIntegral==1? '是' : '否'}}</td>
+						<td class="text-center" ng-if="product.status_id==0||product.status_id==8">等待接单</td>
+						<td class="text-center" ng-if="product.status_id==1">待开做</td>
+						<td class="text-center" ng-if="product.status_id==2">待上菜</td>
+						<td class="text-center" ng-if="product.status_id==3">已上菜</td>
+						<td class="text-center" ng-if="product.status_id==6">已退菜</td>
+						<td class="text-center" ng-if="product.status_id==7">已断货</td>
+					</tr>
+
+					<tr ng-if="tableInf.is_out==0&&service_charge!=null&&service_charge!=0&&orderDetail.isLotteryCash!=null">
+						<td class="text-center">{{orderDetail.loi.length+1}}</td>
+						<td class="text-center">一元乐购</td>
+						<td class="text-center">1</td>
+						<td class="text-center">份</td>
+						<td class="text-center">￥{{service_charge.toFixed(2)}}</td>
+						<td class="text-center">-</td>
+						<td class="text-center">￥{{service_charge.toFixed(2)}}</td>
+						<td class="text-center">-</td>
+						<td class="text-center">-</td>
+						<td class="text-center">-</td>
+						<td class="text-center">-</td>
+					</tr>
+				</tbody>
+			</table>
+			<div>
+				<div class="row">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">备注信息:</label>
+						<div class="col-sm-10">
+							<textarea class="form-control" ng-model="orderDetail.description" ng-required="true" />
+							</div>
+		    </div>
+		</div>
+	</div>
+</div>
+
+	<div  class="pay-bottom">
+		<div>
+			<div>
+				<div class="col-sm-1 control-label lottery-lable">
+					<input id="selectMemberPay" ng-click="changeUseMember()" type="checkbox">会员卡号:
+				</div>
+				<div class="col-sm-2 double-middle-label" >
+					<input id="memberPhone" class="form-control" list="members" ng-model="memberPhone" >
+					<img id="readSearchButton" src="img/red-search.png" ng-click="searchMember()" />
+					<datalist id="members">
+						<option ng-repeat="member in members" value="{{member.phone}}"></option>
+					</datalist>
+					<!--//TODO:-->
+					<!--<datalist id="members" ng-options="member.phone for member in members">
+
+					</datalist>-->
+					<!--<input type="image"  src ="img/red-search.png" ng-click="searchMember()">-->
+					<!--<button><img id="readSearchButton" src="img/red-search.png" ng-click="searchMember()" /></button>-->
+
+				</div>
+
+				<div class="col-sm-1 control-label lottery-lable" >会员卡种:</div>
+				<div class="col-sm-2 double-middle-label" >
+					<input class="form-control" ng-model="member.memberCardName"readonly >
+				</div>
+			</div>
+			<div>
+				<div class="col-sm-1 control-label lottery-lable">会员折扣:</div>
+				<div class="col-sm-2 middle-label" >
+					<input class="form-control" ng-model="member.memberCardDiscount" readonly >
+				</div>
+				<div class="col-sm-1 control-label lottery-lable" >可用余额:</div>
+				<div class="col-sm-2 middle-label" >
+					<input class="form-control" ng-model="member.balance" readonly >
+				</div>
+				<div class="col-sm-1 control-label lottery-lable">可用积分:</div>
+				<div class="col-sm-2 middle-label" >
+					<input class="form-control" ng-model="member.integral" readonly >
+				</div>
+			</div>
+			<div>
+				<div class="col-sm-1 control-label lottery-lable">折扣:</div>
+				<div class="col-sm-2 middle-label" >
+					<input id="discount" class="form-control" ng-model="discount" placeholder="八折请输入0.8" ng-blur="changePrice()">
+				</div>
+				<div class="col-sm-1 control-label lottery-lable">抹零:</div>
+				<div class="col-sm-2 middle-label" >
+					<input class="form-control" ng-model="residue" onmousedown="this.value=''" ng-blur="changeResidue()" >
+				</div>
+				<div class="col-sm-1 control-label lottery-lable">实收:</div>
+				<div class="col-sm-2 middle-label" >
+					<input class="form-control" ng-model="income" ng-blur="changeIncome()" onkeyup= "if( !/^[0-9]{1,}(?:.[0-9]{0,2})?$/.test(this.value)){this.value='';}">
+
+
+				</div>
+			</div>
+			<div>
+				<div class="col-sm-1 control-label lottery-lable">应付:</div>
+				<div class="col-sm-2 middle-label" >
+					<input class="form-control" ng-model="totalPrice" readonly >
+				</div>
+				<div class="col-sm-1 control-label lottery-lable" >实付:</div>
+				<div class="col-sm-2 middle-label" >
+					<input class="form-control" ng-model="payable" readonly >
+				</div>
+				<div class="col-sm-1 control-label lottery-lable">找零:</div>
+				<div class="col-sm-2 middle-label" >
+					<input class="form-control" ng-model="odd" onkeyup= "if( !/^[0-9]{1,}(?:.[0-9]{0,2})?$/.test(this.value)){this.value='';}">
+				</div>
+			</div>
+			<div>
+				<div class="col-sm-1 control-label lottery-lable">现金:</div>
+				<div class="col-sm-2 middle-label" >
+					<input class="form-control" ng-model="cashPay" onmousedown="this.value=''" onkeyup= "if( !/^[0-9]{1,}(?:.[0-9]{0,2})?$/.test(this.value)){this.value='';}">
+				</div>
+				<div class="col-sm-1 control-label lottery-lable" >微信:</div>
+				<div class="col-sm-2 middle-label" >
+					<input class="form-control" ng-model="wxPay" onmousedown="this.value=''" onkeyup= "if( !/^[0-9]{1,}(?:.[0-9]{0,2})?$/.test(this.value)){this.value='';}">
+				</div>
+				<div class="col-sm-1 control-label lottery-lable">支付宝:</div>
+				<div class="col-sm-2 middle-label" >
+					<input class="form-control" ng-model="zfbPay" onmousedown="this.value=''" onkeyup= "if( !/^[0-9]{1,}(?:.[0-9]{0,2})?$/.test(this.value)){this.value='';}">
+				</div>
+			</div>
+			<div>
+				<div class="col-sm-1 control-label lottery-lable">银行卡:</div>
+				<div class="col-sm-2 middle-label" >
+					<input class="form-control" ng-model="cardPay" onmousedown="this.value=''" onkeyup= "if( !/^[0-9]{1,}(?:.[0-9]{0,2})?$/.test(this.value)){this.value='';}">
+				</div>
+				<div class="col-sm-1 control-label lottery-lable" >余额支付:</div>
+				<div class="col-sm-2 middle-label" >
+					<input id="balancePay" class="form-control" ng-model="balancePay" onmousedown="this.value=''" disabled onkeyup= "if( !/^[0-9]{1,}(?:.[0-9]{0,2})?$/.test(this.value)){this.value='';}">
+				</div>
+				<div class="col-sm-1 control-label lottery-lable">积分支付:</div>
+				<div class="col-sm-2 middle-label unit-body" >
+					<input id="integralPay" class="form-control" ng-model="integralPay" onmousedown="this.value=''" disabled onkeyup= "if( !/^[0-9]{1,}(?:.[0-9]{0,2})?$/.test(this.value)){this.value='';}">
+					<div class="unit-item">{{getIntegraCash(integralPay)==null?0.00:getIntegraCash(integralPay)}}元</div>
+				</div>
+			</div>
+			<!--
+			<div class="right">
+				<div class="col-sm-1 control-label lottery-lable">付款方式:</div>
+				<div class="col-sm-2 middle-label">
+				  <select class="form-control" ng-model="payType">
+						<option value="0">现金</option>
+						<option value="1">银行卡</option>
+						<option value="2">微信</option>
+						<option value="3">支付宝</option>
+						<option ng-if="tableInf.is_out!=1" value="4">会员卡</option>
+						<option ng-if="tableInf.is_out!=1" value="5">免单</option>
+				  </select>
+				</div>
+			</div>
+			`-->
+			<div class="right">
+				<div class="col-sm-1 control-label lottery-lable"></div>
+				<div class="col-sm-2 middle-label" >
+					<button class="btn btn-primary btn-lg btn-block " ng-click="freePay()">免单</button>
+				</div>
+
+				<div class="col-sm-1 control-label lottery-lable"></div>
+				<div class="col-sm-2 middle-label" >
+					<button class="btn btn-primary btn-lg btn-block " ng-click="chargeUp()">挂账</button>
+				</div>
+
+				<div class="col-sm-1 control-label lottery-lable"></div>
+				<div class="col-sm-2 middle-label" >
+					<button class="btn btn-primary btn-lg btn-block " ng-click="orderPay()">结账</button>
+				</div>
+
+
+			</div>
+		</div>
+
+	</div>
+  </div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					&times;
+				</button>
+			</div>
+			<form  name="form" class="form-horizontal" ng-submit="memberPay()" role="form">
+			<div class="modal-body member-phone ">
+			<div class="row">
+				<div class="col-sm-3 control-label">手机号码:</div>
+				<div class="col-sm-8" >
+					<input class="form-control" disabled ng-model="memberPhone" ng-required="true" >
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-3 control-label">支付密码:</div>
+				<div class="col-sm-8" >
+					<input class="form-control" type="password" id="memberPassword" ng-model="memberPassword" ng-required="true" >
+				</div>
+			</div>
+			</div>
+			<div class="modal-footer">
+					<button class="btn btn-primary btn-lg btn-block member-phone-button" type="submit">确认</button>
+			</div>
+			</form>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>
+</div>

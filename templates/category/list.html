@@ -1,0 +1,34 @@
+<div class="row">
+	<ng-include src="'templates/menu.html'"></ng-include>
+	<div class="col-md-10 flow">
+    <ul class="breadcrumb">
+		<li>
+			<a>菜品管理</a>
+		</li>
+		<li class="active">菜品品类管理</li>
+		<button onclick="window.location.href='#/dataentry/category/create'">新建</button>
+    </ul>
+	<table ng-table="tableParams" class="table table-striped">
+		<thead>
+            <tr><button ng-click="sync()" style="margin-left:1.2%;overflow: visible;background-color: #5CB75C;border-radius: 4px">同步云端数据</button>
+                <th><a ng-click="tableParams.sorting('id',(reverseSort = !reverseSort)?'asc':'desc')">编号</a></th>
+                <th><a ng-click="tableParams.sorting('sort',(reverseSort = !reverseSort)?'asc':'desc')">排序</a></th>
+                <th><a ng-click="tableParams.sorting('name',(reverseSort = !reverseSort)?'asc':'desc')">品类名称</a></th>
+                <th><a ng-click="tableParams.sorting('is_enable',(reverseSort = !reverseSort)?'asc':'desc')">是否启用</a></th>
+              
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="category in categoryList">
+                <td class="text-center"><a href="#/dataentry/category/{{category.id}}">{{category.id}}</a></td>
+                <td class="text-center sort-row">
+                  <input onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" class="form-control" ng-model="category.sort" ng-required="true" />
+                  <button class="btn btn-primary" ng-click="saveSort(category)">保存</button>
+                </td>
+                <td class="text-center">{{category.name}}</td>                   
+                <td class="text-center">{{category.is_enable?"启用":"禁用"}}</td>
+            </tr>
+          </tbody>
+      </table>
+  </div>
+</div>

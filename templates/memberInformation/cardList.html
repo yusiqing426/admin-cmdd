@@ -1,0 +1,30 @@
+<div class="row">
+  <ng-include src="'templates/menu.html'"></ng-include>
+  <div class="col-md-10 flow">
+    <ul class="breadcrumb">
+      <li><a>会员管理</a></li>
+      <li>卡种管理</li>
+      <button onclick="window.location.href='#/memberDataentry/cardCreate'">新建</button>
+    </ul>
+	<div>
+
+	</div>
+    <table ng-table="tableParams" class="table table-striped">
+      <thead>
+        <tr>
+
+          <th><a ng-click="tableParams.sorting('id',(reverseSort = !reverseSort)?'asc':'desc')">序号</a></th>
+          <th><a ng-click="tableParams.sorting('phone',(reverseSort = !reverseSort)?'asc':'desc')">卡种名称</a></th>
+          <th><a ng-click="tableParams.sorting('name',(reverseSort = !reverseSort)?'asc':'desc')">折扣</a></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="(index,item) in dataList" ng-if = "item.phone == searchPhone||searchPhone==''||searchPhone==null">
+          <td class="text-center"><a href="#/memberDataentry/cardView/{{item.id}}">{{index+1}}</a></td>
+          <td class="text-center">{{item.name}}</td>
+          <td class="text-center">{{item.discount}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+<div class="row">
+  <ng-include src="'templates/menu.html'"></ng-include>
+  <div class="phone-header">
+	  <div class="phone-header-title">馋猫点点</div>
+	  <div class="phone-header-return"><a href="#tableOperate/list"><img src="img/return-back.png"></a></div>
+	  <div class="phone-table-serial">{{tableInf.name}}</div>
+  </div>
+  <div class="col-md-10 col-xs-12 flow">
+	<div class="table-list">
+		<div class="change-table-header">请选择要转至的桌台：</div>
+		<div class="table-title">普通桌</div>
+		<div class="table-list-body">
+			<div ng-repeat="item in diningTableList" class="status{{item.status}}" ng-if="item.is_out==0&&item.status==0&&item.is_enable==1" ng-click="changeTable(item)">
+				<div class="table-serial">{{item.name}}</div>
+				<div class="table-status" >空闲</div>
+			</div>
+		</div>
+		<div class="table-title">外卖桌</div>
+		<div class="table-list-body">
+			<div ng-repeat="item in diningTableList" class="status{{item.status}}" ng-if="item.is_out==1&&item.status==0&&item.is_enable==1" ng-click="changeTable(item)">
+				<div class="table-serial">{{item.name}}</div>
+				<div class="table-status" >空闲</div>
+			</div>
+		</div>
+	</div>
+  </div>
+	<div class="call-service-bottom">当前有 <span>2</span> 个呼叫服务
+      <a class="call-service-button" href="#/callService/list">
+        <button class="btn btn-primary btn-lg btn-block ">查看</button>
+      </a>
+	</div>
+
+</div>

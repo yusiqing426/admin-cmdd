@@ -1,0 +1,649 @@
+<!--<h2>创建模态框（Modal）</h2>-->
+<!-- 按钮触发模态框 -->
+<!--<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal22">开始演示模态框</button>-->
+<!-- 模态框（Modal） -->
+<!--<button ng-click="programBar()">22222222</button>-->
+<div class="modal fade" id="myModal_memberBirth" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">会员生日提醒</h4>
+            </div>
+            <div class="modal-body">
+                <table ng-table="tableParams" class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th><a ng-click="tableParams.sorting('phone',(reverseSort = !reverseSort)?'asc':'desc')">手机号</a>
+                        </th>
+                        <th><a ng-click="tableParams.sorting('name',(reverseSort = !reverseSort)?'asc':'desc')">姓名</a>
+                        </th>
+                        <th><a ng-click="tableParams.sorting('dayToBirth',(reverseSort = !reverseSort)?'asc':'desc')">距离天数</a>
+                        </th>
+
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="member in memberBirthList">
+                        <!--<a href="#/dataentry/category/{{category.id}}">-->
+                        <td class="text-center">{{member.phone}}</td>
+                        <td class="text-center">{{member.name}}</td>
+                        <td class="text-center">{{member.dayToBirth==0?'今':'还剩'+ member.dayToBirth}}天</td>
+                        <!--<td class="text-center sort-row">
+                                      <input onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" class="form-control" ng-model="category.sort" ng-required="true" />
+                                      <button class="btn btn-primary" ng-click="saveSort(category)">保存</button>
+                                  </td>
+                                  <td class="text-center">{{category.name}}</td>
+                                  <td class="text-center">{{category.is_enable?"启用":"禁用"}}</td>-->
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" ng-click="remind()">下次登录前不在提醒</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<div class="modal fade" id="myModal_programBar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">结业数据上传中>>>>>> <b>40%</b></h4>
+            </div>
+            <div class="modal-body">
+                <div class="progress progress-striped active">
+                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60"
+                         aria-valuemin="0"
+                         aria-valuemax="100" style="width: 40%;">
+                        <span class="sr-only">40% 完成</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <ng-include src="'templates/menu.html'" onload="initRouterActive()"></ng-include>
+    <div class="col-md-10 flow">
+        <div class="table-list col-md-9">
+            <div class="tab-nav">
+                <ul class="tabs" id="tabs">
+                    <li ng-repeat="(idx,region) in regionList" ng-click="changeRegion(region)"><a
+                            ng-class="{'active':currentActiveRegion==region}">{{region.name}}</a></li>
+                </ul>
+                <div class="tabCntArea">
+                    <a ng-repeat="(idx,seat) in seatList" ng-click="changeSeat(seat)"><i
+                            class="iconfont icon-tab_m_unselected"
+                            ng-class="{'icon-tab_m_selected':activeSeat==seat}"></i>{{seat.name}}</a>
+                </div>
+            </div>
+            <div class="table-list-body" ng-click="hideRightMenu()">
+                <div ng-repeat="(index,item) in diningTableList" ng-if="item.is_out==0&&item.is_enable==1"
+                     class="status{{item.status}}"
+                     ng-click="showSelectedTable($event,item)" ng-dblclick="showModal($event,item)"
+                     ng-class="{'cell-selected':selectTable==item}">
+                    <div class="cell-selected-pd">
+                        <div class="table-serial">{{item.name}}</div>
+                        <hr class="tab-item-split-line"/>
+                        <div class="table-pointer" ng-if="item.status==3"><img src="img/add-order.png"/></div>
+                        <div class="table-status" ng-if="item.status==0">空闲/{{item.seating_number}}人</div>
+                        <div class="table-status" ng-if="item.status==1">已开桌</div>
+                        <div class="table-status" ng-if="item.status==2">
+                            {{(item.status==2&&item.orderTotalFree!=null)?'￥'+item.orderTotalFree:'进行中'}}
+                        </div>
+                        <div class="table-status" ng-if="item.status==3">加餐</div>
+                        <div class="table-status" ng-if="item.status==4">等叫</div>
+                        <span class="tab-r-b-cirle" ng-click="activeWinMenu($event,item)"></span>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="wm-tab"><a>外卖</a></div> -->
+            <div class="table-list-body" style="display:none;" ng-click="hideRightMenu()">
+                <div ng-repeat="(index,item) in diningTableList" ng-if="item.is_out==1&&item.is_enable==1"
+                     class="status{{item.status}}"
+                     ng-click="showSelectedTable($event,item)" ng-dblclick="showModal($event,item)">
+                    <div class="cell-selected-pd">
+                        <div class="table-serial">{{item.name}}</div>
+                        <hr class="tab-item-split-line"/>
+                        <div class="table-pointer" ng-if="item.status==3"><img src="img/add-order.png"/></div>
+                        <div class="table-status" ng-if="item.status==0">空闲</div>
+                        <div class="table-status" ng-if="item.status==1">开桌</div>
+                        <div class="table-status" ng-if="item.status==2">进行中</div>
+                        <div class="table-status" ng-if="item.status==3">加餐</div>
+                        <div class="table-status" ng-if="item.status==4">等叫</div>
+                        <span class="tab-r-b-cirle" ng-click="activeWinMenu($event,item)"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-item-detail col-lg-1">
+            <p>桌号：{{orderDetail.serial_id}}</p>
+            <p>单号：{{orderDetail.order_no}}</p>
+            <p>开台时间：{{orderDetail.create_time | date:'yyyy-MM-dd hh:mm:ss'}}</p>
+            <p>开台备注：{{orderDetail.openTableRemark}}</p>
+            <div class="table-list-rdetail">
+                <ul>
+                    <li class="already-row-header"><span>菜名</span><span>数量</span><span>金额</span></li>
+                    <div class="home-table-order-detail-r" style="height:350px;overflow-y:auto;">
+                        <li ng-class="{'ordered-selected':$index==orderedSelectIndex}"
+                            class="already-row-item status_{{od.status_id}}"
+                            ng-repeat="od in orderDetail.loi track by $index" ng-click="selectOrderedItem(od,$index)">
+                            <span>{{od.p.name}}</span><span>{{od.quantity}}*份</span><span>￥{{od.p.is_promotion==0?od.p.unit_price*od.quantity:od.p.promotion_price*od.quantity}}</span>
+                        </li>
+                    </div>
+                </ul>
+            </div>
+            <table style="display:none;">
+                <thead>
+                <tr>
+                    <th>品名</th>
+                    <th>数量</th>
+                    <th>金额</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="(idx,m) in orderDetail.loi">
+                    <td class="ft-center">{{m.p.name}}</td>
+                    <td>*{{m.quantity}}</td>
+                    <td>{{m.p.is_promotion==0?m.p.unit_price:m.p.promotion_price}}</td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="funcArea">
+                <div>
+                    <a ng-click="openStage()"><i class="iconfont icon-admin-kaitai"></i>开台</a>
+                    <a ng-click="addOrder()"><i class="iconfont icon-admin-diancan"></i>点餐</a>
+                    <a ng-click="printerOrder()"><i class="iconfont icon-admin-print"></i>预打单</a>
+                    <a ng-click="settleAccounts()"><i class="iconfont icon-admin-jiezhang"></i>结账</a>
+                    <a><i class="iconfont icon-admin-gengduo"></i>更多</a>
+                    <a ng-click="clearStage()"><i class="iconfont icon-admin-qingchu"></i>清台</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="call-service-bottom">当前有 <span>{{callServiceList.length}}</span> 个呼叫服务
+        <a class="call-service-button" href="#/callService/list">
+            <button class="btn btn-primary btn-lg btn-block ">查看</button>
+        </a>
+    </div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        &times;
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <a ng-if="selectTable.status==0">
+                        <button ng-click="openTable()" id="openTable" class="btn btn-primary">开桌</button>
+                    </a>
+                    <a ng-if="selectTable.status==1">
+                        <button ng-click="goto('#addOrder/'+selectTable.id)" class="btn btn-primary">点餐</button>
+                    </a>
+                    <a ng-if="selectTable.status==3||isAdd==1">
+                        <button ng-click="orderTake()" class="btn btn-primary">接单</button>
+                    </a>
+                    <a ng-if="selectTable.status==2||selectTable.status==3">
+                        <button ng-click="goto('#addOrder/'+selectTable.id)"
+                                class="btn btn-primary">加餐
+                        </button>
+                    </a>
+                    <a ng-if="selectTable.status==2||selectTable.status==3">
+                        <button ng-click="goto('#servingList/'+selectTable.id)"
+                                class="btn btn-primary">上菜
+                        </button>
+                    </a>
+                    <a ng-if="selectTable.status!=0">
+                        <button ng-click="goto('#changeTable/'+selectTable.id)" class="btn btn-primary">转桌</button>
+                    </a>
+                    <a ng-if="selectTable.status==1">
+                        <button ng-click="clearTable()" class="btn btn-primary">清桌</button>
+                    </a>
+                    <a ng-if="selectTable.status==2||selectTable.status==3">
+                        <button ng-click="goto('#orderDetail/'+selectTable.id)"
+                                class="btn btn-primary">订单
+                        </button>
+                    </a>
+                    <a ng-if="selectTable.status!=0&&selectTable.status!=1&&nowKey==4">
+                        <button ng-click="goto('#printerOrder/'+selectTable.id)"
+                                class="btn btn-primary phone-no-show">打印
+                        </button>
+                    </a>
+                    <a ng-if="selectTable.status!=0&&selectTable.status!=1&&nowKey==4">
+                        <button ng-click="goto('#payOrder/'+selectTable.id)"
+                                class="btn btn-primary phone-no-show">结账
+                        </button>
+                    </a>
+                    <a ng-if="selectTable.status!=0&&selectTable.status!=1&&nowKey==4">
+                        <button ng-click="goto('#mergeTable/'+selectTable.id)"
+                                class="btn btn-primary phone-no-show">合并结账
+                        </button>
+                    </a>
+                </div>
+                <div class="modal-footer">
+
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+    <div class="modal fade" id="openMyTable" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    开台-{{selectTable.name}}
+                </div>
+                <div class="modal-body openMyTable">
+                    <div class="col-md-12">
+                        <div class="col-md-6 optableform">
+                            <p>就餐人数：<input type="text" ng-model="mealNumber" id="txt_mealNumber" class="form-control"
+                                           style="width:68px;display:inline;"/>（座位数：<span>{{selectTable.seating_number}}</span>）
+                            </p>
+                            <!-- <p>就餐时间：<span>[午市：11：00-16：00]</span></p>
+                            <p>最低消费：<span>-</span></p>
+                            <p>服务员：<span><select class="sel-watier">
+                                  <option>选择服务员</option>
+                                </select></span></p>
+                            <p>餐台别名：<span><input type="text" /></span></p>-->
+
+                            <div class="opentab-form-rmk">开台备注：<textarea class="form-control" rows="6"
+                                                                         ng-model="remark"></textarea></div>
+                        </div>
+                        <div class="col-md-6 opentab-form-tab cal-wrap" id="open_table_wrap">
+                            <table class="cal-table">
+                                <tbody>
+                                <tr>
+                                    <td>7</td>
+                                    <td>8</td>
+                                    <td>9</td>
+                                    <td key="backspace">退格</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>5</td>
+                                    <td>6</td>
+                                    <td key="clear">清除</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>2</td>
+                                    <td>3</td>
+                                    <td>.</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" class="">0</td>
+                                    <td colspan="2" class="txt-center" key="confirm"><i
+                                            class="iconfont icon-admin-duigou"></i>确定
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="opentab-fbar">
+                        <button ng-click="confirmOpenTable()">开台</button>
+                        <button ng-click="confirmOpenTable(true)">开台并点单</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--结账窗口--->
+    <div class="modal fade" id="settleAccount" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" style="width:850px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    结账-{{selectTable.name}}
+                    <button type="button" class="close" data-dismiss="modal">
+                        &times;
+                    </button>
+                </div>
+                <div class="modal-body openMyTable settlementMyTable">
+                    <div class="col-md-12">
+                        <div class="col-md-6 settle-account-l-wrap">
+                            <div style="height:550px;overflow-y: auto;padding-bottom:20px;">
+                                <div ng-repeat="parent in mergerTableOrderList" class="merger-table-orderItem">
+                                    <div>
+                                        <p>桌号：<span>{{parent.serial_id}}</span></p>
+                                        <p>单号：<span>{{parent.order_no}}</span></p>
+                                        <p>开台时间：<span>{{parent.create_time | date:'yyyy-MM-dd hh:mm:ss'}}</span></p>
+                                        <p>开台备注：<span>{{parent.openTableRemark}}</span></p>
+                                        <p>菜品金额：<span>{{getSubCpTotal(parent.loi)}}</span></p>
+                                    </div>
+                                    <div>
+                                        <table class="settle-account-ordered-table"
+                                               ng-show="parent.isCollapse||mergerTableOrderList.length==1">
+                                            <tbody>
+                                            <tr>
+                                                <td>
+                                                    <div class="settle-account-ordered-table table-list-rdetail">
+                                                        <ul>
+                                                            <li class="already-row-header">
+                                                                <span>菜名</span><span>数量</span><span>金额</span></li>
+                                                            <div>
+                                                                <li ng-class="{'ordered-selected':$index==orderedSelectIndex}"
+                                                                    class="already-row-item status_{{od.status_id}}"
+                                                                    ng-repeat="od in parent.loi track by $index"
+                                                                    ng-click="selectOrderedItem(od,$index)">
+                                                                    <span>{{od.p.name}}</span>
+                                                                    <span>{{od.quantity}}*份</span>
+                                                                    <span>￥{{od.isUseMemberMlMoney?od.isUseMemberMlMoney:(od.p.is_promotion==0?od.p.unit_price*od.quantity:od.p.promotion_price*od.quantity)}}</span>
+                                                                </li>
+                                                            </div>
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                        <span class="collapse-bar" ng-click="collapseFun(parent)"
+                                              ng-show="mergerTableOrderList.length>1"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="merger-order-fbar">
+                                <p>菜品金额：{{getCpTotal(2)}}</p>
+                                <p>应付金额：￥{{getCpTotal(1)}}</p>
+                            </div>
+                        </div>
+                        <div class="settle-account-r-wrap">
+                            <div class="settle-ac-r-w-item settle-ac-r-w-item-top">
+                                <div class="settle-ac-r-w-item-sub">应付金额：<a class="manual-discount-a-btn"
+                                                                            id="js_btn_mdac">手动优惠</a><span
+                                        id="sp_discountedMoney">{{discountedMoney}}</span></div>
+                                <div class="settle-ac-r-w-item-sub">
+                                    <p>实付金额：<span id="sp_sf_money">0.00</span></p>
+                                    <div id="pay_item_area">
+                                        <p key="111" style="text-align:right;"><i id="sp_pay_type">现金</i><span
+                                                id="sp_xj_money" class="pay_m_item">0.00</span></p>
+                                    </div>
+                                    <div class="manual-discount-wrap cal-wrap" id="manual_discount_wrap">
+                                        <p>优惠金额：<input type="text" maxlength="5" id="txt_discountmoney"
+                                                       ng-focus="bindSelectAll($event)"
+                                                       ng-keyup="changeBigInput($event,'manual_discount_wrap')"
+                                                       ng-model="discountmoney"></p>
+                                        <p>优惠金额后：<input type="text" id="txt_discountedMoney" ng-model="discountedMoney">
+                                        </p>
+                                        <table class="cal-table manual-discount">
+                                            <tbody>
+                                            <tr>
+                                                <td>7</td>
+                                                <td>8</td>
+                                                <td>9</td>
+                                                <td key="backspace">退格</td>
+                                            </tr>
+                                            <tr>
+                                                <td>4</td>
+                                                <td>5</td>
+                                                <td>6</td>
+                                                <td key="clear">清除</td>
+                                            </tr>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>2</td>
+                                                <td>3</td>
+                                                <td>.</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2" class="">0</td>
+                                                <td colspan="2" class="txt-center" key="confirm"><i
+                                                        class="iconfont icon-admin-duigou"></i>确定
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="settle-ac-r-w-item-sub">找零：<span id="sp_zl_money">0.00</span></div>
+                            </div>
+                            <div class="settle-ac-r-w-item cal-wrap" id="member_input_table">
+                                <p>会员：<input type="text" class="member-no" id="txt_memberno"
+                                             ng-click="showMemberInput()"/>
+                                <table class="cal-table manual-discount member-input-table" id="tb_member_input_table">
+                                    <tbody>
+                                    <tr>
+                                        <td>7</td>
+                                        <td>8</td>
+                                        <td>9</td>
+                                        <td key="backspace">退格</td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>5</td>
+                                        <td>6</td>
+                                        <td key="clear">清空</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>2</td>
+                                        <td>3</td>
+                                        <td>.</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="">0</td>
+                                        <td colspan="2" class="txt-center" key="confirm"><i
+                                                class="iconfont icon-admin-duigou"></i>确定
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <button class="button clear-member" ng-click="clearUseMember()">清除</button>
+                                </p>
+                                <p class="member-info"><span>会员折扣：<input id="txt_member_discount"
+                                                                         type="text"/></span><span>可用余额：<input
+                                        id="txt_balance" type="text"/></span><span>可用积分：<input type="text"
+                                                                                               id="txt_member_integer"/></span>
+                                </p>
+                            </div>
+                            <div class="settle-ac-r-w-item">
+                <span class="settle-r-total-money"><input type="" style="text-align:right;border:none;"
+                                                          ng-focus="bindSelectAll($event)"
+                                                          ng-keyup="changeBigInput($event,'manual_settle_wrap')"
+                                                          id='txt_xj_money'/></span>
+                            </div>
+                            <div class="cal-wrap manual_settle_wrap_bottom" id="manual_settle_wrap">
+                                <table class="cal-table">
+                                    <tbody>
+                                    <tr>
+                                        <td class="card-money pay-type-checked" kval="111" key="paytype">现金</td>
+                                        <td>7</td>
+                                        <td>8</td>
+                                        <td>9</td>
+                                        <td key="backspace">退格</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="card-money" kval="113" key="paytype">微信</td>
+                                        <td>4</td>
+                                        <td>5</td>
+                                        <td>6</td>
+                                        <td key="clear">清除</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="card-money" kval="114" key="paytype">支付宝</td>
+                                        <td>1</td>
+                                        <td>2</td>
+                                        <td>3</td>
+                                        <td class="confirm-settle" key="startSettle" rowspan="3">结账</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="card-money" kval="112" key="paytype">银联卡</td>
+                                        <td colspan="" class="">0</td>
+                                        <td colspan="" class="txt-center" key="confirm">00</td>
+                                        <td colspan="" class="txt-center" key="confirm">.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="card-money" kval="115" key="paytype">会员卡</td>
+                                        <td colspan="2" class="settle-integral" kval="jf" key="paytype">积分</td>
+                                        <td colspan="" class="settle-discount" kval="zk" key="paytype">折扣</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <textarea class="form-control settle-rmk-mutiple" id="settle_rmk_mutiple"></textarea>
+                        </div>
+                        <div class="settle-r-bar">
+                            <button ng-click="guaDanFun()">挂单</button>
+                            <button ng-click="mianDanFun()">免单</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-win-menu" id="table_win_menu">
+        <a key="opentable" ng-click="execCommonMenuFun($event)" ng-class="{'win-menu-enable':selectTable.status==0}">
+            <button>开桌</button>
+        </a>
+        <a key="addorder" ng-click="execCommonMenuFun($event)" router="#addOrder/"
+           ng-class="{'win-menu-enable':selectTable.status==1}">
+            <button>点餐</button>
+        </a>
+        <a key="ordertake" ng-click="execCommonMenuFun($event)"
+           ng-class="{'win-menu-enable':selectTable.status==3||isAdd==1}">
+            <button>接单</button>
+        </a>
+        <a key="addorder" ng-click="execCommonMenuFun($event)" router="#addOrder/"
+           ng-class="{'win-menu-enable':selectTable.status==2||selectTable.status==3}">
+            <button>加餐</button>
+        </a>
+        <a key="servinglist" ng-click="execCommonMenuFun($event)" router="#servingList/"
+           ng-class="{'win-menu-enable':selectTable.status==2||selectTable.status==3}">
+            <button>上菜</button>
+        </a>
+        <a key="changetable" ng-click="execCommonMenuFun($event)" router="#changeTable/"
+           ng-class="{'win-menu-enable':selectTable.status!=0}">
+            <button>转桌</button>
+        </a>
+        <a key="cleartable" ng-click="execCommonMenuFun($event)" ng-class="{'win-menu-enable':selectTable.status==1}">
+            <button>清桌</button>
+        </a>
+        <a key="orderdetail" ng-click="execCommonMenuFun($event)" router="#orderDetail/"
+           ng-class="{'win-menu-enable':selectTable.status==2||selectTable.status==3}">
+            <button>订单</button>
+        </a>
+        <!-- <a key="printerorder" ng-click="execCommonMenuFun($event)" router="#printerOrder/" ng-class="{'win-menu-enable':selectTable.status!=0&&selectTable.status!=1&&nowKey==4}"><button>打印</button></a> -->
+        <a key="payorder" ng-click="execCommonMenuFun($event)" router="#payOrder/"
+           ng-class="{'win-menu-enable':selectTable.status!=0&&selectTable.status!=1&&nowKey==4}">
+            <button>结账</button>
+        </a>
+        <a key="mergetable" ng-click="execCommonMenuFun($event)" router="#mergeTable/"
+           ng-class="{'win-menu-enable':selectTable.status!=0&&selectTable.status!=1&&nowKey==4}">
+            <button>合并结账</button>
+        </a>
+    </div>
+</div>
+
+
+<div class="modal fade" id="trunTable" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" style="width:850px;">
+        <div class="modal-content" style="background:#E5E5E5;">
+            <div class="modal-header">
+                顾客转桌
+                <button type="button" class="close" data-dismiss="modal">
+                    &times;
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="turn-table-category-area">
+                    <a ng-repeat="(idx,seat) in seatList" ng-click="changeSeat(seat,true)"
+                       ng-class="{'turn-tb-cg-active':turnTbActiveSeat==seat}">{{seat.name}}</a>
+                </div>
+                <div class="turn-table-category-area">
+                    <a ng-class="{'turn-tb-cg-active':turnCurrentActiveRegion==region}"
+                       ng-click="changeRegion(region,true);"
+                       ng-repeat="(idx,region) in regionList">{{region.name}}</a>
+                </div>
+                <div class="table-list-body trun-table-wrap">
+                    <div ng-repeat="(index,item) in turnDiningTableList"
+                         ng-class="{'turntable-item-selected':changeSelectTable==item}"
+                         ng-if="item.status==0" ng-click="changeTurnTableItem(item)">
+                        <div class="status{{item.status}}">
+                            <div class="table-serial">{{item.name}}</div>
+                            <hr class="tab-item-split-line"/>
+                            <div class="table-pointer" ng-if="item.status==3"><img src="img/add-order.png"/></div>
+                            <div class="table-status" ng-if="item.status==0">空闲</div>
+                            <div class="table-status" ng-if="item.status==1">开桌</div>
+                            <div class="table-status" ng-if="item.status==2">进行中</div>
+                            <div class="table-status" ng-if="item.status==3">加餐</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer turn-table-fbar">
+                <button ng-click="changeTable(changeSelectTable)">确定</button>
+                <button data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="confirmDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" style="width:300px;">
+        <div class="modal-content" style="background:#E5E5E5;">
+            <div class="modal-header">
+                顾客清台
+            </div>
+            <div class="modal-body" id="confirm_dialog_body" style="height:120px;line-height: 100px;">
+                确定要清台吗？
+            </div>
+            <div class="modal-footer turn-table-fbar">
+                <button ng-click="confirmClearStage()">是</button>
+                <button data-dismiss="modal">否</button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+<div class="modal fade" id="mergerSettleAcc" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" style="width:850px;">
+        <div class="modal-content" style="background:#E5E5E5;">
+            <div class="modal-header">
+                选择合并结账桌位
+                <button type="button" class="close" data-dismiss="modal">
+                    &times;
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="table-list-body trun-table-wrap">
+                    <div ng-repeat="(index,item) in turnDiningTableList"
+                         ng-class="{'turntable-item-selected':changeSelectTable==item}"
+                         ng-if="item.status==2&&item.is_out==false" ng-click="changeMergerItem(item)">
+                        <div class="status{{item.status}}">
+                            <div class="table-serial">{{item.name}}</div>
+                            <hr class="tab-item-split-line"/>
+                            <div class="table-pointer" ng-if="item.status==3"><img src="img/add-order.png"/></div>
+                            <div class="table-status" ng-if="item.status==0">空闲</div>
+                            <div class="table-status" ng-if="item.status==1">开桌</div>
+                            <div class="table-status" ng-if="item.status==2">进行中</div>
+                            <div class="table-status" ng-if="item.status==3">加餐</div>
+                            <input ng-if="selectTable.orderId==item.orderId" type="checkbox" checked disabled/>
+                            <input ng-if="selectTable.orderId!=item.orderId" type="checkbox"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer turn-table-fbar">
+                <button ng-click="confirmMergerSettleAcc(changeSelectTable)">确定</button>
+                <button data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>

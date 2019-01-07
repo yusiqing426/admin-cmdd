@@ -1,0 +1,100 @@
+<div class="row">
+  <ng-include src="'templates/menu.html'"></ng-include>
+  <div class="col-md-10 flow">
+    <ul class="breadcrumb">
+      <li>
+        <a href="#/memberDataentry/memberInformation">会员中心</a>
+      </li>
+	  <li class="active">交易管理</li>
+    </ul>
+	<div>
+    <div class="row">
+		<div class="col-sm-1 control-label lottery-lable">手机号码:</div>
+		<div class="col-sm-2" >
+			<input class="form-control" ng-model="phone" 
+			ng-required="true" >
+		</div>
+		<div class="col-sm-1 control-label lottery-lable">交易类型:</div>
+		<div class="col-sm-2">
+          <select class="form-control" ng-model="category" ng-change="filterShopPayList()">
+				      <option value="1">交易明细</option>
+				      <option value="2">积分明细</option>
+          </select>
+    </div>
+    <div class="col-sm-1 control-label lottery-lable">交易类型:</div>
+    <div ng-show="category==1" class="col-sm-2">
+          <select class="form-control" ng-model="type1"  ng-change="filterShopPayList()">
+              <option value="">全部</option>
+              <option value="11">充值</option>
+              <option value="12">消费</option>
+          </select>
+    </div>
+    <div ng-show="category==2" class="col-sm-2">
+          <select class="form-control" ng-model="type2"  ng-change="filterShopPayList()">
+              <option value="">全部</option>
+              <option value="21">累积</option>
+              <option value="22">消费</option>
+              <option value="23">兑换</option>
+          </select>
+    </div>
+        <a class="col-sm-offset-0 control-label  col-sm-1" >
+          <button class="btn btn-primary btn-lg btn-block " ng-click="search()">查询</button>
+        </a>
+      <a class="col-sm-offset-1 control-label  col-sm-1" href="#/memberDataentry/memberInformation">
+        <button class="btn btn-primary btn-lg btn-block button-defult">返回</button>
+      </a>
+    </div>
+	</div>
+    <table ng-table="tableParams" class="table table-striped">
+      <thead>
+        <tr>
+
+          <th><a ng-click="tableParams.sorting('id',(reverseSort = !reverseSort)?'asc':'desc')">编号</a></th>
+          <th><a ng-click="tableParams.sorting('phone',(reverseSort = !reverseSort)?'asc':'desc')">会员手机号</a></th>
+          <th><a ng-click="tableParams.sorting('name',(reverseSort = !reverseSort)?'asc':'desc')">会员姓名</a></th>
+          <th><a ng-click="tableParams.sorting('sex',(reverseSort = !reverseSort)?'asc':'desc')">会员性别</a></th>
+          <th><a>交易类型</a></th>
+          <th ng-if="category==1"><a ng-click="tableParams.sorting('amount',(reverseSort = !reverseSort)?'asc':'desc')">交易金额</a></th>
+		      <th ng-if="category==1"><a ng-click="tableParams.sorting('now_balance',(reverseSort = !reverseSort)?'asc':'desc')">可用余额</a></th>
+          <th ng-if="category==2"><a ng-click="tableParams.sorting('tradeIntegral',(reverseSort = !reverseSort)?'asc':'desc')">交易积分</a></th>
+          <th ng-if="category==2"><a ng-click="tableParams.sorting('integral',(reverseSort = !reverseSort)?'asc':'desc')">可用积分</a></th>
+          <th ng-if="category==2"><a ng-click="tableParams.sorting('description',(reverseSort = !reverseSort)?'asc':'desc')">积分兑换</a></th>
+          <th><a ng-click="tableParams.sorting('create_time',(reverseSort = !reverseSort)?'asc':'desc')">交易时间</a></th>
+		      <th ng-if="category==1"><a ng-click="tableParams.sorting('pay_type',(reverseSort = !reverseSort)?'asc':'desc')">付款方式</a></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="(index,item) in dataList" >
+          <td class="text-center">{{index+1}}</td>
+          <td class="text-center">{{item.phone}}</td>
+          <td class="text-center">{{item.name}}</td>
+          <td class="text-center">{{item.sex==1 ? '男' : '女'}}</td>
+          <td class="text-center">
+            {{item.type==11 ? '充值' : ''}}
+            {{item.type==12 ? '消费' : ''}}
+            {{item.type==21 ? '累积' : ''}}
+            {{item.type==22 ? '消费' : ''}}
+            {{item.type==23 ? '兑换' : ''}}
+          </td>
+          <td ng-if="category==1" class="text-center">￥{{item.amount}}</td>
+		      <td ng-if="category==1" class="text-center">￥{{item.now_balance}}</td>
+          <td ng-if="category==2" class="text-center">{{item.tradeIntegral}}</td>
+          <td ng-if="category==2" class="text-center">{{item.integral}}</td>
+          <td ng-if="category==2" class="text-center">{{item.description? item.description : '-'}}</td>
+
+          <td class="text-center">{{item.create_time}}</td>
+
+          <td ng-if="category==1" class="text-center">
+            {{item.pay_type==0? '现金' : ''}}
+            {{item.pay_type==1? '银行卡' : ''}}
+            {{item.pay_type==2? '微信' : ''}}
+            {{item.pay_type==3? '支付宝' : ''}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+
+</div>

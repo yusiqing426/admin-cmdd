@@ -1,0 +1,70 @@
+<div class="row">
+	<ng-include src="'templates/menu.html'"></ng-include>
+	<div class="col-md-10">
+		<ul class="breadcrumb">
+			<li>
+				<a href="#/agentDataentry/agentPay">代理商缴费管理</a>
+			</li>
+			<li class="active">代理商编辑</li>
+		</ul>
+
+		<form  name="form" class="form-horizontal" ng-submit="update()" role="form">
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">代理商名称:</label>
+				<div class="col-sm-3">
+					<p class="form-control-static">{{agentPay.company_name}}</p>
+				</div>
+			</div>
+
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">负责人姓名:</label>
+				<div class="col-sm-3">
+					<p class="form-control-static">{{agentPay.name}}</p>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">应缴费用:</label>
+				<div class="col-sm-3">
+					<p class="form-control-static">{{agentPay.payable_expenses}}</p>
+				</div>
+			</div>
+			
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">应交费日期:</label>
+				<div class="col-sm-3">
+				<p class="form-control-static">{{agentPay.pay_date}}</p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">缴费状态:</label>
+				<div class="col-sm-3">
+					<select class="form-control" ng-model="agentPay.is_pay" ng-options="m.id as m.value for m in YesOrNo" ng-required="true">
+      				</select>
+				</div>
+			</div>			
+
+			<!-- <div class="form-group">
+				<label class="col-sm-2 control-label">初始密码:</label>
+				<div class="col-sm-3">
+					<input class="form-control" ng-model="shop.password" ng-required="true" >
+				</div>
+			</div> -->
+
+			<div class="form-group">
+				<div class="col-sm-offset-1 control-label   col-sm-2">
+					<button class="btn btn-primary btn-lg btn-block" type="submit">修改</button>
+				</div>
+				
+				<div class="col-sm-offset-0 control-label   col-sm-2">
+					<a href="#/agentDataentry/agentPay">
+						<button class="btn btn-primary btn-lg btn-block">返回</button>
+					</a>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

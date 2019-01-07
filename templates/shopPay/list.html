@@ -1,0 +1,59 @@
+<div class="row">
+  <ng-include src="'templates/menu.html'"></ng-include>
+  <div class="col-md-10 flow">
+    <ul class="breadcrumb">
+      <li>
+        <a href="#/shopDataentry/shopPay">商户缴费管理</a>
+      </li>
+    </ul>
+	<div>
+    <div class="row row-title">
+		<div class="col-sm-1 control-label lottery-lable">商户名称:</div>
+        <div class="col-sm-2">
+          <select class="form-control" ng-model="ShopId1" 
+                ng-options="m.id as m.shop_name for m in ShopPayModule">
+                <option value="">全部</option>
+          </select>
+        </div> 
+        <a class="col-sm-offset-0 control-label  col-sm-2" >
+          <button class="btn btn-primary btn-lg btn-block " ng-click="selectShop()">未缴费查询</button>
+        </a>
+        <a class="col-sm-offset-3 control-label  col-sm-2" >
+          <button class="btn btn-primary btn-lg btn-block "
+		  onclick="window.location.href='#/shopDataentry/shopPay/Parameters'">缴费参数设置</button>
+        </a>
+        <a class="col-sm-offset-0 control-label  col-sm-2`">
+          <button class="btn btn-primary btn-lg btn-block " 
+			onclick="window.location.href='#/shopDataentry/shopPay/history'">历史缴费查询</button>
+        </a>
+    </div>
+	</div>
+
+    <table ng-table="tableParams" class="table table-striped">
+      <thead>
+        <tr>
+
+          <th><a ng-click="tableParams.sorting('id',(reverseSort = !reverseSort)?'asc':'desc')">商户编号</a></th>
+          <th><a ng-click="tableParams.sorting('shop_name',(reverseSort = !reverseSort)?'asc':'desc')">商户名称</a></th>
+          <th><a ng-click="tableParams.sorting('name',(reverseSort = !reverseSort)?'asc':'desc')">负责人</a></th>
+          <th><a ng-click="tableParams.sorting('total_payable',(reverseSort = !reverseSort)?'asc':'desc')">累计应缴费用</a></th>
+          <th><a ng-click="tableParams.sorting('pay_date',(reverseSort = !reverseSort)?'asc':'desc')">应缴费日期</a></th>
+          <th><a ng-click="tableParams.sorting('is_pay',(reverseSort = !reverseSort)?'asc':'desc')" >缴费状态</a></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="item in dataList">
+          <td class="text-center"><a href="#/shopDataentry/shopPay/view/{{item.id}}">{{item.account}}</a></td>
+          <td class="text-center">{{item.shop_name}}</td>
+          <td class="text-center">{{item.name}}</td>
+          <td class="text-center">{{item.total_payable}}</td>
+          <td class="text-center">{{item.pay_date}}</td>
+          <td class="text-center">{{item.is_pay == 1 ? '已缴': '未缴'}}</td>  
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+
+</div>

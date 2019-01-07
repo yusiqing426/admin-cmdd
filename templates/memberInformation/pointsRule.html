@@ -1,0 +1,49 @@
+<div class="row">
+	<ng-include src="'templates/menu.html'"></ng-include>
+	<div class="col-md-10">
+    <ul class="breadcrumb">
+      <li>
+        <a>会员管理</a>
+      </li>
+      <li class="active">积分规则</li>
+    </ul>
+
+		<form  name="form" class="form-horizontal" ng-submit="update()" role="form">
+			<input class="form-control" type="hidden" ng-model="memberIntegra.id" ng-required="true" />
+			<input class="form-control" type="hidden" ng-model="memberIntegra.sync_status" value="11" ng-required="true" />
+		        <div class="form-group">
+		            <label class="col-sm-2 control-label">积分累计:</label>
+		            <div class="col-sm-2 unit-body">
+						<input class="form-control" ng-model="memberIntegra.consumeMoney" ng-required="true" />
+						<div class="unit-item">元钱</div>
+		            </div>
+		            <label class="col-sm-1 control-label">累积</label>
+		            <div class="col-sm-2 unit-body">
+						<input class="form-control" ng-model="memberIntegra.consumeIntegral" ng-required="true" />
+						<div class="unit-item">积分</div>
+		            </div>
+		        </div>
+		        
+		         <div class="form-group">
+		            <label class="col-sm-2 control-label">积分兑换:</label>
+		            <div class="col-sm-2 unit-body">
+						<input class="form-control" ng-model="memberIntegra.convertIntegral" ng-required="true" />
+						<div class="unit-item">积分</div>
+		            </div>
+		            <label class="col-sm-1 control-label">兑换</label>
+		            <div class="col-sm-2 unit-body">
+						<input class="form-control" ng-model="memberIntegra.convertMoney" ng-required="true" />
+						<div class="unit-item">元钱</div>
+		            </div>
+		        </div>
+						<div class="form-group">
+							<div class="alert alert-danger col-sm-5" ng-show="errorMessage">{{errorMessage}}</div>
+						</div>
+			<div class="form-group">
+				<div class="col-sm-offset-5 control-label   col-sm-2">
+					<button class="btn btn-primary btn-lg btn-block" type="submit">确认</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

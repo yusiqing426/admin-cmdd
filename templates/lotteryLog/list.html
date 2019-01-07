@@ -1,0 +1,58 @@
+<div class="row">
+  <ng-include src="'templates/menu.html'" onload="initRouterActive()"></ng-include>
+  <div class="col-md-10 flow">
+    <ul class="breadcrumb">
+      <li><a href="#">奖品管理</a></li>
+    </ul>
+	<div>
+    <div class="row">
+		<div class="col-sm-1 control-label lottery-lable">手机号码:</div>
+		<div class="col-sm-3" >
+			<input class="form-control" ng-model="phone" 
+			ng-required="true" >
+		</div>
+		<div class="col-sm-1 control-label lottery-lable">兑奖状态:</div>
+		<div class="col-sm-2">
+          <select class="form-control" ng-model="listFilter.is_cash" >
+                <option value="">全部</option>
+				<option value="1">已兑奖</option>
+				<option value="0">未兑奖</option>
+          </select>
+        </div>
+        <a class="col-sm-offset-0 control-label  col-sm-2" >
+          <button class="btn btn-primary btn-lg btn-block " ng-click="searchPhone()">查询</button>
+        </a>
+    </div>
+	</div>
+
+    <table ng-table="tableParams" class="table table-striped">
+      <thead>
+        <tr>
+
+          <th><a ng-click="tableParams.sorting('id',(reverseSort = !reverseSort)?'asc':'desc')">编号</a></th>
+          <th><a ng-click="tableParams.sorting('phone',(reverseSort = !reverseSort)?'asc':'desc')">手机号码</a></th>
+          <th><a ng-click="tableParams.sorting('lottery_detail',(reverseSort = !reverseSort)?'asc':'desc')">奖品</a></th>
+          <th><a ng-click="tableParams.sorting('create_time',(reverseSort = !reverseSort)?'asc':'desc')">中奖时间</a></th>
+          <th><a ng-click="tableParams.sorting('is_cash',(reverseSort = !reverseSort)?'asc':'desc')">兑奖状态</a></th>
+          <th><a ng-click="tableParams.sorting('exchange_time',(reverseSort = !reverseSort)?'asc':'desc')" >兑奖时间</a></th>
+		  <th><a>操作</a></th>
+		</tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="(index,item) in dataList">
+          <td class="text-center">{{index+1}}</td>
+          <td class="text-center">{{item.phone}}</td>
+          <td class="text-center">{{item.lottery_detail}}</td>
+          <td class="text-center">{{item.create_time}}</td>
+          <td class="text-center">{{item.is_cash == 1 ? '已兑奖': '未兑奖'}}</td>
+          <td class="text-center" >{{item.is_cash == 1 ? item.exchange_time : '-'}}</td>
+		  <td class="text-center" ng-if="item.is_cash==0"><button class="btn btn-primary" ng-click = "cash(item)">兑奖</button></td>
+		  <td class="text-center" ng-if="item.is_cash==1"><button class="btn btn-primary" ng-click = "delete(item)">删除</button></td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+
+</div>

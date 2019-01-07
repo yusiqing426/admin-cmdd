@@ -1,0 +1,30 @@
+ <!-- addShop_pay_image -->
+  <form ng-model="product" class="form-horizontal" ng-submit="uploadPay_code_id()" role="form"> 
+  
+    <div class="form-group">
+      <label class="col-sm-2 control-label">付款码上传:</label>
+      <div class="col-sm-3">
+        <input type="file"
+                ng-multiple=false
+                ng-file-select
+                ng-model="imageFile"
+                name="file"
+                accept="image/png"
+                ng-file-change="addImage(imageFile)"
+                />
+      </div>
+    </div>
+
+    <div class="form-group" style="margin-left:20.33333333%;">
+      <label class="col-sm-2 control-label"></label>
+      <div class="col-sm-10">
+        <img ng-show="imageFile.dataUrl != null" ng-src="{{imageFile.dataUrl}}" class="img-responsive"/>
+      </div>
+    </div>
+
+      <div class="form-group" style="margin-left:27.33333333%;" >
+        <div class="col-sm-offset-1 control-label   col-sm-2">
+          <button class="btn btn-primary btn-lg btn-block" type="submit">上传</button>
+        </div>
+      </div>
+  </form>

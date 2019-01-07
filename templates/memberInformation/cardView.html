@@ -1,0 +1,43 @@
+<div class="row">
+	<ng-include src="'templates/menu.html'"></ng-include>
+	<div class="col-md-10">
+    <ul class="breadcrumb">
+      <li>
+        <a>会员管理</a>
+      </li>
+      <li>
+        <a  href="#/memberDataentry/cardList">卡种管理</a>
+      </li>
+      <li class="active">编辑</li>
+    </ul>
+
+		<form  name="form" class="form-horizontal" ng-submit="update()" role="form">
+		        <div class="form-group">
+		            <label class="col-sm-2 control-label">卡种名称:</label>
+		            <div class="col-sm-3">
+						<input class="form-control" ng-model="memberCard.name" ng-required="true" />
+		            </div>
+		        </div>
+		        
+		         <div class="form-group">
+		            <label class="col-sm-2 control-label">卡种折扣:</label>
+		            <div class="col-sm-3">
+						<input class="form-control" ng-model="memberCard.discount" ng-required="true" />
+		            </div>
+		        </div>
+						<div class="form-group">
+							<div class="alert alert-danger col-sm-5" ng-show="errorMessage">{{errorMessage}}</div>
+						</div>
+			<div class="form-group">
+				<div class="col-sm-offset-1 control-label   col-sm-2">
+					<button class="btn btn-primary btn-lg btn-block" type="submit">修改</button>
+				</div>
+				
+					<div class="col-sm-offset-0 control-label col-sm-2">
+						<button class="btn btn-primary btn-lg btn-block button-defult" 
+								onclick="window.location.href='#/memberDataentry/cardList'">返回</button>
+					</div>
+			</div>
+		</form>
+	</div>
+</div>

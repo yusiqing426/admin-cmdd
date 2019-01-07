@@ -1,0 +1,187 @@
+body{
+	font-family:"Myriad Pro","Gill Sans","Gill Sans MT",Calibri,sans-serif;
+	margin:0;
+	background-color:#d4d4d4
+}
+div.header{
+	background-color:#ffffff;
+	border-top:0px;
+	height:300px;
+	padding-top:50px
+}
+	
+div.header div.logo{
+	margin:0 auto;
+	width:256px;
+	height:256px;
+	background:url("../img/logo.png") no-repeat;
+	background-position:center center
+}
+
+div.footer{
+	width:100%;
+	position:absolute;
+	bottom:0;
+	left:0;
+	border-top:2px solid #9A9A9A;
+	background-color:#4B4B4B;
+	height:26px;
+	padding-top:14px;
+	text-align:center;
+	font-size:12px;
+	color:#fff
+}
+
+div.error{
+	color:red;
+	position:absolute;
+	top:-23px;
+	font-size:16px;
+	display:none
+}
+
+div.mail-reset-password-link-success{
+	margin:150px auto
+}
+
+div.mail-reset-password-link-success p{
+	border:1px solid rgba(0,0,0,0.3);
+	padding:50px;
+	width:80%;
+	margin:0 auto;
+	font-size:22px;
+	color:#333;
+	text-align:center;
+	background:#eeeeee
+}
+
+form{
+	margin:0 auto;
+	margin-top:75px;
+	width:500px;
+	clear:both
+}
+
+form div.input{
+	width:264px;
+	float:left;
+	position:relative
+}
+
+form div.input div.user-name,form div.input div.password{
+	margin-bottom:4px;
+	padding-left:38px;
+}
+
+form div.input div.user-name{
+	background:url("../img/user.png") no-repeat
+}
+
+form div.input div.password{
+	background:url("../img/password.png") no-repeat
+}
+
+form div.input input{
+	padding:0 6px;
+	width:263px;
+	height:38px;
+	border:none
+}
+
+form div.action{
+	margin-left:320px;
+	width:126px;
+	height:80px
+}
+
+form div.action a{
+	color:#fff;
+	text-decoration:none
+}
+
+form button{
+	width:100%;
+	padding:0;
+	margin:0;
+	border:none;
+	cursor:pointer
+}
+
+form div.action div.sign-in{
+	height:60px;
+	padding-top:16px;
+	font-size:22px;
+	text-align:left;
+	text-indent:16px
+}
+
+form div.action div.sign-in:hover{
+	background-color:#DA1D07
+}
+
+form div.action div.forget-password{
+	background-color:#8E8E8E;
+	height:16px;
+	padding:4px;
+	font-size:12px;
+	text-align:center
+}
+
+form div.action div.forget-password:hover{
+	background-color:#8D8D8D
+}
+
+form.forget-password div.email,form.forget-password form.forget-password div.captcha{
+	margin-bottom:6px
+}
+
+form.forget-password div.error{
+	color:red;
+	position:absolute;
+	top:50px;
+	font-size:16px;
+	display:none;
+	margin:auto auto auto 105px
+}
+
+form.forget-password input{
+	padding:0 5px;
+	width:250px;
+	height:40px;
+	border:none
+}
+
+form.forget-password label{
+	display:inline-block;
+	width:100px;
+	text-align:right
+}
+
+form.forget-password div.captcha img{
+	border:1px solid #666;
+	width:120px;
+	height:40px;
+	margin:auto auto -16px auto;
+	cursor:pointer
+}
+
+form.forget-password button{
+	border:1px solid #ccc;
+	width:260px;
+	background-color:#A90100;
+	height:40px;
+	line-height:40px;
+	text-align:center;
+	margin:auto auto auto 105px;
+	cursor:pointer
+}
+
+form.set-password button{
+	border:1px solid #ccc;
+	width:313px;
+	background-color:#A90100;
+	height:40px;
+	line-height:40px;
+	text-align:center;
+	cursor:pointer
+}

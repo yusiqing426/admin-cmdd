@@ -1,0 +1,32 @@
+<div class="row">
+  <ng-include src="'templates/menu.html'"></ng-include>
+  <div class="col-md-10 flow">
+    <ul class="breadcrumb">
+      <li>
+        <a href="#/kitchenDataentry/kitchen">后厨管理</a>
+      </li>
+      <button onclick="window.location.href='#/kitchenDataentry/kitchen/create'">新建</button>
+    </ul>
+    <table ng-table="tableParams" class="table table-striped img-table">
+      <thead>
+        <tr>
+
+          <th><a ng-click="tableParams.sorting('id',(reverseSort = !reverseSort)?'asc':'desc')">编号</a></th>
+          <th><a ng-click="tableParams.sorting('logo_id',(reverseSort = !reverseSort)?'asc':'desc')">图片</a></th>
+          <th><a ng-click="tableParams.sorting('title',(reverseSort = !reverseSort)?'asc':'desc')">标题</a></th>
+          <th><a ng-click="tableParams.sorting('description',(reverseSort = !reverseSort)?'asc':'desc')">说明</a></th>
+          <th><a>操作</a></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="(index,item) in dataList">
+          <td class="text-center"><a href="#/kitchenDataentry/kitchen/{{item.id}}">{{index+1}}</a></td>
+          <td class="text-center"><img ng-src="{{item.dataUrl}}" /></td>
+          <td class="text-center">{{item.title}}</td>
+          <td class="text-center">{{item.description}}</td>
+          <td class="text-center"><button class="btn btn-primary" ng-click = "delete(item)">删除</button></td>    
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

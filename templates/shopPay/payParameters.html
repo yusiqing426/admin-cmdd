@@ -1,0 +1,104 @@
+<div class="row">
+	<ng-include src="'templates/menu.html'"></ng-include>
+	<div class="col-md-10">
+		<ul class="breadcrumb">
+			<li>
+				<a href="#/shopDataentry/shopPay">商户缴费管理</a>
+			</li>
+			<li class="active">参数设置</li>
+		</ul>
+
+		<form  name="form" class="form-horizontal" ng-submit="update()" role="form">
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">商户名称:</label>
+				<div class="col-sm-3">
+					<select class="form-control" ng-model="selectedShopId"
+							ng-change="selectShop(selectedShopId)">
+						<option ng-selected="selectedShopId == ''" value="">请选择</option>
+						<option ng-repeat="m in ShopParametersModule" ng-selected="selectedShopId == m.id" value="{{m.id}}">{{m.shop_name}}</option>
+					</select>	
+				</div>
+			</div>
+
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">负责人姓名:</label>
+				<div class="col-sm-3">
+					<p class="form-control">{{shop.name}}</p>
+				</div>
+			</div>
+			
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">应交费日期:</label>
+				<div class="col-sm-3 my-date"> 
+					<!--指定 date标记-->  
+					<div class='input-group date' id='datetimepicker1' ng-click="openDatetimepicker()">  
+						<input type='text' class="form-control" ng-model="payable_date_text" />
+						<input type='hidden' class="form-control" ng-model="shop.payable_date" />
+						<span class="add-on"><i class="icon-calendar"></i></span>
+						<span class="input-group-addon">  
+							<span class="glyphicon glyphicon-calendar"></span>  
+						</span>  
+
+					</div>
+					<div ng-show="isShowDatetimepicker" class="datetimepicker datetimepicker-dropdown-bottom-left dropdown-menu">
+						<div class="datetimepicker-days">
+							<table class=" table-condensed">
+								<tbody>
+									<tr>
+										<td ng-click="selectDate(1)" ng-class="{'active':shop.payable_date==1}" class="day">1</td>
+										<td ng-click="selectDate(2)" ng-class="{'active':shop.payable_date==2}" class="day">2</td>
+										<td ng-click="selectDate(3)" ng-class="{'active':shop.payable_date==3}" class="day">3</td>
+										<td ng-click="selectDate(4)" ng-class="{'active':shop.payable_date==4}" class="day">4</td>
+										<td ng-click="selectDate(5)" ng-class="{'active':shop.payable_date==5}" class="day">5</td>
+										<td ng-click="selectDate(6)" ng-class="{'active':shop.payable_date==6}" class="day">6</td>
+										<td ng-click="selectDate(7)" ng-class="{'active':shop.payable_date==7}" class="day">7</td>
+									</tr>
+									<tr>
+										<td ng-click="selectDate(8)" ng-class="{'active':shop.payable_date==8}" class="day">8</td>
+										<td ng-click="selectDate(9)" ng-class="{'active':shop.payable_date==9}" class="day">9</td>
+										<td ng-click="selectDate(10)" ng-class="{'active':shop.payable_date==10}" class="day">10</td>
+										<td ng-click="selectDate(11)" ng-class="{'active':shop.payable_date==11}" class="day">11</td>
+										<td ng-click="selectDate(12)" ng-class="{'active':shop.payable_date==12}" class="day">12</td>
+										<td ng-click="selectDate(13)" ng-class="{'active':shop.payable_date==13}" class="day">13</td>
+										<td ng-click="selectDate(14)" ng-class="{'active':shop.payable_date==14}" class="day">14</td>
+									</tr>
+									<tr>
+										<td ng-click="selectDate(15)" ng-class="{'active':shop.payable_date==15}" class="day">15</td>
+										<td ng-click="selectDate(16)" ng-class="{'active':shop.payable_date==16}" class="day">16</td>
+										<td ng-click="selectDate(17)" ng-class="{'active':shop.payable_date==17}" class="day">17</td>
+										<td ng-click="selectDate(18)" ng-class="{'active':shop.payable_date==18}" class="day">18</td>
+										<td ng-click="selectDate(19)" ng-class="{'active':shop.payable_date==19}" class="day">19</td>
+										<td ng-click="selectDate(20)" ng-class="{'active':shop.payable_date==20}" class="day">20</td>
+										<td ng-click="selectDate(21)" ng-class="{'active':shop.payable_date==21}" class="day">21</td>
+									</tr>
+									<tr>
+										<td ng-click="selectDate(22)" ng-class="{'active':shop.payable_date==22}" class="day">22</td>
+										<td ng-click="selectDate(23)" ng-class="{'active':shop.payable_date==23}" class="day">23</td>
+										<td ng-click="selectDate(24)" ng-class="{'active':shop.payable_date==24}" class="day">24</td>
+										<td ng-click="selectDate(25)" ng-class="{'active':shop.payable_date==25}" class="day">25</td>
+										<td ng-click="selectDate(26)" ng-class="{'active':shop.payable_date==26}" class="day">26</td>
+										<td ng-click="selectDate(27)" ng-class="{'active':shop.payable_date==27}" class="day">27</td>
+										<td ng-click="selectDate(28)" ng-class="{'active':shop.payable_date==28}" class="day">28</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-offset-1 control-label   col-sm-2">
+					<button class="btn btn-primary btn-lg btn-block" type="submit">修改</button>
+				</div>
+				<div class="col-sm-offset-0 control-label   col-sm-2">
+					<button class="btn btn-primary btn-lg btn-block button-defult"
+							onclick="window.location.href='#/shopDataentry/shopPay'">返回</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

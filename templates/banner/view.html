@@ -1,0 +1,101 @@
+<div class="row">
+	<ng-include src="'templates/menu.html'"></ng-include>
+	<div class="col-md-10">
+    <ul class="breadcrumb">
+      <li>
+        <a href="#/Bannerdataentry/banner">投放广告管理</a>
+      </li>
+      <li class="active">编辑</li>
+    </ul>
+
+		<form ng-model="banner" name="form" class="form-horizontal" role="form">
+
+		    <div class="form-group">
+		        <label class="col-sm-2 control-label">名称:</label>
+		         <div class="col-sm-3">
+			        <input class="form-control" ng-model="banner.name" ng-required="true" />
+	            </div>
+		    </div> 
+		    <div class="form-group">
+		        <label class="col-sm-2 control-label">序号:</label>
+		         <div class="col-sm-3">
+			        <input class="form-control" ng-model="banner.serial" ng-required="true" />
+	            </div>
+		    </div> 
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Logo:</label>
+                <div class="col-sm-3">
+                  <input type="file"
+                          ng-multiple=false
+                          ng-file-select
+                          ng-model="imageFile"
+                          name="file"
+                          accept="image/png"
+                          ng-file-change="addImage(imageFile)"
+                          />
+		            </div>（请上传1M以内的360*106px.png/jpg格式的图片）
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label"></label>
+              <div class="col-sm-10">
+                <img ng-show="imageFile.dataUrl != null" ng-src="{{imageFile.dataUrl}}" class="thumb"/>
+              </div>
+            </div>
+
+		<div class="form-group">
+		    <label class="col-sm-2 control-label">投放列表:</label>
+		    <div class="col-sm-3">
+				<div ng-repeat="(index,shop) in ShopList" class="checkbox">
+					<label><input type="checkbox" value="{{shop.id}}" name="shop-list">{{shop.shop_name}}</label>
+				</div>
+		    </div>
+		</div>
+<!--
+	<div class="select-banner">
+		<div class="title">投放目标管理</div>
+		<div class="shop-list col-sm-5">
+			<div class="list-title">
+				<div>商户列表</div>
+				<div class="checkbox"><label><input type="checkbox" id="selectPut" ng-click="selectPut()">全选</label></div>
+			</div>
+			<div class="list">
+				<div class="checkbox" ng-repeat="(index,shop) in ShopList">
+					<label><input type="checkbox" name="shop-list" value="{{index}}"> {{shop.shop_name}}</label>
+				</div>
+			</div>
+		</div>
+		<div class="shop-list col-sm-5">
+			<div class="list-title">
+				<div>投放列表</div>
+				<div class="checkbox"><label><input type="checkbox" id="cancelPut" ng-click="cancelPut()">全选</label></div>
+			</div>
+			<div class="list">
+				<div class="checkbox" ng-repeat="(index,shop) in ShopList" ng-if="shop.is_banner==1">
+					<label><input type="checkbox" name="select-list" value="{{index}}"> {{shop.shop_name}}</label>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-2">
+			<button class="btn btn-primary btn-lg btn-block" ng-click="submitPut()">投放</button>
+			<button class="btn btn-primary btn-lg btn-block button-defult" ng-click="submitCancelPut()">取消投放</button>
+		</div>
+	</div>
+	-->
+
+		        <div class="form-group">
+					<div class="col-sm-offset-1 control-label   col-sm-2">
+						<button class="btn btn-primary btn-lg btn-block" ng-click="update()">保存</button>
+					</div>
+					<div class="col-sm-offset-0 control-label col-sm-2">
+						<button class="btn btn-primary btn-lg btn-block button-defult" 
+								onclick="window.location.href='#/Bannerdataentry/banner'">返回</button>
+					</div>
+		        </div>
+		    </form>
+
+  </div>
+
+
+</div>

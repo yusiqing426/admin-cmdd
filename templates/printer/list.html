@@ -1,0 +1,152 @@
+<div class="row">
+	<ng-include src="'templates/menu.html'"></ng-include>
+	<div class="col-md-10">
+    <ul class="breadcrumb">
+		<li>
+			<a href="#">打印管理</a>
+		</li>
+		<li class="active">打印列表</li>
+		<!--<button onclick="window.location.href='#/dataentry/printer/create'" ng-if="isUnify==0">新建</button>-->
+    </ul>
+	<div>
+	<div ng-show="ifCLodp==0" class="alert alert-warning">检测到您未安装打印所需插件，请 <span ng-click="downloadLodop32()">点击此处</span> 下载并安装</div>
+	<div class="row">
+		<a class="col-sm-offset-0 control-label  col-sm-2" >
+		  <button class="btn btn-primary btn-lg btn-block " ng-click="testPrint()">测试打印</button>
+		</a>
+		<a class="col-sm-offset-0 control-label  col-sm-2">
+			<button class="btn btn-primary btn-lg btn-block long-button"
+			ng-class="{'gray':isUnify==1}" ng-click="changeUnify(1)">切换统一打印模式</button>
+		</a>
+		<a class="col-sm-offset-0 control-label  col-sm-2" >
+			<button class="btn btn-primary btn-lg btn-block long-button" 
+			ng-class="{'gray':isUnify==0}" ng-click="changeUnify(0)">切换为分窗口打印模式</button>
+		</a>
+	</div>
+	</div>
+	 <table class="table table-striped printer-table">
+		  <thead>
+			  <tr>
+					<th class="text-center"><a ng-click="tableParams.sorting('id',(reverseSort = !reverseSort)?'asc':'desc')">序号</a></th>
+					<th class="text-center"><a ng-click="tableParams.sorting('printer_type',(reverseSort = !reverseSort)?'asc':'desc')">打印类型</a></th>
+					<th class="text-center"><a ng-click="tableParams.sorting('name',(reverseSort = !reverseSort)?'asc':'desc')">打印机名称</a></th>
+					<th class="text-center"><a ng-click="tableParams.sorting('page_width',(reverseSort = !reverseSort)?'asc':'desc')">纸张宽度</a></th>
+					<th class="text-center" ng-if="isUnify==0"><a>操作</a></th>
+			  </tr>
+          </thead>
+          <tbody ng-if="isUnify==0">
+            <tr ng-repeat="(index,printer) in printerList">
+                <td class="text-center">{{$index+1}}</td> 
+                <td class="text-center">{{printer.category_name}}</td>                   
+                <td class="text-center">{{printer.name}}</td>
+                <td class="text-center">{{printer.page_width}}</td>
+                <td class="text-center">
+					         <button class="btn btn-primary" ng-click="changeItem(printer)">修改</button>
+					         <button class="btn btn-primary" ng-click="deleteItem(printer)">删除</button>
+				        </td>
+         	</tr>
+            <tr>
+                <td class="text-center">&nbsp;</td> 
+                <td class="text-center">
+					<select class="form-control" ng-model="newPrinter.printer_type" ng-required="true">
+                    	<option value="">请选择</option>
+						<option ng-repeat="item in categoryList"  ng-if="item.id!=888" value="{{item.id}}">{{item.name}}</option>
+                    </select>
+				</td>                   
+                <td class="text-center"><input class="form-control" ng-model="newPrinter.name" ng-required="true" /></td>
+                <td class="text-center"><input class="form-control" ng-model="newPrinter.page_width" ng-required="true"  placeholder="单位：毫米" /></td>
+                <td class="text-center"><button class="btn btn-primary" ng-click="addPrinter()">添加</button></td>
+         	</tr>
+          </tbody>
+          <tbody ng-if="isUnify==1">
+			  <tr>
+				  <td class="text-center">1</td>
+				  <td class="text-center">{{spreadVegetables.category_name}}</td>
+				  <td class="text-center"><input class="form-control" ng-model="spreadVegetables.name" ng-required="true" /></td>
+				  <td class="text-center"><input class="form-control" ng-model="spreadVegetables.page_width" ng-required="true"  placeholder="单位：毫米" /></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">2</td>
+				<td class="text-center">{{kitchenPrinter.category_name}}</td>
+				<td class="text-center"><input class="form-control" ng-model="kitchenPrinter.name" ng-required="true" /></td>
+				<td class="text-center"><input class="form-control" ng-model="kitchenPrinter.page_width" ng-required="true"  placeholder="单位：毫米" /></td>
+			  </tr>
+				<tr>
+					<td class="text-center">3</td>
+					<td class="text-center">{{orderPrinter.category_name}}</td>
+					<td class="text-center"><input class="form-control" ng-model="orderPrinter.name" ng-required="true" /></td>
+					<td class="text-center"><input class="form-control" ng-model="orderPrinter.page_width" ng-required="true"  placeholder="单位：毫米" /></td>
+				</tr>
+          </tbody>
+      </table>
+	<div ng-if="isUnify==1">
+	<div class="row">
+		<a class="col-sm-offset-10 control-label  col-sm-2" >
+		  <button class="btn btn-primary btn-lg btn-block " ng-click="savePrinter()">保存</button>
+		</a>
+	</div>
+	</div>
+	 <div class="code-upload">
+			<label class="col-sm-2 control-label">付款码上传:</label>
+			<div class="col-sm-2">
+			<input type="file"
+					ng-multiple=false
+					ng-file-select
+					ng-model="imageFile"
+					name="file"
+					accept="image/png"
+					ng-file-change="addImage(imageFile)"
+					/>
+			</div>（请上传1M以内的png/jpg格式的图片）
+
+            <div class="form-group code-upload-img">
+              <label class="col-sm-2 control-label"></label>
+              <div class="col-sm-10">
+                <img ng-show="imageFile.dataUrl != null" ng-src="{{imageFile.dataUrl}}" class="img-responsive"/>
+              </div>
+            </div>
+    </div>
+	<div class="col-sm-offset-2 control-label col-sm-2 code-upload-button">
+		<button class="btn btn-primary btn-lg btn-block" ng-click="uploadPay_code_id()">上传</button>
+	</div>
+	<div class="col-sm-offset-2 control-label col-sm-2 code-upload-button">
+		<button class="btn btn-primary btn-lg btn-block" ng-click="deletePay_code_id()">删除</button>
+	</div>
+    </div>
+
+	
+	<!-- C:\Users\ysq19930526\Desktop\lbcy\apache-tomcat-7.0.78\webapps\admin\app\templates\printer\addShop_pay_image.html -->
+	
+	 <!-- addShop_pay_image -->
+	 <!--
+  <form ng-model="product" class="form-horizontal" ng-submit="uploadPay_code_id()" role="form"> 
+  
+    <div class="form-group">
+		<label class="col-sm-2 control-label">付款码上传:</label>
+		<div class="col-sm-3">
+		<input type="file"
+                ng-multiple=false
+                ng-file-select
+                ng-model="imageFile"
+                name="file"
+                accept="image/png"
+                ng-file-change="addImage(imageFile)"
+                />
+      </div>
+    </div>
+
+    <div class="form-group" style="margin-left:20.33333333%;">
+      <label class="col-sm-2 control-label"></label>
+      <div class="col-sm-10">
+        <img ng-show="imageFile.dataUrl != null" ng-src="{{imageFile.dataUrl}}" class="img-responsive"/>
+      </div>
+    </div>
+
+      <div class="form-group" style="margin-left:27.33333333%;" >
+        <div class="col-sm-offset-1 control-label   col-sm-2">
+          <button class="btn btn-primary btn-lg btn-block" type="submit">上传</button>
+        </div>
+      </div>
+  </form>
+  -->
+</div>

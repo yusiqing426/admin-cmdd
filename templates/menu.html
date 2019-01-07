@@ -1,0 +1,342 @@
+<div class="col-sm-2 my-menu" ng-controller="menueController">
+  <div class="panel-group" id="accordion" >
+    <div class="panel panel-info" ng-show="showModule('1')">
+     <div class="panel-heading">
+       <h4 class="panel-title">
+         <a class="accordion-toggle"
+            href="#/agentDataentry/agentInformation"
+            ><img src="img/information.png" />信息管理</a>
+       </h4>
+     </div>
+    </div>
+    
+    <div class="panel panel-info" ng-show="showModule('1')">
+     <div class="panel-heading">
+       <h4 class="panel-title">
+         <a class="accordion-toggle" ng-click="downProductMenu()"
+            
+            ><img src="img/payController.png" />缴费管理<img class="right" src="img/upSelect.png" /></a>
+       </h4>
+     </div>
+    </div>
+
+     <div class="panel panel-info little-menu" ng-show="showModule('1')&&isProductDown==1">
+     <div class="panel-heading">
+       <h4 class="panel-title">
+         <a class="accordion-toggle"
+            href="#/agentDataentry/agentPay"
+            >代理商缴费</a>
+       </h4>
+     </div>
+    </div>
+
+     <div class="panel panel-info little-menu" ng-show="showModule('1')&&isProductDown==1">
+     <div class="panel-heading">
+       <h4 class="panel-title">
+         <a class="accordion-toggle"
+            href="#/agentDataentry/agentShopPay"
+            >商铺缴费</a>
+       </h4>
+     </div>
+    </div>
+
+    <div class="panel panel-info" ng-show="showModule('2')">
+     <div class="panel-heading">
+       <h4 class="panel-title">
+         <a class="accordion-toggle"
+            href="#/platformAccount/change-password"
+            ><img src="img/shopInformation.png" />我的账户</a>
+       </h4>
+     </div>
+    </div>
+
+    <div class="panel panel-info" ng-show="showModule('2')">
+     <div class="panel-heading">
+       <h4 class="panel-title">
+         <a class="accordion-toggle"
+            href="#/shopDataentry/shopInformation"
+            ><img src="img/information.png" />信息管理</a>
+       </h4>
+     </div>
+    </div>
+
+    <div class="panel panel-info" ng-show="showModule('2')">
+     <div class="panel-heading">
+       <h4 class="panel-title">
+         <a class="accordion-toggle"
+            href="#/shopDataentry/shopPay"
+            ><img src="img/payController.png" />缴费管理</a>
+       </h4>
+     </div>
+    </div>
+
+    <div class="panel panel-info" ng-show="showModule('2')">
+     <div class="panel-heading">
+       <h4 class="panel-title">
+         <a class="accordion-toggle"
+            href="#/Bannerdataentry/banner"
+            ><img src="img/Bannerdataentry.png" />广告管理</a>
+       </h4>
+     </div>
+    </div>
+
+    <div class="panel panel-info" ng-show="showModule('2')">
+     <div class="panel-heading">
+       <h4 class="panel-title">
+         <a class="accordion-toggle"
+            href="#/shopDataentry/lottery"
+            ><img src="img/lotteryProduct.png" />中奖管理</a>
+       </h4>
+     </div>
+    </div>
+
+    <div class="panel panel-info" ng-show="showModule('2')">
+     <div class="panel-heading">
+       <h4 class="panel-title">
+         <a class="accordion-toggle"
+            href="#/agentDataentry/agentInformation/profile"
+            ><img src="img/shopInformation.png" />我的账户</a>
+       </h4>
+     </div>
+    </div>
+
+     <div class="panel panel-info" ng-show="showModule('3')">
+     <div class="panel-heading">
+       <h4 class="panel-title">
+         <a class="accordion-toggle"
+            href="#/dataentry/dining_table"
+            ><i class="iconfont icon-admin-table"></i>桌位管理</a>
+       </h4>
+     </div>
+    </div>
+
+     <div class="panel panel-info" ng-show="showModule('3')">
+     <div class="panel-heading">
+       <h4 class="panel-title">
+         <a class="accordion-toggle" ng-click="downProductMenu()"
+            ><i class="iconfont icon-admin-dishes"></i>菜品管理<img class="right" src="img/upSelect.png" /></a>
+       </h4>
+     </div>
+    </div>
+
+     <div class="panel panel-info little-menu" ng-show="showModule('3')&&isProductDown==1">
+     <div class="panel-heading">
+       <h4 class="panel-title">
+         <a class="accordion-toggle"
+            href="#/dataentry/category"
+            >菜品品类管理</a>
+       </h4>
+     </div>
+    </div>
+
+     <div class="panel panel-info little-menu" ng-show="showModule('3')&&isProductDown==1">
+     <div class="panel-heading">
+       <h4 class="panel-title">
+         <a class="accordion-toggle"
+            href="#/dataentry/product"
+            >菜品信息管理</a>
+       </h4>
+     </div>
+    </div>
+
+     <div class="panel panel-info" ng-show="showModule('3')">
+     <div class="panel-heading">
+       <h4 class="panel-title">
+         <a class="accordion-toggle"
+            href="#/dataentry/printer"
+            ><i class="iconfont icon-admin-print"></i>打印管理</a>
+       </h4>
+     </div>
+    </div>
+
+     <div class="panel panel-info" ng-show="showModule('3')">
+     <div class="panel-heading">
+       <h4 class="panel-title">
+         <a class="accordion-toggle" ng-click="downOrderLogMenu()"
+		 ><i class="iconfont icon-admin-caiwu"></i>财务管理<img class="right" src="img/upSelect.png" /></a>
+       </h4>
+     </div>
+    </div>
+
+     <div class="panel panel-info little-menu" ng-show="showModule('3')&&isOrderLog==1">
+     <div class="panel-heading">
+       <h4 class="panel-title">
+         <a class="accordion-toggle"
+            href="#/orderLog/list"
+            >财务报表</a>
+       </h4>
+     </div>
+    </div>
+
+     <div class="panel panel-info little-menu" ng-show="showModule('3')&&isOrderLog==1">
+     <div class="panel-heading">
+       <h4 class="panel-title">
+         <a class="accordion-toggle"
+            href="#/productLog/list"
+            >销售报表</a>
+       </h4>
+     </div>
+    </div>
+
+     <div class="panel panel-info" ng-show="showModule('3')">
+     <div class="panel-heading">
+       <h4 class="panel-title">
+         <a class="accordion-toggle" ng-click="downCardMenu()"
+     ><i class="iconfont icon-admin-member"></i>会员管理<img class="right" src="img/upSelect.png" /></a>
+       </h4>
+     </div>
+    </div>
+
+     <div class="panel panel-info little-menu" ng-show="showModule('3')&&isCard==1">
+     <div class="panel-heading">
+       <h4 class="panel-title">
+         <a class="accordion-toggle"
+            href="#/memberDataentry/cardList"
+            >卡种管理</a>
+       </h4>
+     </div>
+    </div>
+
+     <div class="panel panel-info little-menu" ng-show="showModule('3')&&isCard==1">
+     <div class="panel-heading">
+       <h4 class="panel-title">
+         <a class="accordion-toggle"
+            href="#/memberDataentry/pointsRule"
+            >积分规则</a>
+       </h4>
+     </div>
+    </div>
+
+     <div class="panel panel-info" ng-show="showModule('3')">
+     <div class="panel-heading">
+       <h4 class="panel-title">
+         <a class="accordion-toggle"
+            href="#/staffDataentry/staffInformation"
+            ><i class="iconfont icon-admin-employee"></i>员工管理</a>
+       </h4>
+     </div>
+    </div>
+
+    <div class="panel panel-info" ng-show="showModule('3')">
+     <div class="panel-heading">
+       <h4 class="panel-title">
+         <a class="accordion-toggle"
+            href="#/kitchenDataentry/kitchen"
+            ><i class="iconfont icon-admin-cook"></i>后厨管理</a>
+       </h4>
+     </div>
+    </div>
+
+    <div class="panel panel-info" ng-show="showModule('3')">
+     <div class="panel-heading">
+       <h4 class="panel-title">
+         <a class="accordion-toggle"
+            href="#/lotteryProduct"
+            ><i class="iconfont icon-admin-gift"></i>奖品管理</a>
+       </h4>
+     </div>
+    </div>
+
+    <div class="panel panel-info" ng-show="showModule('3')&&isStaff==0">
+     <div class="panel-heading">
+       <h4 class="panel-title">
+         <a class="accordion-toggle"
+            href="#/shopDataentry/shopInformation/profile"
+            ><i class="iconfont icon-admin-account"></i>我的账户</a>
+       </h4>
+     </div>
+    </div>
+
+    <div class="panel panel-info" ng-show="showModule('4')">
+      <a class="accordion-toggle"
+      href="#/tableOperate/list"
+      ><i class="iconfont icon-admin-guanli"></i>堂  食</a>
+      <a class="accordion-toggle"
+      href="#/takeout/list"
+      ><i class="iconfont icon-admin-waimai"></i>外  卖</a>
+      <a class="accordion-toggle"
+            href="#/orderLog/list"
+            ><i class="iconfont icon-admin-order"></i>历史订单</a>
+            <a class="accordion-toggle"
+            href="#/lotteryLog"
+            ><i class="iconfont icon-jiangpinpeizhi"></i>奖品管理</a>
+            <a class="accordion-toggle"
+            href="#/callService/list"
+            ><i class="iconfont icon-hujiaozhongxin"></i>
+			呼叫服务
+			<!-- <img class="right call-service-bell" src="img/call-service-bell.png" /> -->
+			<span class="callServiceNum">{{callServiceList.length}}</span>
+      </a>
+      <a class="accordion-toggle"
+            href="#/memberDataentry/index"
+            ><i class="iconfont icon-huiyuan"></i>会员中心</a>
+            
+          <!-- <a href="#" ng-click="test()"><i class="iconfont icon-admin-member"></i>结业</a> -->
+    </div>
+
+    <div class="panel panel-info" ng-show="showModule('5')">
+     <div class="panel-heading">
+       <h4 class="panel-title">
+         <a class="accordion-toggle"
+            href="#/tableOperate/list"
+            ><i class="iconfont icon-admin-table"></i>桌台管理</a>
+       </h4>
+     </div>
+    </div>
+
+    <div class="panel panel-info" ng-show="showModule('5')">
+     <div class="panel-heading">
+       <h4 class="panel-title">
+         <a class="accordion-toggle"
+            href="#/callService/list"
+            ><i class="iconfont icon-admin-service"></i>
+			呼叫服务
+			<img class="right call-service-bell" src="img/call-service-bell.png" />
+			<span class="callServiceNum">{{callServiceList.length}}</span>
+			</a>
+       </h4>
+     </div>
+    </div>
+
+    <div class="panel panel-info" ng-show="showModule('6')">
+     <div class="panel-heading">
+       <h4 class="panel-title">
+         <a class="accordion-toggle"
+            href="#/kitchenOperate/1"
+            ><i class="iconfont icon-admin-undoing"></i>未开做</a>
+       </h4>
+     </div>
+    </div>
+
+    <div class="panel panel-info" ng-show="showModule('6')">
+     <div class="panel-heading">
+       <h4 class="panel-title">
+         <a class="accordion-toggle"
+            href="#/kitchenOperate/2"
+            ><i class="iconfont icon-admin-docomplete"></i>已开做</a>
+       </h4>
+     </div>
+    </div>
+
+    <div class="panel panel-info" >
+     <div class="panel-heading">
+       <h4 class="panel-title">
+          <a href="#" ng-click="logout()"><i class="iconfont icon-admin-shanchu"></i>退出</a>
+       </h4>
+     </div>
+    </div>
+
+   <!--  <div class="collapse navbar-collapse" id="navbar-ex-collapse" >
+     <ul class="nav navbar-nav navbar-right" ng-show="login_name">
+       
+       <li><a ng-click="logout()"><span class="glyphicon glyphicon-off"></span>退出</a></li>
+   
+     </ul>
+   </div> -->
+
+      
+
+  </div>
+<!--<embed name="embedPlay" src="./res/massage.mp3" autostart="true" hidden="true" loop="false"></embed>-->
+<audio id='audioPlay' src='./res/massage.mp3' hidden='true'>
+</div>

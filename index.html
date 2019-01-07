@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <title>馋猫点点就餐系统</title>
+
+    <meta charset="utf-8">
+
+
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+
+    <!-- 不缓存 -->
+    <!--
+      <meta http-equiv="pragma" content="no-cache">
+      <meta http-equiv="cache-control" content="no-cache">
+      <meta http-equiv="expires" content="0">
+	-->
+    <!-- -->
+    <meta name=renderer content=webkit>
+    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="img/logo.psd" rel="shortcut icon" />
+    <link href="css/myStyle.css" rel="stylesheet">
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+
+  </head>
+
+  <body ng-app="loginApp">
+
+    <div ng-view></div>
+
+    <script src="bower_components/angular/angular.js"></script>
+    <script src='bower_components/angular-route/angular-route.js'></script>
+    <script src='bower_components/angular-resource/angular-resource.js'></script>
+
+    <script src="js/loginApp.js"></script>
+
+    <script src="js/modules/loginModule.js"></script>
+
+    <script src="js/services/loginService.js"></script>
+    <script src="js/routes/login.js"></script>
+    <script src="js/services/versionService.js"></script>
+    <script src="js/services/dining_tableService.js"></script>    
+    <script src="js/services/categoryService.js"></script>
+    <script src="js/services/productService.js"></script>
+    <script src="js/services/shopInformationService.js"></script>
+
+    <script src="js/services/syncService.js"></script>
+    <script src="js/services/imagedExeService.js"></script>
+    <script src="js/services/ipService.js"></script>
+
+  </body>
+
+
+</html>

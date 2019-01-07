@@ -1,0 +1,199 @@
+<div class="row">
+  <ng-include src="'templates/menu.html'" onload="initRouterActive()"></ng-include>
+  <div class="col-md-10 flow" style="overflow-y:auto !important;">
+    <ul class="breadcrumb">
+      <li><a>订单管理</a></li>
+	  <li>订单统计</li>
+    </ul>
+	<div>
+	<div ng-show="ifCLodp==0" class="alert alert-warning">检测到您未安装打印所需插件，请 <span ng-click="downloadLodop32()">点击此处</span> 下载并安装</div>
+    <div class="row row-title">
+		<div class="col-sm-1 control-label lottery-lable">桌位名称:</div>
+		<div class="col-sm-2 short-label">
+          <select class="form-control" ng-model="filter.dining_id" >
+                <option ng-selected="filter.dining_id == ''" value="">全部</option>
+				<option ng-repeat="c in tableList" ng-selected="filter.dining_id == c.id" value="{{c.id}}">{{c.name}}</option>
+          </select>
+        </div>
+		<div class="col-sm-1 control-label lottery-lable">选择时间:</div>
+		<div class="col-sm-2 dropdown long-label" >
+			<div class="form-group">  
+				<!--指定 date标记-->  
+				<div class='input-group date' id='datetimepicker1'>  
+					<input type='text' class="form-control" ng-model="filter.start_time" />  
+					 <span class="add-on"><i class="icon-calendar"></i></span>
+					<span class="input-group-addon">  
+						<span class="glyphicon glyphicon-calendar"></span>  
+					</span>  
+				</div>  
+			</div>  
+		</div>
+		<div class="col-sm-1 control-label lottery-lable middle">至</div>
+        <div class="col-sm-2 dropdown long-label">
+			<div class="form-group">  
+				<!--指定 date标记-->  
+				<div class='input-group date' id='datetimepicker2'>  
+					<input type='text' class="form-control" ng-model="filter.end_time" />  
+					<span class="input-group-addon">  
+						<span class="glyphicon glyphicon-calendar"></span>  
+					</span>  
+				</div>  
+			</div>  
+        </div>
+        <a class="col-sm-offset-0 control-label  col-sm-1 middle-label" >
+          <button class="btn btn-primary btn-lg btn-block " ng-click="filterOrders('query')">查询</button>
+        </a>
+        <a class="col-sm-offset-0 control-label  col-sm-1 middle-label" >
+          <button class="btn btn-primary btn-lg btn-block " ng-click="getOrderLogList('export_excel')">导出报表</button>
+        </a>
+        <a class="col-sm-offset-0 control-label  col-sm-1 middle-label" >
+          <button class="btn btn-primary btn-lg btn-block " ng-click="getOrderLogList('print')">打印报表</button>
+        </a>
+		<div class="other-line">
+		<div class="col-sm-1 control-label lottery-lable">选择时间:</div>
+		<div class="col-sm-2 dropdown long-label" >
+			<div class="form-group">  
+				<!--指定 date标记-->  
+				<div class='input-group date' id='datetimepicker3'>  
+					<input type='text' class="form-control" ng-model="today" />  
+					 <span class="add-on"><i class="icon-calendar"></i></span>
+					<span class="input-group-addon">  
+						<span class="glyphicon glyphicon-calendar"></span>  
+					</span>  
+				</div>  
+			</div>  
+		</div>
+        <a class="col-sm-offset-0 control-label  col-sm-1 middle-label" >
+          <button class="btn btn-primary btn-lg btn-block " ng-click="printTodayOrderList()">打印日结单</button>
+        </a>
+		<div class="col-sm-1 control-label lottery-lable">付款方式:</div>
+		<div class="col-sm-2 short-label">
+          <select class="form-control" ng-model="filter.pay_type" >
+                <option ng-selected="filter.pay_type == ''" value="">全部</option>
+                <option value="111">现金</option>
+                <option value="112">银行</option>
+                <option value="113">微信</option>
+                <option value="114">支付宝</option>
+                <option value="115">会员卡</option>
+                <option value="116">组合支付</option>
+                <option value="120">免单</option>
+                <option value="130">挂账</option>
+                <option value="210">退单</option>
+          </select>
+        </div>
+		<!--
+          <button class="btn btn-primary btn-lg" ng-click="getProductLogList('export_excel')">导出报表</button>
+          <button class="btn btn-primary btn-lg" ng-click="getProductLogList('print')">打印报表</button>-->
+		</div>
+    </div>
+	</div>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+
+				<th class="text-center"><a>编号</a></th>
+		<th class="text-center"><a>订单编号</a></th>
+		<th class="text-center"><a>桌位名称</a></th>
+		<th class="text-center"><a>开桌人</a></th>
+		<th class="text-center"><a>开桌时间</a></th>
+		<th class="text-center"><a>应付金额</a></th>
+		<th class="text-center"><a>实付金额</a></th>
+		<th class="text-center"><a>结账时间</a></th>
+		<th class="text-center"><a>退单时间</a></th>
+		<th class="text-center"><a>付款方式</a></th>
+		<th class="text-center"><a>结账人</a></th>
+		<th class="text-center"><a>就餐时间</a></th>
+	</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="(index,item) in orderLogList.list">
+				<td class="text-center">{{index+1}}</td>
+				<td class="text-center"><a href="#/orderDetailList/{{item.id}}" >{{item.order_no}}</a></td>
+				<td class="text-center">{{item.serial_id}}</td>
+		<td class="text-center">{{item.table_runner}}</td>
+				<td class="text-center">{{item.create_time}}</td>
+				<td class="text-center">￥{{item.total_free}}</td>
+				<td class="text-center">￥{{item.real_pay}}</td>
+		<td class="text-center">{{item.status_id==1? item.pay_time : '-'}}</td>
+		<td class="text-center">{{item.status_id==2? item.back_time : '-'}}</td>
+		<td class="text-center">{{item.status_id==1? item.pay_type_name : '取消订单'}}</td>
+		<td class="text-center">{{item.pay_person}}</td>
+		<td class="text-center">{{item.time_difference}}</td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="ng-scope ng-isolate-scope">
+		<div class="ng-scope">
+			<div class="ng-table-pager ng-scope">
+				<div class="ng-table-counts btn-group pull-right ng-scope">
+					<button ng-click="changePageSize(10)" class="btn btn-default ng-scope" 
+							ng-class="{'active':filter.page_size==10}">
+						<span class="ng-binding">10</span>
+					</button>
+					<button ng-click="changePageSize(25)" class="btn btn-default ng-scope" 
+							ng-class="{'active':filter.page_size==25}">
+						<span class="ng-binding">25</span>
+					</button>
+					<button ng-click="changePageSize(50)" class="btn btn-default ng-scope"
+							ng-class="{'active':filter.page_size==50}">
+						<span class="ng-binding">50</span>
+					</button>
+					<button ng-click="changePageSize(100)" class="btn btn-default ng-scope"
+							ng-class="{'active':filter.page_size==100}">
+						<span class="ng-binding">100</span>
+					</button>
+				</div>
+				<ul class="pagination ng-table-pagination">
+					<li class="ng-scope" ng-class="{'disabled':filter.page_no==1}" ng-if="totalPage!=0" 
+						ng-click="changePageNo(filter.page_no-1)"><a class="ng-scope">&laquo;</a></li>
+					<li class="ng-scope" ng-if="filter.page_no!=1"
+						ng-click="changePageNo(1)"><a class="ng-scope">1</a></li>
+					<li class="ng-scope" ng-if="filter.page_no>4"><a class="ng-scope">...</a></li>
+					<li class="ng-scope" ng-if="filter.page_no>3"
+						ng-click="changePageNo(filter.page_no-2)"><a class="ng-scope">{{filter.page_no-2}}</a></li>
+					<li class="ng-scope" ng-if="filter.page_no>2"
+						ng-click="changePageNo(filter.page_no-1)"><a class="ng-scope">{{filter.page_no-1}}</a></li>
+					<li class="ng-scope disabled"><a class="ng-scope" ng-if="totalPage!=0">{{filter.page_no}}</a></li>
+					<li class="ng-scope" ng-if="filter.page_no<=totalPage-2"
+						ng-click="changePageNo(filter.page_no+1)"><a class="ng-scope">{{filter.page_no+1}}</a></li>
+					<li class="ng-scope" ng-if="filter.page_no<=totalPage-3"
+						ng-click="changePageNo(filter.page_no+2)"><a class="ng-scope">{{filter.page_no+2}}</a></li>
+					<li class="ng-scope" ng-if="filter.page_no<=totalPage-4"><a class="ng-scope">...</a></li>
+					<li class="ng-scope" ng-if="filter.page_no!=totalPage&&totalPage!=0"
+						ng-click="changePageNo(totalPage)"><a class="ng-scope">{{totalPage}}</a></li>
+					<li class="ng-scope" ng-class="{'disabled':filter.page_no==totalPage}" ng-if="totalPage!=0" 
+						ng-click="changePageNo(filter.page_no+1)"><a class="ng-scope">&raquo;</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div class="order-total">
+		<div class="title">营业收入：</div>
+		<div>收入总计：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;￥{{sumIncomeToFixed2}}</div>
+	</div>
+	<div class="order-total">
+		<div class="title">收入明细：</div>
+		<div>现金收入：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;￥{{orderLogList.sumTradeCash}}</div>
+		<div>银行卡收入：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;￥{{orderLogList.sumTradeCreditCard}}</div>
+		<div>微信收入：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;￥{{orderLogList.sumTradeWechat}}</div>
+		<div>支付宝收入：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;￥{{orderLogList.sumTradeAlipay}}</div>
+		<div>会员卡收入：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;￥{{orderLogList.sumMemberRecharge}}</div>
+	</div>
+	<div class="order-total">
+		<div class="title">支出明细：</div>
+		<div>免单：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;￥{{orderLogList.sumFreeOrder}}</div>
+		<div>会员卡消费：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;￥{{orderLogList.sumMemberConsume}}</div>
+	</div>
+  </div>
+
+
+</div>
+
+
+
+
+
+
+
+

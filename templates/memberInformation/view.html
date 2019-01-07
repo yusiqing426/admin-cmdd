@@ -1,0 +1,88 @@
+<div class="row">
+	<ng-include src="'templates/menu.html'"></ng-include>
+	<div class="col-md-10">
+		<ul class="breadcrumb">
+			<li>
+				<a href="#/memberDataentry/memberInformation">会员中心</a>
+			</li>
+			<li class="active">维护</li>
+		</ul>
+
+		<form  name="form" class="form-horizontal" ng-submit="update()" role="form">
+
+		        <div class="form-group">
+		            <label class="col-sm-2 control-label">会员手机号:</label>
+		            <div class="col-sm-3">
+									<input class="form-control" ng-model="member.phone" ng-required="true" />
+		            </div>
+		        </div>
+		        
+		         <div class="form-group">
+		            <label class="col-sm-2 control-label">会员姓名:</label>
+		            <div class="col-sm-3">
+									<input class="form-control" ng-model="member.name" ng-required="true" />
+		            </div>
+		        </div>
+
+		        <div class="form-group">
+		            <label class="col-sm-2 control-label">会员性别:</label>
+		             <div class="col-sm-3">
+				                    <select class="form-control" ng-model="member.sex" ng-options="m.id as m.value for m in MaleOrFemale" ng-required="true">
+				                    <option value="">请选择</option>
+	                  				</select>
+	                </div>
+		        </div> 
+
+				<div class="form-group">
+		            <label class="col-sm-2 control-label">会员生日:</label>
+		            <div class="col-sm-3">
+						<div class='input-group date' id='datetimepicker1'>  
+							<input type='text' class="form-control" ng-model="member.birthday" />  
+							 <span class="add-on"><i class="icon-calendar"></i></span>
+							<span class="input-group-addon">  
+								<span class="glyphicon glyphicon-calendar"></span>  
+							</span>  
+						</div>
+		            </div>
+		        </div>
+
+		        <div class="form-group">
+		            <label class="col-sm-2 control-label">支付密码:</label>
+		            <div class="col-sm-3">
+						<a href="#/memberDataentry/memberInformation/profile/{{member.id}}">
+							<button class="btn btn-primary btn-lg btn-block">修改支付密码</button>
+						</a>
+		            </div>
+		        </div>
+		        <div class="form-group">
+		            <label class="col-sm-2 control-label">会员卡种:</label>
+		            <div class="col-sm-3">
+		            				<select class="form-control" ng-model="member.memberCardId" ng-options="m.id as m.name for m in memberCardList" ng-required="true">
+				                    <option value="">请选择</option>
+	                  				</select>
+		            </div>
+		        </div>
+		        <div class="form-group">
+		            <label class="col-sm-2 control-label">会员状态:</label>
+		            <div class="col-sm-3">
+		            				<select class="form-control" ng-model="member.is_in_use" ng-options="m.id as m.value for m in OpenOrClose" ng-required="true">
+				                    <option value="">请选择</option>
+	                  				</select>
+		            </div>
+		        </div>
+						<div class="form-group">
+							<div class="alert alert-danger col-sm-5" ng-show="errorMessage">{{errorMessage}}</div>
+						</div>
+			<div class="form-group">
+				<div class="col-sm-offset-1 control-label   col-sm-2">
+					<button class="btn btn-primary btn-lg btn-block" type="submit">修改</button>
+				</div>
+				
+					<div class="col-sm-offset-0 control-label col-sm-2">
+						<button class="btn btn-primary btn-lg btn-block button-defult" 
+								onclick="window.location.href='#/memberDataentry/memberInformation'">返回</button>
+					</div>
+			</div>
+		</form>
+	</div>
+</div>

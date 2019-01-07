@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>馋猫点点</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <meta http-equiv="cache-control" content="max-age=0" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+    <meta http-equiv="pragma" content="no-cache" />
+
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="js/plugins/toast/animate.css" rel="stylesheet">
+    <link href="js/plugins/toast/toast.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="bower_components/ng-table/ng-table.css"/>
+    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="bower_components/bootstrap/dist/css/bootstrapSwitch.css" rel="stylesheet">
+    <link href="bower_components/bootstrap/select/select2.min.css" rel="stylesheet">
+	<link href="bower_components/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <link href="css/myStyle.css" rel="stylesheet">
+    <link href="css/myOrder.css" rel="stylesheet">
+    
+    
+	<link href="css/icon/iconfont.css" rel="stylesheet">
+	<link href="css/dev_icon/iconfont.css" rel="stylesheet">
+
+
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/bootstrap/select/select2.full.js"></script>
+    <script src="bower_components/bootstrap/js/modal.js"></script>
+    <script src="js/plugins/toast/toast.js"></script>
+
+
+	<script src="LodopFuncs.js"></script>
+
+    <!--<script language="javascript" src="LodopFuncs.js"></script>
+
+   <object id="LODOP_OB" classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width="0" height="0">
+        <embed id="LODOP_EM" type="application/x-print-lodop" style="width: 0;height: 0;">
+    </object>
+</head>-->
+
+
+</head>
+
+
+<body ng-app="storeApp">
+    <!--<script language="javascript">
+        var LODOP=getLodop(document.getElementById('LODOP_OB'),document.getElementById('LODOP_EM'));
+    </script>-->
+
+
+    <ng-include src="'templates/header.html'"></ng-include>
+
+    <div ng-view class="content"></div>
+
+    <ng-include src="'templates/footer.html'"></ng-include>
+
+    <script src='bower_components/angular/angular.js'></script>
+    <script src='bower_components/angular-route/angular-route.js'></script>
+    <script src='bower_components/angular-resource/angular-resource.js'></script>
+    <script src='bower_components/checklist-model/checklist-model.js'></script>
+    <script src='bower_components/ng-table/ng-table.js'></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+	<script src='bower_components/ng-file-upload/angular-file-upload.js'></script>
+
+	<script src="bower_components/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+	<script src="bower_components/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>	
+	<script src="bower_components/angular-md5/angular-md5.js"></script>
+    <script src='js/loading.js'></script>
+    <script src='js/storeApp.js'></script>
+
+    <script src='js/services/dataUtilService.js'></script>
+    <script src='js/services/imageService.js'></script>
+
+	<script src="js/services/orderLogService.js"></script>
+    <script src="js/modules/orderLogModule.js"></script>
+
+	<script src="js/services/dining_tableService.js"></script>
+    <script src="js/modules/dining_tableModule.js"></script>
+
+    <script src="js/services/categoryService.js"></script>
+    <script src="js/modules/categoryModule.js"></script>
+
+    <script src="js/services/productService.js"></script>
+    <script src="js/modules/productModule.js"></script>
+
+     <script src="js/services/printerService.js"></script>
+    <script src="js/modules/printerModule.js"></script>
+
+    <script src='js/modules/tableOperateModule.js'></script>
+    <script src='js/services/tableOperateService.js'></script>
+
+    <script src='js/modules/memberInformationModule.js'></script>
+    <script src='js/services/memberInformationService.js'></script>
+
+    <script src='js/modules/lotteryLogModule.js'></script>
+    <script src='js/services/lotteryLogService.js'></script>
+
+    <script src='js/modules/navigatorModule.js?v=201802091736'></script>
+    <script src="js/services/navigatorServices.js"></script>
+
+	<script src='js/modules/staffInformationModule.js'></script>
+    <script src='js/services/staffInformationService.js'></script>
+
+	<script src='js/modules/shopInformationModule.js'></script>
+    <script src='js/services/shopInformationService.js'></script>
+    
+    <script src='js/modules/shopPayModule.js'></script>
+    <script src='js/services/shopPayService.js'></script>
+
+    <script src='js/modules/kitchenModule.js'></script>
+    <script src='js/services/kitchenService.js'></script>
+
+    <script src='js/modules/bannerModule.js'></script>
+    <script src='js/services/bannerService.js'></script>
+
+    <script src='js/modules/lotteryModule.js'></script>
+    <script src='js/services/lotteryService.js'></script> 
+
+    <script src='js/modules/agentInformationModule.js'></script>
+    <script src='js/services/agentInformationService.js'></script>
+    
+    <script src='js/modules/agentPayModule.js'></script>
+    <script src='js/services/agentPayService.js'></script>
+    
+    <script src='js/modules/platformAccountModule.js'></script>
+    <script src='js/services/platformAccountService.js'></script>
+
+    <script src='js/routes/app.js'></script>
+
+	<script src='js/directives/directives.js'></script>
+	
+	<script src="js/services/dining_tableService.js"></script>
+    <script src="js/modules/dining_tableModule.js"></script>
+
+    <script src="js/services/categoryService.js"></script>
+    <script src="js/modules/categoryModule.js"></script>
+
+    <script src="js/services/productService.js"></script>
+    <script src="js/modules/productModule.js"></script>
+
+     <script src="js/services/printerService.js"></script>
+    <script src="js/modules/printerModule.js"></script>
+
+    <script src="js/services/versionService.js"></script>
+
+    <script src="js/services/syncService.js"></script>
+    <script src="js/services/bannerService.js"></script>
+
+
+
+    
+
+</body>
+</html>

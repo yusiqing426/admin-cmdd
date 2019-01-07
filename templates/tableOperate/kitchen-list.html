@@ -1,0 +1,45 @@
+<div class="row">
+  <ng-include src="'templates/menu.html'"></ng-include>
+  <div class="col-md-10 flow">
+  <div class="kitchen-list" ng-repeat="order in orderList" ng-if="order.loi">
+  <div class="table-serial-kitchen" >{{order.serial_id}}</div>
+    <table class="table table-striped" >
+      <thead>
+        <tr>
+          <th class="text-center"><a>序号</a></th>
+		  <th class="text-center long-td"><a>菜品名</a></th>
+		  <th class="text-center long-td"><a>口味</a></th>
+		  <th class="text-center"><a>数量</a></th>
+		  <th class="text-center"><a>单位</a></th>
+		  <th class="text-center long-td"><a>下单时间</a></th>
+		  <th class="text-center" ng-if="productStatus==1"><a>开做</a></th>
+		  <th class="text-center" ng-if="productStatus==1"><a>是否断货</a></th>
+		  <th class="text-center" ng-if="productStatus==2"><a>是否上菜</a></th>
+
+		</tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="(index,item) in order.loi" 
+			ng-if="(productStatus==1&&item.status_id!=2&&item.status_id!=3)
+				 ||(productStatus==2&&(item.status_id==2||item.status_id==3))">
+          <td class="text-center">{{index+1}}</td>
+          <td class="text-center long-td">{{item.p.name}}</td>
+          <td class="text-center long-td">{{item.description}}</td>
+		  <td class="text-center">{{item.quantity}}</td>
+          <td class="text-center">{{item.p.unit}}</td>
+          <td class="text-center long-td">{{item.create_time}}</td>
+          <td class="text-center" ng-if="productStatus==1"><button class="btn btn-primary" ng-click = "startDoing(item)">点击开做</button></td>
+		  <td class="text-center" ng-if="productStatus==1">
+			<button ng-if="item.status_id!=7" class="btn btn-primary red-button" ng-click = "noProduct(order,item)">已断货</button>
+		</td>
+		  <td class="text-center" ng-if="productStatus==2">
+			<button ng-if="item.status_id!=3" class="btn btn-primary red-button" ng-click = "upProduct(item)">未上菜</button>
+			<button ng-if="item.status_id==3" class="btn btn-primary">已上菜</button>
+		  </td>
+		</tr>
+      </tbody>
+    </table>
+	</div>
+	</div>
+  </div>
+</div>

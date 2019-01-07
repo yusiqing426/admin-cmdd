@@ -1,0 +1,59 @@
+<div class="row">
+	<ng-include src="'templates/menu.html'"></ng-include>
+	<div class="col-md-10 flow">
+		<ul class="breadcrumb">
+			<li>
+				<a href="#/agentDataentry/agentShopPay">商铺缴费管理</a>
+			</li>
+			<li class="active">服务费设置</li>
+		</ul>
+
+		<form  name="form" class="form-horizontal" ng-submit="update()" role="form">
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">代理商名称:</label>
+				<div class="col-sm-3">
+					<select class="form-control" ng-model="selectedAgentId"
+							ng-change="selectAgent(selectedAgentId)">
+						<option ng-selected="selectedAgentId == ''" value="">请选择</option>
+						<option ng-repeat="m in AgentModule" ng-selected="selectedAgentId == m.id" value="{{m.id}}">{{m.company_name}}</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">商铺名称:</label>
+				<div class="col-sm-3">
+					<select class="form-control" ng-model="selectedShopId"
+							ng-change="selectShop(selectedShopId)">
+						<option ng-selected="selectedShopId == ''" value="">请选择</option>
+						<option ng-repeat="m in shopModule" ng-selected="selectedShopId == m.id" value="{{m.id}}">{{m.shop_name}}</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">负责人姓名:</label>
+				<div class="col-sm-3">
+					<p class="form-control">{{shop.name}}</p>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-2 control-label">服务费:</label>
+				<div class="col-sm-3">
+				<input class="form-control" ng-model="shop.service_charge" ng-required="true" >
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-offset-1 control-label   col-sm-2">
+					<button class="btn btn-primary btn-lg btn-block" type="submit">确认</button>
+				</div>
+				</form>
+				<div class="col-sm-offset-0 control-label   col-sm-2">
+					<button class="btn btn-primary btn-lg btn-block button-defult"
+							onclick="window.location.href='#/agentDataentry/agentShopPay'">返回</button>
+				</div>
+			</div>
+		
+	</div>
+</div>

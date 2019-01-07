@@ -1,0 +1,83 @@
+<div class="row">
+	<ng-include src="'templates/menu.html'"></ng-include>
+	<div class="col-md-10">
+		<ul class="breadcrumb">
+			<li>
+				<a href="#/agentDataentry/agentInformation">代理商信息管理</a>
+			</li>
+			<li class="active">编辑</li>
+		</ul>
+
+		<form  name="form" class="form-horizontal" ng-submit="update()" role="form">
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">代理商账号:</label>
+				<div class="col-sm-3">
+					<p class="form-control-static">{{agent.account}}</p>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">代理商名称:</label>
+				<div class="col-sm-3">
+					<input class="form-control" ng-model="agent.company_name" ng-required="true" >
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">负责人姓名:</label>
+				<div class="col-sm-3">
+					<input class="form-control" ng-model="agent.name" ng-required="true" >
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">性别:</label>
+				<div class="col-sm-3">
+					 <select class="form-control" ng-model="agent.sex" ng-options="m.id as m.value for m in MaleOrFemale" ng-required="true">
+	                 </select>
+				</div>
+			</div>
+			
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">手机号:</label>
+				<div class="col-sm-3">
+					<input class="form-control" ng-model="agent.phone" ng-required="true" >
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">身份证号:</label>
+				<div class="col-sm-3">
+					<input class="form-control" ng-model="agent.id_card" ng-required="true" >
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">代理商地址:</label>
+				<div class="col-sm-3">
+					<input class="form-control" ng-model="agent.company_address" ng-required="true" >
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">状态:</label>
+				<div class="col-sm-3">
+					<select class="form-control" ng-model="agent.is_in_use" ng-options="m.id as m.value for m in OpenOrClose" ng-required="true">
+	                </select>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-offset-1 control-label   col-sm-2">
+					<button class="btn btn-primary btn-lg btn-block" type="submit">修改</button>
+				</div>
+				
+				<div class="col-sm-offset-0 control-label col-sm-2">
+					<button class="btn btn-primary btn-lg btn-block button-defult" 
+							onclick="window.location.href='#/agentDataentry/agentInformation'">返回</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

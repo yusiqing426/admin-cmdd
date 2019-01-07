@@ -1,0 +1,58 @@
+<div class="row">
+	<ng-include src="'templates/menu.html'"></ng-include>
+	<div class="col-md-10">
+		<ul class="breadcrumb">
+			<li>
+				<a href="#/memberDataentry/memberInformation">会员中心</a>
+			</li>
+			<li class="active">积分兑换</li>
+		</ul>
+
+		<form  name="form" class="form-horizontal" ng-submit="update()" role="form">
+
+		        <div class="form-group">
+		            <label class="col-sm-2 control-label">会员手机号:</label>
+		            <div class="col-sm-3">
+									<input class="form-control" ng-model="member.phone" readonly />
+		            </div>
+		        </div>
+		        
+		         <div class="form-group">
+		            <label class="col-sm-2 control-label">会员姓名:</label>
+		            <div class="col-sm-3">
+									<input class="form-control" ng-model="member.name" readonly />
+		            </div>
+		        </div>
+				<div class="form-group">
+		            <label class="col-sm-2 control-label">可用积分:</label>
+		            <div class="col-sm-3">
+									<input class="form-control" ng-model="member.integral" readonly />
+		            </div>
+		        </div>
+				<div class="form-group">
+		            <label class="col-sm-2 control-label">积分扣减:</label>
+		            <div class="col-sm-3">
+									<input class="form-control" ng-model="cutIntegral" ng-required="true" />
+		            </div>
+		        </div>
+				<div class="form-group">
+		            <label class="col-sm-2 control-label">兑换物品:</label>
+		            <div class="col-sm-3">
+					<input class="form-control" ng-model="give" ng-required="true" />
+		            </div>
+		        </div>
+						<div class="form-group">
+							<div class="alert alert-danger col-sm-5" ng-show="errorMessage">{{errorMessage}}</div>
+						</div>
+			<div class="form-group">
+				<div class="col-sm-offset-1 control-label   col-sm-2">
+					<button class="btn btn-primary btn-lg btn-block" type="submit">兑换</button>
+				</div>
+				<div class="col-sm-offset-0 control-label col-sm-2">
+					<button class="btn btn-primary btn-lg btn-block button-defult" 
+							onclick="window.location.href='#/memberDataentry/memberInformation'">返回</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

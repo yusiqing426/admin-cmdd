@@ -1,0 +1,88 @@
+<div class="row">
+	<ng-include src="'templates/menu.html'"></ng-include>
+	<div class="col-md-10 flow">
+    <ul class="breadcrumb">
+		<li><a>菜品管理</a></li>
+		<li class="active">菜品信息管理</li>
+        <ol><button ng-click="sync()" style="width: 10%; overflow: visible;background-color: #5CB75C;border-radius: 4px">同步云端数据</button></ol>
+    </ul>
+	<div>
+	<div class="row row-title">
+
+	
+
+    <!--<form role="form" class="form-horizontal">-->
+            <!-- 1.前端集合筛选 -->           
+		<div class="col-sm-1 control-label lottery-lable">菜品类别:</div>
+        <div class="col-sm-2 middle-label">
+          <select class="form-control" ng-model="listFilter.category_name">
+                <option value="">全部</option>
+				<option ng-repeat="c in CategoryModel" value="{{c.name}}">{{c.name}}</option>
+          </select>
+        </div>
+		<div class="col-sm-1 control-label lottery-lable">菜品名称:</div>
+		<div class="col-sm-2 middle-label" >
+			<input class="form-control" ng-model="listFilter.name" 
+			ng-required="true" >
+		</div>
+		<div class="col-sm-1 control-label lottery-lable">菜品状态:</div>
+        <div class="col-sm-2 short-label">
+          <select class="form-control" ng-model="listFilter.is_in_use" >
+                <option value="">全部</option>
+				<option value="1" ng-selected="listFilter.is_in_use==1">启用</option>
+				<option value="0" ng-selected="listFilter.is_in_use==0">不启用</option>
+          </select>
+        </div>
+		<a class="col-sm-offset-0 control-label  col-sm-1 middle-label">
+			<button class="btn btn-primary btn-lg btn-block " ng-click="getProductList()">查询</button>
+		</a>
+		<a class="col-sm-offset-0 control-label  col-sm-1">
+			<button class="btn btn-primary btn-lg btn-block " 
+					onclick="window.location.href='#/dataentry/product/create'">新建</button>
+		</a>
+		</div>
+		</div>
+
+     <!-- 2.数据库筛选 -->   
+    <!--</form>-->
+	<table ng-table="tableParams" class="table table-striped img-table">
+		<thead>
+            <tr>
+                <th><a ng-click="tableParams.sorting('id',(reverseSort = !reverseSort)?'asc':'desc')">编号</a></th>
+                <th><a ng-click="tableParams.sorting('logo_id',(reverseSort = !reverseSort)?'asc':'desc')">图片</a></th>
+                <th><a ng-click="tableParams.sorting('name',(reverseSort = !reverseSort)?'asc':'desc')">名称</a></th>
+                <th><a ng-click="tableParams.sorting('category_name',(reverseSort = !reverseSort)?'asc':'desc')">类别</a></th>
+                <th><a ng-click="tableParams.sorting('unit_price',(reverseSort = !reverseSort)?'asc':'desc')">价格</a></th>
+                <th><a ng-click="tableParams.sorting('is_discount',(reverseSort = !reverseSort)?'asc':'desc')">普通折扣</a></th>
+                <th><a ng-click="tableParams.sorting('is_discount',(reverseSort = !reverseSort)?'asc':'desc')">会员折扣</a></th>
+                <th><a ng-click="tableParams.sorting('is_discount',(reverseSort = !reverseSort)?'asc':'desc')">会员积分</a></th>
+                <th><a ng-click="tableParams.sorting('is_in_use',(reverseSort = !reverseSort)?'asc':'desc')">是否启用</a></th>
+                <!-- <th><a ng-click="tableParams.sorting('sort',(reverseSort = !reverseSort)?'asc':'desc')">排序</a></th>
+                <th class="text-center"><a>排序修改</a></th> -->
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="product in productList">
+                <td class="text-center"><a href="#/dataentry/product/{{product.id}}">{{product.id}}</a></td>
+                <td class="text-center"><img ng-src="{{dataUrlForepart}}{{product.logo_id}}" ng-click="syncOne(product.logo_id)" onerror="showSyncOneButton(this.logo_id)"/></td>
+                <td class="text-center">{{product.name}}</td>
+                <td class="text-center">{{product.category_name}}</td>
+                <td class="text-center">{{product.unit_price}}</td>
+                <td class="text-center">{{product.is_discount?"是":"否"}}</td>
+                <td class="text-center">{{product.isMemberDiscount?"是":"否"}}</td> 
+                <td class="text-center">{{product.isMemberIntegral?"是":"否"}}</td> 
+                <td class="text-center">{{product.is_in_use?"启用":"不启用"}}</td>
+
+
+                <!-- <td class="text-center" width="40px" ><input id="{{product.id}}" class="form-control" ng-model="product.sort" ng-required="true" style="margin-top: 80px;" disabled="disabled" /></td>
+                <td class="text-center">
+                      <input id="{{product.id+1}}" type="button" class="btn btn-primary" ng-click="change(product.id+1)"  value="修改">
+                      <input id="{{product.id+2}}" type="hidden" class="btn btn-primary" ng-click="comfirmChange(product.id+2)" value="确认修改">
+                </td> -->
+            </tr>
+          </tbody>
+      </table>
+  </div>
+</div>
+
+

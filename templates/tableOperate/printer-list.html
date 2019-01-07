@@ -1,0 +1,72 @@
+<div class="row">
+  <ng-include src="'templates/menu.html'"></ng-include>
+  <div class="phone-header">
+	  <div class="phone-header-title">馋猫点点</div>
+	  <div class="phone-header-return"><a href="#tableOperate/list"><img src="img/return-back.png"></a></div>
+	  <div class="phone-table-serial">{{tableInf.name}}</div>
+  </div>
+  <div class="col-md-10 col-xs-12 flow">
+	<div ng-show="ifCLodp==0&&nowKey==4" class="alert alert-warning">检测到您未安装打印所需插件，请 <span ng-click="downloadLodop32()">点击此处</span> 下载并安装</div>
+  <div class="table-serial-line">打印对账单：	{{tableInf.name}}</div>
+  <div>
+  <div class="row row-title">
+		<div class="col-sm-1 control-label lottery-lable">菜品类别:</div>
+        <div class="col-sm-2 middle-label">
+          <select class="form-control" ng-model="productCategory">
+                <option value="">全部</option>
+				<option ng-repeat="c in categoryList" value="{{c.id}}">{{c.name}}</option>
+          </select>
+        </div>
+		<div class="col-sm-1 control-label lottery-lable">菜品进度:</div>
+        <div class="col-sm-2 middle-label">
+          <select class="form-control" ng-model="productStatus">
+                <option value="">全部</option>
+				<option value="1">已接单</option>
+				<option value="2">已开做</option>
+				<option value="3">已上菜</option>
+				<option value="6">已退菜</option>
+				<option value="7">已断货</option>
+          </select>
+        </div>
+		<a class="col-sm-offset-0 control-label  col-sm-1 middle-label">
+			<button class="btn btn-primary btn-lg btn-block " ng-click="getOrderDetail()">查询</button>
+		</a>
+		<a class="col-sm-offset-0 control-label  col-sm-1 middle-label">
+			<button class="btn btn-primary btn-lg btn-block " ng-click="orderPrinter()">打印</button>
+		</a>
+		<div class="col-sm-offset-0 control-label  col-sm-1 middle-label">
+			<div class="checkbox">
+				<label><input type="checkbox" id="selectAll" ng-click="selectAll()">全选</label>
+			</div>
+		</div>
+	</div>
+	</div>
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th class="text-center"><a>菜品状态</a></th>
+		  <th class="text-center"><a>菜品名称</a></th>
+		  <th class="text-center"><a>菜品类别</a></th>
+		  <th class="text-center"><a>菜品数量</a></th>
+		</tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="(index,product) in productList" >
+		  <td class="text-center">
+			<div class="checkbox">
+				<label ng-if="product.status_id==1"><input type="checkbox" value="{{index}}" name="isPrinter">已接单</label>
+				<label ng-if="product.status_id==2"><input type="checkbox" value="{{index}}" name="isPrinter">已开做</label>
+				<label ng-if="product.status_id==3"><input type="checkbox" value="{{index}}" name="isPrinter">已上菜</label>
+				<label ng-if="product.status_id==6"><input type="checkbox" value="{{index}}" name="isPrinter">已退菜</label>
+				<label ng-if="product.status_id==7"><input type="checkbox" value="{{index}}" name="isPrinter">已断货</label>
+			</div>
+		  </td>
+          <td class="text-center">{{product.p.name}}</td>
+		  <td class="text-center">{{product.category_name}}</td>
+          <td class="text-center">{{product.quantity}}{{product.p.unit}}</td>
+		</tr>
+      </tbody>
+    </table>
+  </div>
+</div>

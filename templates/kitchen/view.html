@@ -1,0 +1,64 @@
+<div class="row">
+	<ng-include src="'templates/menu.html'"></ng-include>
+	<div class="col-md-10">
+    <ul class="breadcrumb">
+      <li>
+        <a href="#/kitchenDataentry/kitchen">后厨管理</a>
+      </li>
+      <li class="active">编辑</li>
+    </ul>
+
+		<form ng-model="kitchen" name="form" class="form-horizontal" role="form">
+		    <div class="form-group">
+		        <label class="col-sm-2 control-label">标题:</label>
+		        <div class="col-sm-3">
+					<input class="form-control" ng-model="kitchen.title" ng-required="true" />
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-sm-2 control-label">说明:</label>
+		        <div class="col-sm-3">
+					<textarea class="form-control" ng-model="kitchen.description" ng-required="true" />
+		        </div>
+		    </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Logo:</label>
+                <div class="col-sm-3">
+                  <input type="file"
+                          ng-multiple=false
+                          ng-file-select
+                          ng-model="imageFile"
+                          name="file"
+                          accept="image/png"
+                          ng-file-change="addImage(imageFile)"
+                          />
+		            </div>（请上传1M以内的png/jpg格式的图片）
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label"></label>
+              <div class="col-sm-10">
+                <img ng-show="imageFile.dataUrl != null" ng-src="{{imageFile.dataUrl}}" class="thumb"/>
+              </div>
+            </div>
+
+		        <div class="form-group">
+					<div class="col-sm-offset-1 control-label   col-sm-2">
+						<button class="btn btn-primary btn-lg btn-block" ng-click="update()">保存</button>
+					</div>
+					<div class="col-sm-offset-0 control-label   col-sm-2">
+							<button class="btn btn-primary btn-lg btn-block" ng-click="delete()">删除</button>
+					</div>
+					<div class="col-sm-offset-0 control-label col-sm-2">
+						<button class="btn btn-primary btn-lg btn-block button-defult" 
+								onclick="window.location.href='#/kitchenDataentry/kitchen'">返回</button>
+					</div>
+		        </div>
+
+		    </form>
+
+  </div>
+
+
+</div>

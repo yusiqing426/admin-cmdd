@@ -1,0 +1,61 @@
+<div class="row">
+  <ng-include src="'templates/menu.html'"></ng-include>
+  <div class="phone-header">
+	  <div class="phone-search">
+		<input class="form-control" ng-model="keyWord" />
+		<button class="btn btn-primary" ng-click="getFilterProductList()">搜索</button>
+	  </div>
+	  <div class="phone-header-return"><a href="#addOrder/{{tableInf.id}}"><img src="img/return-back.png"></a></div>
+  </div>
+  <div class="col-md-10 col-xs-12 flow">
+	<div class="order">
+		<div class="product-list search-list">
+		<div class="table-serial-line row-title">
+			桌位号：	{{tableInf.name}}
+			<div class="search-line">
+				<input class="form-control" ng-model="keyWord" />
+				<button class="btn btn-primary search" ng-click="getFilterProductList()">搜索</button>
+				<button class="btn btn-primary" ng-click="returnOrderAdd()">返回</button>
+			</div>
+		</div>
+			<ul>
+				<li ng-repeat="product in productList" ng-if="product.is_in_use==1">
+					<div class="img"><img  ng-src="{{dataUrlForepart}}{{product.logo_id}}" /></div>
+					<div class="detail">
+						<div class="name" ng-if="product.is_promotion==1">
+							<div class="product-name">{{product.name}}</div>
+							<div class="member-price">促销价￥{{product.promotion_price}}</div>
+						</div>
+						<div class="name" ng-if="product.is_promotion==0">
+							<div class="product-full-name">{{product.name}}</div>
+						</div>
+
+						<div class="price">
+							<!--若会员价不为0，且不为空，且启用，则显示-->
+							<div ng-if="product.memberPrice!=0&&product.memberPrice!=null&&product.isUseMemberPrice==1" class="promotion">会员价￥{{product.memberPrice}}</div>
+							<div ng-if="product.is_promotion==0" class="promotion">门市价￥{{product.unit_price}}</div>
+							<div ng-if="product.is_promotion==1" class="almost">门市价￥{{product.unit_price}}</div>
+						</div>
+					</div>
+					<div class="select-group">
+						<div class="reduce" ng-click="decreaseCount(product.id)"><img src="img/reduce.png" /></div>
+						<div class="quantity">{{product.quantity}}</div>
+						<div class="add" ng-click="increaseCount(product.id)"><img src="img/add.png" /></div>
+					</div>
+				</li>
+			</ul>
+		</div>
+
+		<div class="order-bottom">
+			<div class="cart" ng-class="{'null':totalQuantity>0}" ng-click="showCart()">
+				<img src="img/cart.png" />
+			</div>
+			<div class="total-count">{{totalQuantity}}</div>
+			<div class="total-price">共<span class="price">{{totalPrice.toFixed(2)}}</span>元</div>
+			<div class="order-button">
+				<a><button class="btn btn-primary" ng-click="addOrderSubmit()">选好了</button></a>
+			</div>
+		</div>
+	</div>
+  </div>
+</div>
