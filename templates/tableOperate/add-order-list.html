@@ -1,308 +1,277 @@
 <div class="row">
-    <ng-include src="'templates/menu.html'"></ng-include>
-    <div class="phone-header">
-        <div class="phone-header-title" ng-click="searchProductList()">点餐<img src="img/search.png"/></div>
-        <div class="phone-header-return"><a href="#tableOperate/list"><img src="img/return-back.png"></a></div>
-        <div class="phone-table-serial">{{tableInf.name}}</div>
+  <ng-include src="'templates/menu.html'"></ng-include>
+  <div class="phone-header">
+    <div class="phone-header-title" ng-click="searchProductList()">点餐<img src="img/search.png" /></div>
+    <div class="phone-header-return"><a href="#tableOperate/list"><img src="img/return-back.png"></a></div>
+    <div class="phone-table-serial">{{tableInf.name}}</div>
+  </div>
+  <div class="col-md-10 col-xs-12 flow">
+    <div class="wm-tab order-wm-tab">
+      <a class="ordered-sel-area" id="meal_area">堂食</a>
+      <ul class="ordered-areas">
+        <li>店内</li>
+        <li>店外</li>
+      </ul>
+      <div class="item-status-desc">
+        <a class="status_0">待接单</a><a class="status_1">已接单</a><a class="status_2">已开做</a><a class="status_3">已上菜</a><a class="status_4">已结算</a><a class="status_5">已退单</a><a class="status_6">退菜</a><a class="status_7">已断货</a><a class="status_8">购物车</a><a class="status_9">等叫</a><a class="status_t_c"><i>[x]</i>退菜数量</a><a class="status_z_c"><i>[x]</i>赠菜数量</a>
+      </div>
     </div>
-    <div class="col-md-10 col-xs-12 flow">
-        <div class="wm-tab order-wm-tab">
-            <a class="ordered-sel-area" id="meal_area">堂食</a>
-            <ul class="ordered-areas">
-                <li>店内</li>
-                <li>店外</li>
-            </ul>
-            <div class="item-status-desc">
-                <a class="status_0">待接单</a><a class="status_1">已接单</a><a class="status_2">已开做</a><a
-                    class="status_3">已上菜</a><a class="status_4">已结算</a><a class="status_5">已退单</a><a
-                    class="status_6">退菜</a><a class="status_7">已断货</a><a class="status_8">购物车</a><a
-                    class="status_9">等叫</a><a class="status_t_c"><i>[x]</i>退菜数量</a><a class="status_z_c"><i>[x]</i>赠菜数量</a>
+    <div class="wm-add-area" id="out_addr_area">
+        <div class="out-form-item-wrap">
+            <div class="out-form-item">
+                <span class="iconfont icon-yonghu"></span>
+                <input type="text" class="form-control" disabled id="txt_detail_contact" style="width:150px;display:inline-block;" placeholder="联系人">
             </div>
-        </div>
-        <div class="wm-add-area" id="out_addr_area">
-            <div class="out-form-item-wrap">
-                <div class="out-form-item">
-                    <span class="iconfont icon-yonghu"></span>
-                    <input type="text" class="form-control" disabled id="txt_detail_contact"
-                           style="width:150px;display:inline-block;" placeholder="联系人">
-                </div>
-                <div class="out-form-item">
-                    <span class="iconfont icon-admin-mobile"></span>
-                    <input type="text" class="form-control" disabled style="width:150px;display:inline-block;"
-                           id="txt_detail_mobile" placeholder="手机号码">
-                </div>
-                <div class="out-form-item">
-                    <span class="iconfont icon-admin-shijian"></span>
-                    <input type="text" class="form-control" disabled style="width:150px;display:inline-block;"
-                           id="txt_detail_time" placeholder="配送时间">
-                </div>
-                <div class="out-form-item">
-                    <span class="iconfont icon-admin-dingwei"></span>
-                    <input type="text" class="form-control" disabled style="width:150px;display:inline-block;"
-                           id="txt_detail_addr" placeholder="配送地址">
-                </div>
+            <div class="out-form-item">
+                <span class="iconfont icon-admin-mobile"></span>
+                <input type="text" class="form-control" disabled style="width:150px;display:inline-block;"  id="txt_detail_mobile" placeholder="手机号码">
             </div>
-        </div>
-        <div class="col-md-3 order-already-down-list">
-            <div class="order-already-down-rmk">
-                <p>单号：{{orderDetail.order_no}}</p>
-                <p>已点<span style="color:red;">&nbsp;{{orderDetail.loi.length}}&nbsp;</span>项，合计：<span
-                        class="order-total-money">{{getCpTotal(1)}}</span></p>
-                <!-- <button class="ordered-empty-btn" ng-click="emptyOrdered()">清空</button> -->
+            <div class="out-form-item">
+                <span class="iconfont icon-admin-shijian"></span>
+                <input type="text" class="form-control" disabled style="width:150px;display:inline-block;" id="txt_detail_time" placeholder="配送时间">
             </div>
-            <div>
-                <ul>
-                    <li class="already-row-header"><span>菜名</span><span>数量</span><span>金额</span></li>
-                    <div class="addorder-item-detail-row" style="height:500px;overflow-y:auto;">
-                        <li ng-class="{'ordered-selected':$index==orderedSelectIndex}"
-                            class="already-row-item status_{{od.status_id}}"
-                            ng-repeat="od in orderDetail.loi track by $index"
-                            ng-click="selectOrderedItem(od,$index)"><span>{{od.p.name}}</span><span>{{od.quantity}}*份<a
-                                ng-if="od.backQuantity>0"
-                                class="other_sub_view other_sub_view_1">[{{od.backQuantity}}]</a><a
-                                ng-if="od.lotteryQuantity>0" class="other_sub_view other_sub_view_2">[{{od.lotteryQuantity}}]</a></span><span>￥{{od.p.is_promotion==0?od.p.unit_price*od.quantity:od.p.promotion_price*od.quantity}}</span>
-                        </li>
-                    </div>
-                </ul>
-                <div class="already-pagintion">
-                    <a ng-click="orderedPrev()">
-                        <</a> <span>{{orderedPageIndex}}/{{orderedTotalPage}}</span><a ng-click="orderedNext()">></a>
-                </div>
-                <div class="order-total-rmk">
-                    整单备注:
-                </div>
-            </div>
-        </div>
-        <div class="order-wrap-area">
-            <div class="col-md-1 order-operation-func-area">
-                <a key="editordered" class="ordered-op-item"><i class="iconfont icon-admin-bianji"></i>编辑</a>
-                <a ng-click="removeOrderedItem()"><i class="iconfont icon-admin-shanchu"></i>删除</a>
-                <a key="editorderedrmk" class="ordered-op-item"><i class="iconfont icon-admin-beizhu"></i>菜品备注</a>
-                <a key="editorderedgiveeat" class="ordered-op-item"><i class="iconfont icon-admin-zengsong"></i>赠菜</a>
-                <a key="editorderedtuicai" class="ordered-op-item"><i class="iconfont icon-admin-tuikuan"></i>退菜</a>
-                <!-- <a><i class="order-op-del"></i>催菜</a> -->
-                <a key="editorderedstate" class="ordered-op-item"><i class="iconfont icon-admin-zhuangtai"></i>修改状态</a>
-                <a key="editorderedshout" class="ordered-op-item"><i class="iconfont icon-admin-jiaoxing"></i>叫起</a>
-                <a key="placeanorder" ng-click="placeanorder()"><i class="iconfont icon-admin-xiadan"></i>下单</a>
-                <a key="editorderedmore" class="ordered-op-item"><i class="iconfont icon-admin-gengduo"></i>更多</a>
-            </div>
-            <div class="col-md-7 order" style="position:relative;">
-                <div class="calter-table-wrap calter-table-wrap-calter" id="editordered" style="width:262px;">
-                    <p class="calter-table-wrap-topline">
-                        <button class="cal-reduce-btn">-</button>
-                        <input type="text" class="cal-inpu-box" id="edit_meal_count">
-                        <button class="cal-plus-btn">+</button>
-                    </p>
-                    <table class="cal-table">
-                        <tr>
-                            <td>7</td>
-                            <td>8</td>
-                            <td>9</td>
-                            <td key="backspace">退格</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>5</td>
-                            <td>6</td>
-                            <td key="clear">清除</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>.</td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" class="" class="txt-center">0</td>
-                            <td colspan="2" class="txt-center" key="confirm"><i class="iconfont icon-admin-duigou"></i>确定
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="calter-table-wrap calter-table-wrap-rmk" id="editorderedrmk">
-                    <p class="calter-mn-rmk-title">（常用）</p>
-                    <p class="calter-mn-rmk-title">（其他全部）</p>
-                    <ul class="calter-mn-rmks">
-                        <li ng-click="setRmk('少放盐')">少放盐</li>
-                        <li ng-click="setRmk('不要辣')">不要辣</li>
-                    </ul>
-                    <div class="calter-wrap-rmk-fbar">
-                        自定义特殊要求：<input type="text" id="txt_o_rmk"/>
-                        <button ng-click="editrRmk()">确定</button>
-                    </div>
-                </div>
-                <div class="calter-table-wrap calter-table-wrap-give" id="editorderedgiveeat">
-                    <div class="col-md-12">
-                        <div class="col-md-7">
-                            <p>可赠数量：{{allowGiveNum}}份</p>
-                            <p>赠菜数量：<input type="text" id="txt_give_count" class="give-eat-count"/></p>
-                            <table class="cal-table">
-                                <tr>
-                                    <td>7</td>
-                                    <td>8</td>
-                                    <td>9</td>
-                                    <td key="backspace">退格</td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>5</td>
-                                    <td>6</td>
-                                    <td key="clear">清除</td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    <td>.</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" class="" class="txt-center">0</td>
-                                    <td colspan="2" class="txt-center" key="confirm"><i
-                                            class="iconfont icon-admin-duigou"></i>确定
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div class="col-md-5 give-reason-wrap">
-                            <p>赠菜理由：</p>
-                            <div class="give-reason-items">
-                                <span class="active"><a>优惠活动</a></span>
-                                <span><a>免费赠送</a></span>
-                                <span><a>会员免单</a></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="calter-wrap-give-fbar">
-                        备注：<input type="text" id="txt_give_remark"/>
-                        <button ng-click="giveFun()">确定</button>
-                        <button class="calter-give-fbar-closebtn">关闭</button>
-                    </div>
-                </div>
-                <div class="calter-table-wrap calter-table-wrap-give" id="editorderedtuicai">
-                    <div class="col-md-12">
-                        <div class="col-md-7">
-                            <p>可退数量：{{allowGiveNum}}份</p>
-                            <p>退菜数量：<input type="text" id="txt_tuicai_count" class="give-eat-count"/></p>
-                            <table class="cal-table">
-                                <tr>
-                                    <td>7</td>
-                                    <td>8</td>
-                                    <td>9</td>
-                                    <td key="backspace">退格</td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>5</td>
-                                    <td>6</td>
-                                    <td key="clear">清除</td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    <td>.</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" class="" class="txt-center">0</td>
-                                    <td colspan="2" class="txt-center" key="confirm"><i
-                                            class="iconfont icon-admin-duigou"></i>确定
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div class="col-md-5 give-reason-wrap">
-                            <p>退菜理由：</p>
-                            <div class="give-reason-items tuicai-rmk-items">
-                                <span class="active"><a>客户点错</a></span>
-                                <span><a>点错理由2</a></span>
-                                <span><a>点错理由3</a></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="calter-wrap-give-fbar">
-                        备注：<input type="text" id="txt_tuicai_remark"/>
-                        <button ng-click="tuicaiFun()">确定</button>
-                        <button class="calter-give-fbar-closebtn">关闭</button>
-                    </div>
-                </div>
-                <div class="calter-table-wrap calter-right-mutiple-menu" id="editorderedstate">
-                    <a ng-click="dengJiaoFun('single')">单品等叫</a>
-                    <a ng-click="dengJiaoFun('all')">整单等叫</a>
-                    <!-- <a>单品即加</a>
-                    <a>单品加急</a> -->
-                </div>
-                <div class="calter-table-wrap calter-right-mutiple-menu" id="editorderedshout">
-                    <a ng-click="jiaoqiFun('single')">单品叫起</a>
-                    <a ng-click="jiaoqiFun('all')">整单叫起</a>
-                </div>
-                <div class="calter-table-wrap calter-right-mutiple-menu" id="editorderedmore">
-                    <a>单品传菜</a>
-                    <a>整单传菜</a>
-                </div>
-                <div class="product-list addorder-wrap" style="height:95%;">
-                    <div class="table-serial-line row-title">
-                        桌位号： {{tableInf.name}}
-                        <div class="search-line">
-                            <button class="btn btn-primary" ng-click="searchProductList()">搜索</button>
-                        </div>
-                    </div>
-                    <ul class="diancai-row">
-                        <li ng-repeat="product in productList" ng-if="product.is_in_use==1"
-                            ng-click="addToOrdered(product)">
-                            <!--<div class="img"><img ng-src="{{dataUrlForepart}}{{product.logo_id}}"/></div>-->
-                            <div class="detail">
-                                <div class="name" ng-if="product.is_promotion==1">
-                                    <div class="product-name">{{product.name}}</div>
-                                    <div class="member-price">促销价￥{{product.promotion_price}}</div>
-                                </div>
-                                <div class="name" ng-if="product.is_promotion==0">
-                                    <div class="product-full-name">{{product.name}}</div>
-                                </div>
-
-                                <div class="price">
-                                    <!--若会员价不为0，且不为空，且启用，则显示-->
-                                    <!-- <div ng-if="product.memberPrice!=0&&product.memberPrice!=null&&product.isUseMemberPrice==1" class="promotion">会员价￥{{product.memberPrice}}</div> -->
-                                    <div ng-if="product.is_promotion==0" class="promotion">￥{{product.unit_price}}</div>
-                                    <!--<div ng-if="product.is_promotion==0" class="promotion">门市价￥{{product.unit_price}}</div>
-                                                          <div ng-if="product.is_promotion==1" class="almost">门市价￥{{product.unit_price}}</div> -->
-                                </div>
-                            </div>
-                            <div class="select-group">
-                                <div class="reduce" ng-click="decreaseCount(product.id)"><img src="img/reduce.png"/>
-                                </div>
-                                <div class="quantity">{{product.quantity}}</div>
-                                <div class="add" ng-click="increaseCount(product.id)"><img src="img/add.png"/></div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="jm-search">
-                    <label>按菜名/简码搜索<input placeholder="请输入菜名/简码" ng-model="searchByKeyStr" ng-keyup="searchByKey()"
-                                          type="text"/></label>
-                </div>
-                <div class="order-bottom diancai-order-bottom">
-                    <div class="cart" ng-class="{'null':totalQuantity>0}" ng-click="showCart()">
-                        <img src="img/cart.png"/>
-                    </div>
-                    <div class="total-count">{{totalQuantity}}</div>
-                    <div class="total-price">共<span class="price">{{totalPrice.toFixed(2)}}</span>元</div>
-                    <div class="order-button">
-                        <a>
-                            <button class="btn btn-primary" ng-click="addOrderSubmit()">选好了</button>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="category-menu">
-                <!-- <a class="category-page-item category-page-prev">上页</a> -->
-                <ul>
-                    <li ng-repeat="item in categoryList" ng-class="{'active' : selectedCategory.id==item.id}"
-                        ng-click="getProductList(item)">{{item.name}}
-                    </li>
-                </ul>
-                <!-- <a class="category-page-item category-page-next">下页</a> -->
+            <div class="out-form-item">
+                <span class="iconfont icon-admin-dingwei"></span>
+                <input type="text" class="form-control" disabled style="width:150px;display:inline-block;" id="txt_detail_addr" placeholder="配送地址">
             </div>
         </div>
     </div>
+    <div class="col-md-3 order-already-down-list">
+      <div class="order-already-down-rmk">
+        <p>单号：{{orderDetail.order_no}}</p>
+        <p>已点<span style="color:red;">&nbsp;{{orderDetail.loi.length}}&nbsp;</span>项，合计：<span class="order-total-money">{{getCpTotal(1)}}</span></p>
+        <!-- <button class="ordered-empty-btn" ng-click="emptyOrdered()">清空</button> -->
+      </div>
+      <div>
+        <ul>
+          <li class="already-row-header"><span>菜名</span><span>数量</span><span>金额</span></li>
+          <div class="addorder-item-detail-row" style="height:500px;overflow-y:auto;">
+            <li ng-class="{'ordered-selected':$index==orderedSelectIndex}" class="already-row-item status_{{od.status_id}}"  ng-repeat="od in orderDetail.loi track by $index"
+            ng-click="selectOrderedItem(od,$index)"><span>{{od.p.name}}</span><span>{{od.quantity}}*份<a ng-if="od.backQuantity>0" class="other_sub_view other_sub_view_1">[{{od.backQuantity}}]</a><a ng-if="od.lotteryQuantity>0"  class="other_sub_view other_sub_view_2">[{{od.lotteryQuantity}}]</a></span><span>￥{{od.p.is_promotion==0?od.p.unit_price*od.quantity:od.p.promotion_price*od.quantity}}</span></li>
+          </div>
+        </ul>
+        <div class="already-pagintion">
+          <a ng-click="orderedPrev()">
+            <</a> <span>{{orderedPageIndex}}/{{orderedTotalPage}}</span><a ng-click="orderedNext()">></a>
+        </div>
+        <div class="order-total-rmk">
+          整单备注:
+        </div>
+      </div>
+    </div>
+    <div class="order-wrap-area">
+      <div class="col-md-1 order-operation-func-area">
+        <a key="editordered" class="ordered-op-item"><i class="iconfont icon-admin-bianji"></i>编辑</a>
+        <a ng-click="removeOrderedItem()"><i class="iconfont icon-admin-shanchu"></i>删除</a>
+        <a key="editorderedrmk" class="ordered-op-item"><i class="iconfont icon-admin-beizhu"></i>菜品备注</a>
+        <a key="editorderedgiveeat" class="ordered-op-item"><i class="iconfont icon-admin-zengsong"></i>赠菜</a>
+        <a key="editorderedtuicai" class="ordered-op-item"><i class="iconfont icon-admin-tuikuan"></i>退菜</a>
+        <!-- <a><i class="order-op-del"></i>催菜</a> -->
+        <a key="editorderedstate" class="ordered-op-item"><i class="iconfont icon-admin-zhuangtai"></i>修改状态</a>
+        <a key="editorderedshout" class="ordered-op-item"><i class="iconfont icon-admin-jiaoxing"></i>叫起</a>
+        <a key="placeanorder" ng-click="placeanorder()"><i class="iconfont icon-admin-xiadan"></i>下单</a>
+        <a key="editorderedmore" class="ordered-op-item"><i class="iconfont icon-admin-gengduo"></i>更多</a>
+      </div>
+      <div class="col-md-7 order" style="position:relative;">
+        <div class="calter-table-wrap calter-table-wrap-calter" id="editordered" style="width:262px;">
+          <p class="calter-table-wrap-topline">
+            <button class="cal-reduce-btn">-</button>
+            <input type="text" class="cal-inpu-box" id="edit_meal_count">
+            <button class="cal-plus-btn">+</button>
+          </p>
+          <table class="cal-table">
+            <tr>
+              <td>7</td>
+              <td>8</td>
+              <td>9</td>
+              <td key="backspace">退格</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>5</td>
+              <td>6</td>
+              <td key="clear">清除</td>
+            </tr>
+            <tr>
+              <td>1</td>
+              <td>2</td>
+              <td>3</td>
+              <td>.</td>
+            </tr>
+            <tr>
+              <td colspan="2" class="" class="txt-center">0</td>
+              <td colspan="2" class="txt-center" key="confirm"><i class="iconfont icon-admin-duigou"></i>确定</td>
+            </tr>
+          </table>
+        </div>
+        <div class="calter-table-wrap calter-table-wrap-rmk" id="editorderedrmk">
+          <p class="calter-mn-rmk-title">（常用）</p>
+          <p class="calter-mn-rmk-title">（其他全部）</p>
+          <ul class="calter-mn-rmks">
+            <li ng-click="setRmk('少放盐')">少放盐</li>
+            <li ng-click="setRmk('不要辣')">不要辣</li>
+          </ul>
+          <div class="calter-wrap-rmk-fbar">
+            自定义特殊要求：<input type="text" id="txt_o_rmk" /><button ng-click="editrRmk()">确定</button>
+          </div>
+        </div>
+        <div class="calter-table-wrap calter-table-wrap-give" id="editorderedgiveeat">
+          <div class="col-md-12">
+            <div class="col-md-7">
+              <p>可赠数量：{{allowGiveNum}}份</p>
+              <p>赠菜数量：<input type="text" id="txt_give_count" class="give-eat-count" /></p>
+              <table class="cal-table">
+                <tr>
+                  <td>7</td>
+                  <td>8</td>
+                  <td>9</td>
+                  <td key="backspace">退格</td>
+                </tr>
+                <tr>
+                  <td>4</td>
+                  <td>5</td>
+                  <td>6</td>
+                  <td key="clear">清除</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>2</td>
+                  <td>3</td>
+                  <td>.</td>
+                </tr>
+                <tr>
+                  <td colspan="2" class="" class="txt-center">0</td>
+                  <td colspan="2" class="txt-center" key="confirm"><i class="iconfont icon-admin-duigou"></i>确定</td>
+                </tr>
+              </table>
+            </div>
+            <div class="col-md-5 give-reason-wrap">
+              <p>赠菜理由：</p>
+              <div class="give-reason-items">
+                <span class="active"><a>优惠活动</a></span>
+                <span><a>免费赠送</a></span>
+                <span><a>会员免单</a></span>
+              </div>
+            </div>
+          </div>
+          <div class="calter-wrap-give-fbar">
+            备注：<input type="text" id="txt_give_remark"/><button  ng-click="giveFun()">确定</button><button class="calter-give-fbar-closebtn">关闭</button>
+          </div>
+        </div>
+        <div class="calter-table-wrap calter-table-wrap-give" id="editorderedtuicai">
+          <div class="col-md-12">
+            <div class="col-md-7">
+              <p>可退数量：{{allowGiveNum}}份</p>
+              <p>退菜数量：<input type="text" id="txt_tuicai_count" class="give-eat-count" /></p>
+              <table class="cal-table">
+                <tr>
+                  <td>7</td>
+                  <td>8</td>
+                  <td>9</td>
+                  <td key="backspace">退格</td>
+                </tr>
+                <tr>
+                  <td>4</td>
+                  <td>5</td>
+                  <td>6</td>
+                  <td key="clear">清除</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>2</td>
+                  <td>3</td>
+                  <td>.</td>
+                </tr>
+                <tr>
+                  <td colspan="2" class="" class="txt-center">0</td>
+                  <td colspan="2" class="txt-center" key="confirm"><i class="iconfont icon-admin-duigou"></i>确定</td>
+                </tr>
+              </table>
+            </div>
+            <div class="col-md-5 give-reason-wrap">
+              <p>退菜理由：</p>
+              <div class="give-reason-items tuicai-rmk-items">
+                <span class="active"><a>客户点错</a></span>
+                <span><a>点错理由2</a></span>
+                <span><a>点错理由3</a></span>
+              </div>
+            </div>
+          </div>
+          <div class="calter-wrap-give-fbar">
+            备注：<input type="text" id="txt_tuicai_remark"/><button  ng-click="tuicaiFun()">确定</button><button class="calter-give-fbar-closebtn">关闭</button>
+          </div>
+        </div>
+        <div class="calter-table-wrap calter-right-mutiple-menu" id="editorderedstate">
+          <a ng-click="dengJiaoFun('single')">单品等叫</a>
+          <a ng-click="dengJiaoFun('all')">整单等叫</a>
+          <!-- <a>单品即加</a>
+          <a>单品加急</a> -->
+        </div>
+        <div class="calter-table-wrap calter-right-mutiple-menu" id="editorderedshout">
+          <a ng-click="jiaoqiFun('single')">单品叫起</a>
+          <a ng-click="jiaoqiFun('all')">整单叫起</a>
+        </div>
+        <div class="calter-table-wrap calter-right-mutiple-menu" id="editorderedmore">
+          <a>单品传菜</a>
+          <a>整单传菜</a>
+        </div>
+        <div class="product-list addorder-wrap" style="height:95%;">
+          <div class="table-serial-line row-title">
+            桌位号： {{tableInf.name}}
+            <div class="search-line">
+              <button class="btn btn-primary" ng-click="searchProductList()">搜索</button>
+            </div>
+          </div>
+          <ul class="diancai-row">
+            <li ng-repeat="product in productList" ng-if="product.is_in_use==1" ng-click="addToOrdered(product)">
+              <div class="img"><img ng-src="{{dataUrlForepart}}{{product.logo_id}}" /></div>
+              <div class="detail">
+                <div class="name" ng-if="product.is_promotion==1">
+                  <div class="product-name">{{product.name}}</div>
+                  <div class="member-price">促销价￥{{product.promotion_price}}</div>
+                </div>
+                <div class="name" ng-if="product.is_promotion==0">
+                  <div class="product-full-name">{{product.name}}</div>
+                </div>
+
+                <div class="price">
+                  <!--若会员价不为0，且不为空，且启用，则显示-->
+                  <!-- <div ng-if="product.memberPrice!=0&&product.memberPrice!=null&&product.isUseMemberPrice==1" class="promotion">会员价￥{{product.memberPrice}}</div> -->
+                  <div ng-if="product.is_promotion==0" class="promotion">￥{{product.unit_price}}</div>
+                  <!--<div ng-if="product.is_promotion==0" class="promotion">门市价￥{{product.unit_price}}</div>
+										<div ng-if="product.is_promotion==1" class="almost">门市价￥{{product.unit_price}}</div> -->
+                </div>
+              </div>
+              <div class="select-group">
+                <div class="reduce" ng-click="decreaseCount(product.id)"><img src="img/reduce.png" /></div>
+                <div class="quantity">{{product.quantity}}</div>
+                <div class="add" ng-click="increaseCount(product.id)"><img src="img/add.png" /></div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        
+        <div class="jm-search">
+            <label>按菜名/简码搜索<input placeholder="请输入菜名/简码" ng-model="searchByKeyStr" ng-keyup="searchByKey()" type="text"/></label>
+          </div>
+        <div class="order-bottom diancai-order-bottom">
+          <div class="cart" ng-class="{'null':totalQuantity>0}" ng-click="showCart()">
+            <img src="img/cart.png" />
+          </div>
+          <div class="total-count">{{totalQuantity}}</div>
+          <div class="total-price">共<span class="price">{{totalPrice.toFixed(2)}}</span>元</div>
+          <div class="order-button">
+            <a><button class="btn btn-primary" ng-click="addOrderSubmit()">选好了</button></a>
+          </div>
+        </div>
+      </div>
+      <div class="category-menu">
+        <!-- <a class="category-page-item category-page-prev">上页</a> -->
+        <ul>
+          <li ng-repeat="item in categoryList" ng-class="{'active' : selectedCategory.id==item.id}" ng-click="getProductList(item)">{{item.name}}</li>
+        </ul>
+        <!-- <a class="category-page-item category-page-next">下页</a> -->
+      </div>
+    </div>
+  </div>
 </div>

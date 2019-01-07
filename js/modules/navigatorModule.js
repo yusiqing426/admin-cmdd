@@ -117,27 +117,29 @@ navigatorModule.controller('homeController', ['$scope', '$window', '$http', '$lo
 
 
 navigatorModule.controller('menueController',
-  ['$rootScope','$scope','$window', '$http','$location','$interval', 'Login','tableOperateService','PrinterService','shopInformationService','DataUtilService',
-  function ($rootScope,$scope,$window, $http, $location, $interval, Login,tableOperateService,PrinterService,shopInformationService,DataUtilService) {
+	['$rootScope','$scope','$window', '$http','$location','$interval', 'Login','tableOperateService','PrinterService','shopInformationService','DataUtilService','tableOperateService',
+    function ($rootScope,$scope,$window, $http, $location, $interval, Login,tableOperateService,PrinterService,shopInformationService,DataUtilService,tableOperateService) {
 
-    $scope.$onRootScope('$fromSubControllerClick',
-        function(e,data){
+
+    $scope.$onRootScope('$fromSubControllerClick', function(e,data){
+    	console.log("e ------ ",e);
+        console.log("data ------ ",data);
 
 		var nowTime = DataUtilService.getNowTime();
 
         console.log("$scope.nowKey ------ ",$scope.nowKey);
-		if($scope.nowKey=='4'){
+		if($scope.nowKey=='4'||$scope.nowKey=='5'||$scope.nowKey=='3,4,5,6'){
 
 			//printJobLists.length>0
 			//is_unified_print
-            //var shop_is_unified_print = localStorage.getItem('shop_is_unified_print');
-            //if(shop_is_unified_print!=null){
+            var shop_is_unified_print = localStorage.getItem('shop_is_unified_print');
+            if(shop_is_unified_print!=null){
                 if(shop_is_unified_print=='1'){
                     //PrinterService.getPrinterByPrinter_type(
                         //{printer_type:888},
                         //function(response){
                             //if(response.code==200){
-                                console.log("统一打印模式");
+                                console.log("同一打印模式");
 								console.log("localStorage.getItem('888') ------ ",localStorage.getItem('888'));
 								var strs = localStorage.getItem('888').split(',');
 
@@ -200,6 +202,8 @@ navigatorModule.controller('menueController',
 
                                             //LODOP.PREVIEW();
 
+
+
                                             var isPrint = LODOP.PRINT();
 
                                             if(isPrint!=""){
@@ -238,8 +242,7 @@ navigatorModule.controller('menueController',
                                 }
 
 
-                }
-                else{
+                }else{
                     console.log("分窗口打印 ------ ",data);
                     console.log("点菜单------")
                     var diningTableName = data.diningTableName;
@@ -443,9 +446,9 @@ navigatorModule.controller('menueController',
 
                     //}
                 }
-            //}else{
-                //alert("未设置打印模式");
-            //}
+            }else{
+                alert("未设置打印模式");
+            }
         }
 
     });

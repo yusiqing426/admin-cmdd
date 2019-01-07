@@ -1,172 +1,164 @@
 <div class="row">
-    <ng-include src="'templates/menu.html'"></ng-include>
-    <div class="col-md-10 flow">
-        <ul class="breadcrumb">
-            <li><a>订单管理</a></li>
-            <li>订单详情</li>
-        </ul>
-        <div>
-            <div>
-                <div class="alert alert-warning">订单编号： {{orderList[0].order_no}}
-                    <button class="btn btn-primary btn-small btn-block pay-print button-defult "
-                            onclick="history.back()">返回
-                    </button>
-                    <button class="btn btn-primary btn-small btn-block pay-print" ng-click="printPay()">打印</button>
-                </div>
-            </div>
-
-            <div class="alert alert-warning">桌位： {{orderDetail.serial_id}} {{index==0&&orderList.length>1? '[主订单]' :
-                ''}}
-            </div>
-            <div ng-repeat="(index,orderDetail) in orderList" style="height:419px;overflow-y:auto;">
-                <table class="table table-striped img-table">
-                    <thead>
-                    <tr>
-                        <th class="text-center"><a>序号</a></th>
-                        <th class="text-center"><a>图片</a></th>
-                        <th class="text-center"><a>菜品名称</a></th>
-                        <th class="text-center"><a>数量</a></th>
-                        <th class="text-center"><a>单位</a></th>
-                        <th class="text-center"><a>单价</a></th>
-                        <th class="text-center"><a>会员价</a></th>
-                        <th class="text-center"><a>金额</a></th>
-                        <th class="text-center"><a>普通折扣</a></th>
-                        <th class="text-center"><a>会员折扣</a></th>
-                        <th class="text-center"><a>会员积分</a></th>
-                        <th class="text-center"><a>菜品状态</a></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr ng-repeat="(index,product) in orderDetail.loi">
-                        <td class="text-center">{{index+1}}</td>
-                        <!--<td class="text-center"><img  ng-src="{{dataUrlForepart}}{{product.p.logo_id}}" /></td>-->
-                        <td class="text-center">{{product.p.name}}{{product.is_lottery==1? '(赠送)' :
-                            ''}}{{product.status_id==6? '(退菜)' : ''}}{{product.status_id==7? '(断货)' : ''}}
-                        </td>
-                        <td class="text-center">{{product.quantity}}</td>
-                        <td class="text-center">{{product.p.unit}}</td>
-                        <td class="text-center">￥{{product.p.is_promotion==1? product.p.promotion_price.toFixed(2) :
-                            product.p.unit_price.toFixed(2)}}
-                        </td>
-                        <td class="text-center">{{product.p.isUseMemberPrice==1?'￥'+product.p.memberPrice:'否'}}</td>
-                        <td class="text-center">￥{{product.total_price}}</td>
-                        <td class="text-center">{{product.p.is_discount==1? '是' : '否'}}</td>
-                        <td class="text-center">{{product.p.isMemberDiscount==1? '是' : '否'}}</td>
-                        <td class="text-center">{{product.p.isMemberIntegral==1? '是' : '否'}}</td>
-                        <td class="text-center" ng-if="product.status_id==0||product.status_id==8">等待接单</td>
-                        <td class="text-center" ng-if="product.status_id==1">待开做</td>
-                        <td class="text-center" ng-if="product.status_id==2">待上菜</td>
-                        <td class="text-center" ng-if="product.status_id==3">已上菜</td>
-                        <td class="text-center" ng-if="product.status_id==4">已结账</td>
-                        <td class="text-center" ng-if="product.status_id==5">已取消</td>
-                        <td class="text-center" ng-if="product.status_id==6">已退菜</td>
-                        <td class="text-center" ng-if="product.status_id==7">已断货</td>
-                    </tr>
-                    <tr ng-if="orderDetail.service_charge!=null&&orderDetail.service_charge!=0&&orderDetail.isLotteryCash!=null">
-                        <td class="text-center">{{orderDetail.loi.length+1}}</td>
-                        <td class="text-center"> -</td>
-                        <td class="text-center">一元换购</td>
-                        <td class="text-center">1</td>
-                        <td class="text-center">份</td>
-                        <td class="text-center">￥{{orderDetail.service_charge.toFixed(2)}}</td>
-                        <td class="text-center">￥{{orderDetail.service_charge.toFixed(2)}}</td>
-                        <td class="text-center">-</td>
-                        <td class="text-center">-</td>
-                        <td class="text-center">-</td>
-                        <td class="text-center">-</td>
-                    </tr>
-                    </tbody>
-                </table>
-                <div>
-                    <div class="row">
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">备注信息:</label>
-                            <div class="col-sm-10">
-                                <textarea class="form-control" ng-model="orderDetail.description" disabled/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="pay-bottom">
-                <div>
-                    <div>
-                        <div class="col-sm-1 control-label lottery-lable">
-                            <input ng-if="orderList[0].isUseMember==1" id="selectMemberPay" type="checkbox" checked
-                                   disabled>
-                            <input ng-if="orderList[0].isUseMember==0" id="selectMemberPay" type="checkbox" disabled>
-                            会员卡号:
-                        </div>
-                        <div class="col-sm-2 double-middle-label">
-                            <input class="form-control" ng-model="orderList[0].memberIdentifier" readonly>
-                        </div>
-                        <div class="col-sm-1 control-label lottery-lable">会员卡种:</div>
-                        <div class="col-sm-2 double-middle-label">
-                            <input class="form-control" ng-model="orderList[0].memberCardName" readonly>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="col-sm-1 control-label lottery-lable">折扣:</div>
-                        <div class="col-sm-2 middle-label">
-                            <input class="form-control" ng-model="orderList[0].discount" readonly>
-                        </div>
-                        <div class="col-sm-1 control-label lottery-lable">抹零:</div>
-                        <div class="col-sm-2 middle-label">
-                            <input class="form-control" ng-model="orderList[0].residue" readonly>
-                        </div>
-                        <div class="col-sm-1 control-label lottery-lable">实收:</div>
-                        <div class="col-sm-2 middle-label">
-                            <input class="form-control" ng-model="orderList[0].income" readonly>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="col-sm-1 control-label lottery-lable">应付:</div>
-                        <div class="col-sm-2 middle-label">
-                            <input class="form-control" ng-model="orderList[0].total_free" readonly>
-                        </div>
-                        <div class="col-sm-1 control-label lottery-lable">实付:</div>
-                        <div class="col-sm-2 middle-label">
-                            <input class="form-control" ng-model="orderList[0].real_pay" readonly>
-                        </div>
-                        <div class="col-sm-1 control-label lottery-lable">找零:</div>
-                        <div class="col-sm-2 middle-label">
-                            <input class="form-control" ng-model="orderList[0].odd" readonly>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="col-sm-1 control-label lottery-lable">现金:</div>
-                        <div class="col-sm-2 middle-label">
-                            <input class="form-control" ng-model="orderList[0].tradeCash" readonly>
-                        </div>
-                        <div class="col-sm-1 control-label lottery-lable">微信:</div>
-                        <div class="col-sm-2 middle-label">
-                            <input class="form-control" ng-model="orderList[0].tradeWechat" readonly>
-                        </div>
-                        <div class="col-sm-1 control-label lottery-lable">支付宝:</div>
-                        <div class="col-sm-2 middle-label">
-                            <input class="form-control" ng-model="orderList[0].tradeAlipay" readonly>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="col-sm-1 control-label lottery-lable">银行卡:</div>
-                        <div class="col-sm-2 middle-label">
-                            <input class="form-control" ng-model="orderList[0].tradeCreditCard" readonly>
-                        </div>
-                        <div class="col-sm-1 control-label lottery-lable">余额支付:</div>
-                        <div class="col-sm-2 middle-label">
-                            <input class="form-control" ng-model="orderList[0].tradeMemberMoney" readonly>
-                        </div>
-                        <div class="col-sm-1 control-label lottery-lable">积分支付:</div>
-                        <div class="col-sm-2 middle-label">
-                            <input class="form-control" ng-model="orderList[0].tradeMemberIntegral" readonly>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <ng-include src="'templates/menu.html'"></ng-include>
+  <div class="col-md-10 flow">
+    <ul class="breadcrumb">
+      <li><a>订单管理</a></li>
+	  <li>订单详情</li>
+    </ul>
+	<div>
+	<div>
+		<div class="alert alert-warning">订单编号：	{{orderList[0].order_no}}
+			<button class="btn btn-primary btn-small btn-block pay-print button-defult " 
+					onclick="history.back()">返回</button>
+			<button class="btn btn-primary btn-small btn-block pay-print" ng-click="printPay()">打印</button>
+		</div>
+	</div>
+	
+	<div class="alert alert-warning">桌位：	{{orderDetail.serial_id}} {{index==0&&orderList.length>1? '[主订单]' : ''}}</div>
+<div ng-repeat="(index,orderDetail) in orderList" style="height:419px;overflow-y:auto;">
+    <table class="table table-striped img-table">
+      <thead>
+        <tr>
+          <th class="text-center"><a>序号</a></th>
+		  <th class="text-center"><a>图片</a></th>
+		  <th class="text-center"><a>菜品名称</a></th>
+		  <th class="text-center"><a>数量</a></th>
+		  <th class="text-center"><a>单位</a></th>
+		  <th class="text-center"><a>单价</a></th>
+		  	<th class="text-center"><a>会员价</a></th>
+		  <th class="text-center"><a>金额</a></th>
+		  <th class="text-center"><a>普通折扣</a></th>
+		  <th class="text-center"><a>会员折扣</a></th>
+		  <th class="text-center"><a>会员积分</a></th>
+		  <th class="text-center"><a>菜品状态</a></th>
+		</tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="(index,product) in orderDetail.loi" >
+          <td class="text-center">{{index+1}}</td>
+		  <td class="text-center"><img  ng-src="{{dataUrlForepart}}{{product.p.logo_id}}" /></td>
+          <td class="text-center">{{product.p.name}}{{product.is_lottery==1? '(赠送)' : ''}}{{product.status_id==6? '(退菜)' : ''}}{{product.status_id==7? '(断货)' : ''}}</td>
+          <td class="text-center">{{product.quantity}}</td>
+          <td class="text-center">{{product.p.unit}}</td>
+          <td class="text-center">￥{{product.p.is_promotion==1? product.p.promotion_price.toFixed(2) : product.p.unit_price.toFixed(2)}}</td>
+          <td class="text-center">{{product.p.isUseMemberPrice==1?'￥'+product.p.memberPrice:'否'}}</td>
+		  <td class="text-center">￥{{product.total_price}}</td>
+		  <td class="text-center">{{product.p.is_discount==1? '是' : '否'}}</td>
+		  <td class="text-center">{{product.p.isMemberDiscount==1? '是' : '否'}}</td>
+		  <td class="text-center">{{product.p.isMemberIntegral==1? '是' : '否'}}</td>
+		  <td class="text-center" ng-if="product.status_id==0||product.status_id==8">等待接单</td>
+		  <td class="text-center" ng-if="product.status_id==1">待开做</td>
+		  <td class="text-center" ng-if="product.status_id==2">待上菜</td>
+		  <td class="text-center" ng-if="product.status_id==3">已上菜</td>
+		  <td class="text-center" ng-if="product.status_id==4">已结账</td>
+		  <td class="text-center" ng-if="product.status_id==5">已取消</td>
+		  <td class="text-center" ng-if="product.status_id==6">已退菜</td>
+		  <td class="text-center" ng-if="product.status_id==7">已断货</td>
+		</tr>
+		<tr ng-if="orderDetail.service_charge!=null&&orderDetail.service_charge!=0&&orderDetail.isLotteryCash!=null">
+          <td class="text-center">{{orderDetail.loi.length+1}}</td>
+		  <td class="text-center"> - </td>
+          <td class="text-center">一元换购</td>
+          <td class="text-center">1</td>
+          <td class="text-center">份</td>
+          <td class="text-center">￥{{orderDetail.service_charge.toFixed(2)}}</td>
+		  <td class="text-center">￥{{orderDetail.service_charge.toFixed(2)}}</td>
+		  <td class="text-center">-</td>
+		  <td class="text-center">-</td>
+		  <td class="text-center">-</td>
+		  <td class="text-center">-</td>
+		</tr>
+      </tbody>
+    </table>
+	<div>
+		<div class="row">
+		    <div class="form-group">
+		        <label class="col-sm-2 control-label">备注信息:</label>
+		        <div class="col-sm-10">
+					<textarea class="form-control" ng-model="orderDetail.description" disabled  />
+		        </div>
+		    </div>
+		</div>
+	</div>
+</div>
+	<div  class="pay-bottom">
+		<div>
+			<div>
+				<div class="col-sm-1 control-label lottery-lable">
+					<input ng-if="orderList[0].isUseMember==1" id="selectMemberPay" type="checkbox" checked disabled>
+					<input ng-if="orderList[0].isUseMember==0" id="selectMemberPay" type="checkbox" disabled>
+					会员卡号:
+				</div>
+				<div class="col-sm-2 double-middle-label" >
+					<input class="form-control" ng-model="orderList[0].memberIdentifier" readonly>
+				</div>
+				<div class="col-sm-1 control-label lottery-lable" >会员卡种:</div>
+				<div class="col-sm-2 double-middle-label" >
+					<input class="form-control" ng-model="orderList[0].memberCardName" readonly >
+				</div>
+			</div>
+			<div>
+				<div class="col-sm-1 control-label lottery-lable">折扣:</div>
+				<div class="col-sm-2 middle-label" >
+					<input class="form-control" ng-model="orderList[0].discount" readonly>
+				</div>
+				<div class="col-sm-1 control-label lottery-lable">抹零:</div>
+				<div class="col-sm-2 middle-label" >
+					<input class="form-control" ng-model="orderList[0].residue" readonly>
+				</div>
+				<div class="col-sm-1 control-label lottery-lable">实收:</div>
+				<div class="col-sm-2 middle-label" >
+					<input class="form-control" ng-model="orderList[0].income" readonly>
+				</div>
+			</div>
+			<div>
+				<div class="col-sm-1 control-label lottery-lable">应付:</div>
+				<div class="col-sm-2 middle-label" >
+					<input class="form-control" ng-model="orderList[0].total_free" readonly >
+				</div>
+				<div class="col-sm-1 control-label lottery-lable">实付:</div>
+				<div class="col-sm-2 middle-label" >
+					<input class="form-control" ng-model="orderList[0].real_pay" readonly>
+				</div>
+				<div class="col-sm-1 control-label lottery-lable">找零:</div>
+				<div class="col-sm-2 middle-label" >
+					<input class="form-control" ng-model="orderList[0].odd" readonly>
+				</div>
+			</div>
+			<div>
+				<div class="col-sm-1 control-label lottery-lable">现金:</div>
+				<div class="col-sm-2 middle-label" >
+					<input class="form-control" ng-model="orderList[0].tradeCash" readonly>
+				</div>
+				<div class="col-sm-1 control-label lottery-lable" >微信:</div>
+				<div class="col-sm-2 middle-label" >
+					<input class="form-control" ng-model="orderList[0].tradeWechat" readonly>
+				</div>
+				<div class="col-sm-1 control-label lottery-lable">支付宝:</div>
+				<div class="col-sm-2 middle-label" >
+					<input class="form-control" ng-model="orderList[0].tradeAlipay" readonly>
+				</div>
+			</div>
+			<div>
+				<div class="col-sm-1 control-label lottery-lable">银行卡:</div>
+				<div class="col-sm-2 middle-label" >
+					<input class="form-control" ng-model="orderList[0].tradeCreditCard" readonly>
+				</div>
+				<div class="col-sm-1 control-label lottery-lable" >余额支付:</div>
+				<div class="col-sm-2 middle-label" >
+					<input class="form-control" ng-model="orderList[0].tradeMemberMoney" readonly>
+				</div>
+				<div class="col-sm-1 control-label lottery-lable">积分支付:</div>
+				<div class="col-sm-2 middle-label" >
+					<input class="form-control" ng-model="orderList[0].tradeMemberIntegral" readonly>
+				</div>
+			</div>
+		</div>
+	</div>
+  </div>
 
 
-    </div>
+</div>
 
 
 
